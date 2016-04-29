@@ -1,0 +1,185 @@
+.alerter {
+	display:none;
+	text-align:center;
+}
+
+.alerter hr{
+	margin:8px 0;
+}
+
+#sortMore p p{
+	margin-bottom:0px;
+	margin-top:0px;
+}
+
+body {
+	line-height: 1.2!important;
+}
+
+#alerter p{
+	margin-bottom:10px;
+}
+
+#filterNewSearch{
+	color:#777;
+}
+
+#filterNewSearch:hover{
+	color:#333;
+}
+
+.progress {
+	margin: 0 auto;
+	width:60%;
+}
+
+#sortSelect {
+	height: 29px;width: 190px;line-height: 29px;padding-top: 3px;
+}
+
+#filterInput {
+	height:29px;
+	font-size:0.87em;
+}
+
+#sidebar {
+	border-left-width:3px;
+	border-left-color: rgb(255,187,0);
+	border-left-style: solid;
+}
+
+#suchoptionenContainer {
+	border-bottom-width:3px;
+	border-bottom-color: rgb(255,187,0);
+	border-bottom-style: solid;
+	padding-bottom: 9px;
+	margin-bottom:10px;
+	padding:5px;
+	padding-bottom:0;
+}
+
+#resultHeader {
+	font-size:15px;
+	margin:0;
+	padding:0;
+}
+
+.quicktip {
+	margin-bottom: 20px;
+	padding:5px;
+}
+
+#sidebar {
+	margin-right: 0.8%;
+	width:30%;
+	float: right;
+}
+
+#results{
+	padding-top:70px;
+}
+
+#sortBox {
+	margin-top:10px;
+
+}
+
+.wikiqtextract {
+	font-family: Georgia, "Times New Roman",Palatino, Times, serif;
+	font-size: 15px;
+}
+
+.serverInfoButtonLink:hover {
+	color:#555!important;
+}
+
+.serverInfoButtonLink {
+	font-size:12px;color:#BBB!important;
+}
+
+#sortDropdown{
+	clear:none!important;
+	width:200px;
+	float:right;
+	
+}
+
+.werbebox {
+	color: rgb(0, 128, 72);
+	padding-bottom: 10px!important;
+}
+
+
+@media (max-height: 849px){
+	.ergebnisbox{
+		padding-bottom:10px;
+	}
+}
+
+@media (min-height: 850px){
+	.ergebnisbox{
+		padding-bottom:20px;
+	}
+}
+
+@media (min-width: 1350px) { 
+	#filterForm {
+		width: 200px;
+		margin-bottom:10px;
+	}
+	#sortSelect {
+		float:right;
+		}
+	.ergebnisbox {
+		width: 67%!important;
+	}
+
+	
+	#sortDropdown{
+		clear:none!important;
+	}
+}
+
+@media (max-width: 1349px) { 
+	#filterForm {
+		width: 100%;
+		margin-bottom: 2px;
+	}
+	#sortDropdown {
+		width: 100%;
+		float:none;
+		}
+	#sidebar {
+		float:right;
+		width: 25%;
+	}
+	#filterForm{
+		margin:3px;
+	    margin-top: 3px;
+		
+	}
+	#sortDropdown li{
+		width: 100%;
+	}
+
+	#sortDropdown{
+		clear:none!important;
+	}
+}
+
+.optionsbody{
+	padding:15px;
+}
+
+#mehrTrefferLink{
+	margin-left:40%;
+	width:20%;
+}
+
+.alert-warning {
+    #background-color: #FFEDBA;
+    background-color: #FFF;
+    #border-color: #FFBB00;
+    border-color: #FFF;
+    color: #BA9227;
+}
