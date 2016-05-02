@@ -1,0 +1,3 @@
+update:
+  script:
+    - git pull ~/MetaGer
