@@ -12,7 +12,18 @@
 */
 
 # Unsere Startseite. Hier fängt alles an
-Route::get('/{locale?}', [ 'uses' => 'StartpageController@loadStartPage']);
+Route::get('{locale?}', 
+	[ 'uses' => 'PageController@loadStartPage']
+)
+->where('locale', '[a-z]{1,2}');
+
+# Unsere Startseite. Hier fängt alles an
+Route::get('/{locale?}/{page}', 
+	[ 'uses' => 'PageController@loadSubPage']
+)
+->where('locale', '[a-z]{1,2}');
 
 # Unsere MetaGer Suche!!
-Route::get('/meta/meta.ger3', [ 'uses' => 'MetaGerSearch@forwardToServer' ]);
+Route::get('/meta/meta.ger3', 
+	[ 'uses' => 'MetaGerSearch@forwardToServer' ]
+);
