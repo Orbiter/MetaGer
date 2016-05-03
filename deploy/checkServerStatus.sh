@@ -36,7 +36,7 @@ then
 		ssh-keygen -t rsa -N "" -f id_rsa
 		cd ~/
 	fi
-	vagrant box add laravel/homestead
+	vagrant box add --provider virtualbox laravel/homestead
 	git clone https://github.com/laravel/homestead.git Homestead
 	cd Homestead/
 	bash init.sh
