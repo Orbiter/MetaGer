@@ -4,6 +4,7 @@ update:
     - which vagrant
     - which composer
     - which git
+    - which php
     - path=`pwd`
     - cd ~/
     - if [ ! -d ~/MetaGer ] ; then git clone "$path" ; fi
