@@ -40,7 +40,7 @@ then
 	git clone https://github.com/laravel/homestead.git Homestead
 	cd Homestead/
 	bash init.sh
-	mv -f "$path/deploy/Homestead.yaml" .homestead/
+	cp -f "$path/deploy/Homestead.yaml" .homestead/
 	vagrant up
 	echo "Your server is now running under http://localhost:8000"
 fi
