@@ -42,6 +42,7 @@ then
 	bash init.sh
 	cd ~/
 	cp -f "$path/deploy/Homestead.yaml" .homestead/
+	cd Homestead/
 	vagrant up
 	echo "Your server is now running under http://localhost:8000"
 fi
