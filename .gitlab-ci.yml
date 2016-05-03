@@ -14,5 +14,5 @@ update:
     - path=`pwd`
     - cd ~/
     - $path/deploy/checkServerStatus.sh "$path"
-    - cd ~/MetaGer
+    - cd ~/MetaGerssas
     - git pull "$path"
