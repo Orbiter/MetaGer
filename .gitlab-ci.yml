@@ -9,7 +9,7 @@ update:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     - cd ~/MetaGer
-    - ./deploy/checkServerStatus.sh
+    - $("$path/deploy/checkServerStatus.sh")
   script:
     - cd ~/MetaGer
     - git pull "$path"
