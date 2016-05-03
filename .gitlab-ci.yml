@@ -9,11 +9,8 @@ update:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     # Klone das Repo neu, falls es noch nicht existiert
-    - if [ ! -d ~/MetaGer ] ; then git clone "$path" ; fi
+    - if [ ! -d ~/MetaGer ] ; then git clone "$path" ; cd ~/MetaGer ; composer update ; chmod -R 777 storage/ bootstrap/cache ; fi
     # Falls notwendig Laravel-Framework initialisieren:
-    - cd ~/MetaGer
-    - composer update
-    - tmp=$(chmod -R 777 storage/ bootstrap/cache)
     - if [ ! -f .env ] ; then cp .env.example .env ; fi
     - if [ $(grep "SomeRandomString" .env) ] ; then php artisan key:generate ; fi
     # Falls notwendig Homestead Server intialisieren:
