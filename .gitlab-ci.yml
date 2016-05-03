@@ -1,4 +1,8 @@
 update:
+  only:
+    - master
+    - tags
+    - triggers
   before_script:
     # Abhängigkeiten überprüfen
     - which virtualbox
@@ -6,14 +10,10 @@ update:
     - which composer
     - which git
     - which php
+  script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     - cd ~/
     - $path/deploy/checkServerStatus.sh "$path"
-  script:
     - cd ~/MetaGer
     - git pull "$path"
-  only:
-    - master
-    - tags
-    - triggers
