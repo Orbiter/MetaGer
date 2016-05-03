@@ -14,7 +14,9 @@
         <link rel="search" type="application/opensearchdescription+xml" title="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen" href="https://metager.de/plugins/opensearchplugin.xml" />
         <link href="/css/bootstrap.css" rel="stylesheet" />
         <link href="/css/style.css" rel="stylesheet" />
-        
+        @if (isset($css))
+          <link href={{ $css }} rel="stylesheet" />
+        @endif
         <link id="theme" href="/css/theme.css.php" rel="stylesheet" />
     </head>
     <body>
