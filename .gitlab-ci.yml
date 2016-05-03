@@ -8,11 +8,7 @@ update:
     - which php
     # Pfad zum neu geklonten Repo
     - path=`pwd`
-    - cd ~/MetaGer
-    - if [ -d ~/MetaGer ] ; then
-    - echo "yai"
-    - else echo "nope"
-    - fi
+    - cd ~/
     - $path/deploy/checkServerStatus.sh
   script:
     - cd ~/MetaGer
