@@ -15,7 +15,7 @@ then
 	cd ~/MetaGer
 	cp .env.example .env
 fi
-if [ $(grep "SomeRandomString" .env) ]
+if [ $(grep "SomeRandomString" ~/MetaGer/.env) ]
 then 
 	cd ~/MetaGer
 	php artisan key:generate
@@ -40,7 +40,8 @@ then
 	git clone https://github.com/laravel/homestead.git Homestead
 	cd Homestead/
 	bash init.sh
-	cp -f "$path/deploy/Homestead.yaml" .homestead/Homestead.yaml
+	cd ~/
+	cp -f "$path/deploy/Homestead.yaml" .homestead/
 	vagrant up
 	echo "Your server is now running under http://localhost:8000"
 fi
