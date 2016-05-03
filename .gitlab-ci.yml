@@ -1,6 +1,5 @@
 update:
   only:
-    - master
     - tags
     - triggers
   before_script:
