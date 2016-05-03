@@ -22,4 +22,4 @@ update:
     - cd ~/MetaGer
     - git pull "$path"
   only:
-    - master@gitlab.metager3.de:1234/
+    - master
