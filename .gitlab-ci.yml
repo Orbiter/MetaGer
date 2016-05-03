@@ -1,5 +1,14 @@
+before_script:
+  script:
+    - which virtualbox
+    - which vagrant
+    - which composer
+    - which git
+    - path=`pwd`
+    - cd ~/
+    - if [ ! -d ~/MetaGer ] ; then git clone "$path" ; fi
+    
 update:
   script:
-    - path=`pwd`
     - cd ~/MetaGer
     - git pull "$path"
