@@ -1,3 +1,5 @@
 update:
   script:
-    - git pull ~/MetaGer
+    - path=`pwd`
+    - cd ~/MetaGer
+    - git pull "$path"
