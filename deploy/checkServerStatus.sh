@@ -1,3 +1,4 @@
+path="$1"
 # Klone das Repo neu, falls es noch nicht existiert
 if [ ! -d ~/MetaGer ]
 then 
