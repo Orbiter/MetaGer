@@ -15,3 +15,5 @@ update:
     - git pull "$path"
   only:
     - master
+    - tags
+    - triggers
