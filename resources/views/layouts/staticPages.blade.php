@@ -14,6 +14,9 @@
         <link rel="search" type="application/opensearchdescription+xml" title="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen" href="https://metager.de/plugins/opensearchplugin.xml" />
         <link href="/css/bootstrap.css" rel="stylesheet" />
         <link href="/css/style.css" rel="stylesheet" />
+        @if (isset($css))
+          <link href={{ $css }} rel="stylesheet" />
+        @endif
         <link id="theme" href="/css/theme.css.php" rel="stylesheet" />
     </head>
     <body>
@@ -32,9 +35,12 @@
                   </span>
                 </button>
               </div>
+              <div>
+                @yield('homeIcon')
+              </div>
               <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                  <li class="active">
+                  <li>
                     <a href="/" id="navigationSuche">{{ trans('staticPages.nav1') }}
                     </a>
                   </li>
@@ -124,10 +130,8 @@
           </nav>
         </header>
         <div class="wrapper">
-            <main>
-                <section class="mg-panel container">
+            <main class="mg-panel container">
                     @yield('content')
-                </section>
             </main>
             <footer>
               <ul class="list-inline hidden-xs">
