@@ -11,20 +11,22 @@
 |
 */
 
-# Unsere Startseite. Hier fängt alles an
-Route::get('{locale?}', 	
-	[ 'uses' => 'StartpageController@loadStartPage']
-)->where('locale', '[a-z]{1,2}');
+    Route::group(['prefix' => LaravelLocalization::setLocale()], function()
+    {
+        /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
+        Route::get('/', function()
+        {
+        	return view('index', [ 
+            'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
+            'homeIcon']);
+        });
 
-Route::get('{locale?}/{subpage}', 
-	[ 'uses' => 'StartpageController@loadLocalPage']
-)->where('locale', '[a-z]{1,2}');
+        Route::get('datenschutz', function()
+        {
+        	return view('index', [ 
+            'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
+            'homeIcon']);
+        });
+    });
 
-Route::get('{subpage}', 
-	[ 'uses' => 'StartpageController@loadPage']
-);
 
-# Unsere MetaGer Suche!!
-Route::get('/meta/meta.ger3', 
-	[ 'uses' => 'MetaGerSearch@forwardToServer' ]
-);
