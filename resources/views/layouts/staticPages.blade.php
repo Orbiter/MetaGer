@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>@yield('title')</title>
         <meta charset="utf-8" />
@@ -15,7 +16,7 @@
         <link href="/css/bootstrap.css" rel="stylesheet" />
         <link href="/css/style.css" rel="stylesheet" />
         @if (isset($css))
-          <link href={{ $css }} rel="stylesheet" />
+        <link href="/css/{{ $css }}" rel="stylesheet" />
         @endif
         <link id="theme" href="/css/theme.css.php" rel="stylesheet" />
     </head>
