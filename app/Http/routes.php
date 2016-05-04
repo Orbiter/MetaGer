@@ -28,6 +28,11 @@
         		->with('css', 'impressum.css');
         });
 
+        Route::get('about', function()
+        {
+        	return view('about')
+        		->with('title', 'Über Uns');
+        });
         Route::get('team', function()
         {
         	return view('team.team')
