@@ -30,8 +30,8 @@
 
         Route::get('about', function()
         {
-        	return view('team.team')
-        		->with('title', 'Team');
+        	return view('about')
+        		->with('title', 'Über Uns');
         });
         Route::get('team', function()
         {
