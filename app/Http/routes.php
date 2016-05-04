@@ -38,6 +38,15 @@
         	return view('team.pubkey-wsb')
         		->with('title', 'Team');
         });
+
+        Route::get('kontakt', function()
+        {
+            return view('kontakt.kontakt')
+                ->with('title', 'Kontakt')
+                ->with('css', 'kontakt.css')
+                ->with('js', ['openpgp.min.js','kontakt.js']);
+        });
+        Route::post('kontakt', 'MailController@contactMail');
     });
 
 
