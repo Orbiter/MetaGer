@@ -21,11 +21,11 @@
             'homeIcon']);
         });
 
-        Route::get('datenschutz', function()
+        Route::get('impressum', function()
         {
-        	return view('index', [ 
-            'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
-            'homeIcon']);
+        	return view('impressum')
+        		->with('title', 'Impressum')
+        		->with('css', 'impressum.css');
         });
     });
 
