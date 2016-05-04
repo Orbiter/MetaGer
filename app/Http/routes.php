@@ -27,6 +27,17 @@
         		->with('title', 'Impressum')
         		->with('css', 'impressum.css');
         });
+
+        Route::get('team', function()
+        {
+        	return view('team.team')
+        		->with('title', 'Team');
+        });
+        Route::get('team/pubkey-wsb', function()
+        {
+        	return view('team.pubkey-wsb')
+        		->with('title', 'Team');
+        });
     });
 
 
