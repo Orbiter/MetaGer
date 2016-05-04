@@ -11,7 +11,7 @@
     </a>, Dr.-Ing. - Geschäftsführer, Vorstand - 
     <a href="mailto:wsb@suma-ev.de">wsb@suma-ev.de
     </a> - 
-    <a href="/team/pubkey-wsb.php" target="_blank">Public Key
+    <a href="/team/pubkey-wsb">Public Key
     </a>
   </li>
   <li>Becker, Georg - Büroleiter und Jugendschutzbeauftragter - 
