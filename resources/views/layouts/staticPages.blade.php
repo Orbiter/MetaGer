@@ -130,9 +130,16 @@
             </div>
           </nav>
         </header>
+
         <div class="wrapper">
             <main class="mg-panel container">
-                    @yield('content')
+                @if (isset($success))
+                  <div class="alert alert-success" role="alert">{{ $success }}</div>
+                @endif
+                @if (isset($error))
+                  <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endif
+                @yield('content')
             </main>
             <footer>
               <ul class="list-inline hidden-xs">
@@ -157,6 +164,9 @@
             <script type="text/javascript" src="/js/jquery.js"></script>
             <script type="text/javascript" src="/js/bootstrap.js"></script>
             <script type="text/javascript" src="/js/scriptStartPage.js"></script>
+            @foreach ($js as $script)
+            <script type="text/javascript" src="/js/{{ $script }}"></script>
+            @endforeach
             <!--[if lte IE 8]><script type="text/javascript" src="/js/html5shiv.min.js"></script><![endif]-->
     </body>
 </html>

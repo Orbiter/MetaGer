@@ -1,0 +1,44 @@
+*{
+	
+}
+
+textarea#message {
+    height: 200px;
+}
+
+form.contact {
+    max-width: 500px;
+}
+
+adress {
+    white-space: pre;
+}
+
+code {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.form-group {
+    text-align: left;
+    font-size: 14px;
+}
+
+button.btn.btn-default {
+    line-height: 100%;
+}
+
+p {
+    white-space: pre-wrap;
+}
+
+main.mg-panel {
+    text-align: left;
+}
+
+form {
+}
+
+.bold {
+    font-weight: bold;
+}
