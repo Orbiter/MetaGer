@@ -3,15 +3,12 @@
 @section('title', $title )
 
 @section('content')
-        <h1>Ihre Spende f&uuml;r SUMA-EV und MetaGer
-        </h1>
-        <h2>Helfen Sie mit, dass freie Suchmaschinen im Internet frei bleiben. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben.
-        </h2>
-        <div class="col">
-          <div id="left" class="col-lg-6 col-md-12 col-sm-12 others">
-            <h2>Durch eine &Uuml;berweisung
-            </h2>
-            <p>SUMA-EV
+<h1>Ihre Spende f&uuml;r SUMA-EV und MetaGer</h1>
+<h2>Helfen Sie mit, dass freie Suchmaschinen im Internet frei bleiben. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben.</h2>
+<div class="col">
+<div id="left" class="col-lg-6 col-md-12 col-sm-12 others">
+<h2>Durch eine &Uuml;berweisung</h2>
+<p>SUMA-EV
 IBAN: DE64 4306 0967 4075 0332 01
 BIC: GENODEM1GLS
 (Konto-Nr.: 4075 0332 01, BLZ: 43060967)
