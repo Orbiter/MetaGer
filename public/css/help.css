@@ -1,0 +1,38 @@
+* {
+	
+}
+
+h3 {
+    font-size: 21px;
+    margin-top: 7px;
+}
+
+p {
+    white-space: pre-wrap;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+p {
+    margin: 20px 0;
+}
+
+main {
+    text-align: left;
+}
+
+h2 {
+    font-size: 23px;
+    margin-top: 10px;
+}
+
+address {
+    white-space: pre;
+}
+
+main ul{
+    list-style-type: disc;
+    text-align: left;
+}
