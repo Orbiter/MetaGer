@@ -76,4 +76,6 @@
                 ->with('title', 'MetaGer - hilfe')
                 ->with('css', 'help.css');
         });
+
+        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
     });
