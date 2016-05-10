@@ -199,7 +199,7 @@ footer {
     width: 100%;
 }
 
-main section ul li {
+main ul li {
     margin: 0 10px;
 }
 
@@ -207,10 +207,10 @@ section#moreInformation ul li {
     color: grey;
 }
 
-main section ul li:after {
+main ul li:after {
 }
 
-main section ul {
+body ul {
     list-style-type: none;
     text-align: center;
     margin-left: 0!important;

@@ -117,8 +117,11 @@
               </li>
             </ul>
           </figure>
-        </section>
-        <section id="moreInformation" class="hidden-xs">
+        
+@endsection
+
+@section('optionalContent')
+<section id="moreInformation" class="hidden-xs">
           <h1 class="hidden">Weitere Informationen
           </h1>
           <div class="row">
@@ -157,4 +160,5 @@
               </ul>
             </div>
           </div>
+        </section>
 @endsection

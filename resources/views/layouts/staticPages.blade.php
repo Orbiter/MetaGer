@@ -141,6 +141,7 @@
                 @endif
                 @yield('content')
             </main>
+            @yield('optionalContent')
             <footer>
               <ul class="list-inline hidden-xs">
                 <li>
@@ -150,9 +151,7 @@
                 </li>
                 <li id="info">
                   <a href="/kontakt/">{{ trans('staticPages.nav5') }}</a> - <a href="/impressum/">{{ trans('staticPages.nav8') }}</a>
-                  MetaGer wird entwickelt und betrieben vom 
-                  <a href="https://www.suma-ev.de/" target="_blank" >SUMA-EV - Verein f&uuml;r freien Wissenszugang.
-                  </a>
+                  MetaGer wird entwickelt und betrieben vom <a href="https://www.suma-ev.de/" target="_blank" >SUMA-EV - Verein f&uuml;r freien Wissenszugang.</a>
                 </li>
                 <li>
                   <a href="https://www.uni-hannover.de/" target="_blank">
