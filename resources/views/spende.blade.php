@@ -12,15 +12,13 @@
             <h2>Durch eine &Uuml;berweisung
             </h2>
             <p>SUMA-EV
-              IBAN: DE64 4306 0967 4075 0332 01
-              BIC: GENODEM1GLS
-              (Konto-Nr.: 4075 0332 01, BLZ: 43060967)
-              GLS Gemeinschaftsbank, Bochum
-            </p>
+IBAN: DE64 4306 0967 4075 0332 01
+BIC: GENODEM1GLS
+(Konto-Nr.: 4075 0332 01, BLZ: 43060967)
+GLS Gemeinschaftsbank, Bochum</p>
             <p class="text-muted">Falls Sie eine Spendenbescheinigung w&uuml;nschen,
-              geben Sie auf dem &Uuml;berweisungsformular bitte Ihre
-              vollst&auml;ndige Adresse, und (sofern vorhanden) auch Ihre EMail-Adresse an. 
-            </p>
+geben Sie auf dem &Uuml;berweisungsformular bitte Ihre
+vollst&auml;ndige Adresse, und (sofern vorhanden) auch Ihre EMail-Adresse an.</p>
             <hr>
             <div class="col-lg-6 col-md-12 col-sm-12 others ppbc">
               <h2>Bequem mit Paypal
@@ -54,9 +52,9 @@
             <hr>
             <h2 id="lastschrift">Spenden mittels elektronischem Lastschriftverfahren:
             </h2>
-            <p>Tragen Sie hier Ihre Kontodaten sowie den gew&uuml;nschten Betrag ein. Wir buchen dann entsprechend von Ihrem Konto ab.
-            </p>
-            <form role="form" method="POST" action="senden.php">
+            <p>Tragen Sie hier Ihre Kontodaten sowie den gew&uuml;nschten Betrag ein. Wir buchen dann entsprechend von Ihrem Konto ab.</p>
+            <form role="form" method="POST">
+              {{ csrf_field() }}
               <div class="form-group">
                 <label for="Name">Bitte geben Sie ihren Namen ein:
                 </label>
@@ -85,8 +83,7 @@
               <div class="form-group">
                 <label for="msg">Hier k&ouml;nnen Sie uns formlos mitteilen, welchen Betrag Sie spenden m&ouml;chten und ggf. noch eine Mitteilung dazu senden:
                 </label>
-                <textarea class="form-control" id="msg" required="" name="Nachricht" placeholder="Nachricht">
-                </textarea>
+                <textarea class="form-control" id="msg" required="" name="Nachricht" placeholder="Nachricht"></textarea>
               </div>
               <button type="submit" class="btn btn-default">Spenden
               </button>
