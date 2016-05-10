@@ -51,7 +51,15 @@
                 ->with('css', 'kontakt.css')
                 ->with('js', ['openpgp.min.js','kontakt.js']);
         });
+
         Route::post('kontakt', 'MailController@contactMail');
+
+        Route::get('datenschutz', function()
+        {
+            return view('datenschutz')
+                ->with('title', 'Datenschutz und Privatsphäre')
+                ->with('css', 'privacy.css');
+        });
     });
 
 
