@@ -164,9 +164,11 @@
             <script type="text/javascript" src="/js/jquery.js"></script>
             <script type="text/javascript" src="/js/bootstrap.js"></script>
             <script type="text/javascript" src="/js/scriptStartPage.js"></script>
-            @foreach ($js as $script)
-            <script type="text/javascript" src="/js/{{ $script }}"></script>
-            @endforeach
+	    @if (isset($js))
+	    	@foreach ($js as $script)
+            		<script type="text/javascript" src="/js/{{ $script }}"></script>
+            	@endforeach
+	    @endif
             <!--[if lte IE 8]><script type="text/javascript" src="/js/html5shiv.min.js"></script><![endif]-->
     </body>
 </html>
