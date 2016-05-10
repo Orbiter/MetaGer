@@ -36,7 +36,8 @@
         Route::get('team', function()
         {
             return view('team.team')
-                ->with('title', 'Team');
+                ->with('title', 'Team')
+                ->with('css', 'team.css');
         });
         Route::get('team/pubkey-wsb', function()
         {

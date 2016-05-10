@@ -5,7 +5,7 @@
 @section('content')
 <h1>Team
 </h1>
-<ul>
+<ul id="teamList">
   <li>
     <a href="https://de.wikipedia.org/wiki/Wolfgang_Sander-Beuermann" target="_blank">Sander-Beuermann, Wolfgang
     </a>, Dr.-Ing. - Geschäftsführer, Vorstand - 
