@@ -10,11 +10,11 @@ mg-panel li {
     margin-top: 10px;
 }
 
-main ul li {
-	margin: 0 0 5 0px;
-}
-
-main ul {
+#privacyList {
 	list-style-type: disc;
 	text-align: left;
+}
+
+#privacyList li {
+	margin-bottom: 5px;
 }
