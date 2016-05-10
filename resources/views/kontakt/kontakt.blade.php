@@ -3,37 +3,26 @@
 @section('title', $title )
 
 @section('content')
-<h1>Kontakt
-</h1>
-<h2>Forum
-</h2>
+<h1>Kontakt</h1>
+<h2>Forum</h2>
 <p><span class="bold">Bitte stellen Sie Ihre Frage zuerst in unserem <a href="http://forum.suma-ev.de/" target="_blank">Forum.</a></span>
 <span>So können auch andere von einer Antwort profitieren.</span></p>
 <h2>Sicheres Kontakformular</h2>
 <p>Über dieses Formular können Sie uns verschlüsselt kontaktieren.
-Alternativ können Sie uns natürlich auch per <a href="mailto:office@suma-ev.de">email</a> erreichen.
-</p>
-<p>Beachten Sie: Aufgrund der Vielzahl der Anfragen sind wir personell nicht immer in der Lage, alles zeitnah zu beantworten.
-</p>
-<p class="bold">Wenn Sie keine email-Adresse angeben, können wir Ihnen nicht antworten.
-</p>
+Alternativ können Sie uns natürlich auch per <a href="mailto:office@suma-ev.de">email</a> erreichen.</p>
+<p>Beachten Sie: Aufgrund der Vielzahl der Anfragen sind wir personell nicht immer in der Lage, alles zeitnah zu beantworten.</p>
+<p class="bold">Wenn Sie keine email-Adresse angeben, können wir Ihnen nicht antworten.</p>
 <form class="contact" name="contact" method="post" action="{{ LaravelLocalization::getLocalizedURL() }}">
   {{ csrf_field() }}
   <div class="form-group">
-    <input class="form-control" name="email" placeholder="Ihre e-mail-Adresse (optional)" type="text">
-  </div>
+    <input class="form-control" name="email" placeholder="Ihre e-mail-Adresse (optional)" type="text"></div>
   <div class="form-group">
-    <textarea class="form-control" id="message" name="message" placeholder="Ihre Nachricht"></textarea>
-  </div>
+    <textarea class="form-control" id="message" name="message" placeholder="Ihre Nachricht"></textarea></div>
   <div class="form-group">
     <p><span class="bold">Ihre Nachricht wird vor dem Absenden mit <a href="http://openpgpjs.org/.">OpenPGP.js</a> verschlüsselt. 
 Dafür wird Javascript benötigt.</span>
-<span>Falls Sie Javascript deaktiviert haben, wird Ihre Eingabe unverschlüsselt gesendet.</span>
-    </p>
-    <button title="" data-original-title="" class="btn btn-default" type="submit">Verschlüsseln und senden
-    </button>
-  </div>
-</form>
+<span>Falls Sie Javascript deaktiviert haben, wird Ihre Eingabe unverschlüsselt gesendet.</span></p>
+    <button title="" data-original-title="" class="btn btn-default" type="submit">Verschlüsseln und senden</button></div></form>
 <h2>Per E-Mail</h2>
 <p>Sie können uns auch direkt eine e-mail an die folgende Adresse schicken: <a href="mailto:office@suma-ev.de">office@suma-ev.de</a>
 Falls Sie diese verschlüsseln wollen, finden Sie nachfolgend unseren öffentlichen OpenPGP-Schlüssel:</p>
@@ -100,16 +89,12 @@ geiG3j1J/CaDBZqPBaBflK0UWR5nxCsoOk7i5f3isUeXSVLTnA+K9HkQ6D/Gt5vx
 2soXShIyIak9DeUifcuf1w/ZpL8MXCMDZ2LN2jYVJB8c4g==
 =LZAA
 -----END PGP PUBLIC KEY BLOCK-----</code>
-<h2>Per Brief-Post
-</h2>
+<h2>Per Brief-Post</h2>
 <p>Wir ziehen es vor, auf digitalem Wege kontaktiert zu werden.
-  Wenn Sie jedoch eine postalische Kontaktaufnahme als unbedingt nötig erachten,
-  erreichen Sie uns unter der folgenden Addresse:
-</p>
+Wenn Sie jedoch eine postalische Kontaktaufnahme als unbedingt nötig erachten,
+erreichen Sie uns unter der folgenden Addresse:</p>
 <adress>SUMA-EV
-  Röselerstr. 3
-  30159 Hannover
-  Germany
-</adress>
-
+Röselerstr. 3
+30159 Hannover
+Germany</adress>
 @endsection
