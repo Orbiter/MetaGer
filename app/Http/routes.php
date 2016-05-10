@@ -16,32 +16,32 @@
         /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
         Route::get('/', function()
         {
-        	return view('index', [ 
+            return view('index', [ 
             'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
             'homeIcon']);
         });
 
         Route::get('impressum', function()
         {
-        	return view('impressum')
-        		->with('title', 'Impressum')
-        		->with('css', 'impressum.css');
+            return view('impressum')
+                ->with('title', 'Impressum')
+                ->with('css', 'impressum.css');
         });
 
         Route::get('about', function()
         {
-        	return view('about')
-        		->with('title', 'Über Uns');
+            return view('about')
+                ->with('title', 'Über Uns');
         });
         Route::get('team', function()
         {
-        	return view('team.team')
-        		->with('title', 'Team');
+            return view('team.team')
+                ->with('title', 'Team');
         });
         Route::get('team/pubkey-wsb', function()
         {
-        	return view('team.pubkey-wsb')
-        		->with('title', 'Team');
+            return view('team.pubkey-wsb')
+                ->with('title', 'Team');
         });
 
         Route::get('kontakt', function()
@@ -61,6 +61,18 @@
                 ->with('css', 'donation.css');
         });
         Route::post('spende', 'MailController@donation');
+
+        Route::get('datenschutz', function()
+        {
+            return view('datenschutz')
+                ->with('title', 'Datenschutz und Privatsphäre')
+                ->with('css', 'privacy.css');
+        });
+
+        Route::get('hilfe', function()
+        {
+            return view('hilfe')
+                ->with('title', 'MetaGer - hilfe')
+                ->with('css', 'help.css');
+        });
     });
-
-
