@@ -1,0 +1,93 @@
+* {
+	
+}
+
+.clearfix {
+}
+
+div#right {
+    background-color: #FFDCC1;
+    border-radius: 5px;
+    padding: 20px;
+    padding-top: 0;
+}
+
+body {
+    font-size: 14px;
+}
+
+button.btn.btn-default {
+    width: 100px;
+    line-height: 100%;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group {
+    text-align: left;
+    font-size: 12px;
+}
+
+.others {
+}
+
+div#left {
+    padding-right: 35px;
+}
+
+.ppbc {
+    text-align: center;
+}
+
+p {
+    white-space: pre-wrap;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+p {
+    margin: 10px 0 10px 0;
+}
+
+main {
+    text-align: left;
+}
+
+div#right p {
+    white-space: normal;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+h2#lastschrift {
+    margin-top: 25px;
+}
+
+address {
+    white-space: pre;
+}
+
+accountdata	{
+    white-space: pre;
+}
+
+donationReceipt	{
+    white-space: pre;
+}
+
+right{
+	
+	background-color: #FFDCC1;
+	
+}
+

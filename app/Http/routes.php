@@ -54,6 +54,14 @@
 
         Route::post('kontakt', 'MailController@contactMail');
 
+        Route::get('spende', function()
+        {
+            return view('spende')
+                ->with('title', 'Kontakt')
+                ->with('css', 'donation.css');
+        });
+        Route::post('spende', 'MailController@donation');
+
         Route::get('datenschutz', function()
         {
             return view('datenschutz')

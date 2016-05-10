@@ -45,7 +45,7 @@ class MailController extends Controller
             }else{
                 # Fehler beim senden der Email
                 $messageType = "error";
-                $returnMessage = 'Beim Senden Ihrer Email ist ein Fehler aufgetreten. Bitte schicken Sie eine Email an: office@suma-ev.de, damit wir uns darum kümmern können';
+                $returnMessage = 'Beim Senden Ihrer Email ist ein Fehler aufgetreten. Bitte schicken Sie eine Email an: office@suma-ev.de, damit wir uns darum kümmern können.';
             }
 
             $messageType = "success";
@@ -57,5 +57,59 @@ class MailController extends Controller
                 ->with('css', 'kontakt.css')
                 ->with('js', ['openpgp.min.js','kontakt.js'])
                 ->with( $messageType, $returnMessage );
+    }
+
+    public function donation(Request $request)
+    {
+        # Der enthaltene String wird dem Benutzer nach der Spende ausgegeben
+        $messageToUser = "";
+        $messageType = ""; # [success|error]
+
+        # Folgende Felder werden vom Spendenformular als Input übergeben:
+        # Name
+        # Telefon
+        # email
+        # Kontonummer ( IBAN )
+        # Bankleitzahl ( BIC )
+        # Nachricht
+        if(!$request->has('Kontonummer') || !$request->has('Bankleitzahl') || !$request->has('Nachricht')){
+            $messageToUser = "Sie haben eins der folgenden Felder nicht ausgefüllt: IBAN, BIC, Nachricht. Bitte korrigieren Sie Ihre Eingabe und versuchen es erneut.\n";
+            $messageType = "error";
+        }else{
+            $message = "\r\n Name:" . $request->input('Name', 'Keine Angabe');
+            $message .= "\r\n Telefon:" . $request->input('Telefon', 'Keine Angabe');
+            $message .= "\r\n Kontonummer:" . $request->input('Kontonummer');
+            $message .= "\r\n Bankleitzahl:" . $request->input('Bankleitzahl');
+            $message .= "\r\n Nachricht:" . $request->input('Nachricht');
+
+            $replyTo = $request->input('email', 'anonymous-user@metager.de');
+            if (!filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
+                $messageToUser .= "Die eingegebene Email-Addresse ($replyTo) scheint nicht korrekt zu sein.";
+            }
+
+            try{
+                if(Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo){
+                    $message->to("office@suma-ev.de", $name = null);
+                    $message->from($replyTo, $name = null);
+                    $message->replyTo($replyTo, $name = null);
+                    $message->subject("MetaGer - Spende");
+                })) {
+                    $messageType = "success";
+                    $messageToUser = "Wir haben Ihre Spendenbenachrichtigung dankend erhalten. Eine persönliche Nachricht erhalten Sie in nächster Zeit, falls sie Ihre Kontaktdaten angegeben haben.";
+                }else{
+                    $messageType = "error";
+                    $messageToUser = 'Beim Senden Ihrer Spendenbenachrichtigung ist ein Fehler auf unserer Seite aufgetreten. Bitte schicken Sie eine Email an: office@suma-ev.de, damit wir uns darum kümmern können.';
+                }
+            } catch( \Swift_TransportException $e ){
+                $messageType = "error";
+                $messageToUser = 'Beim Senden Ihrer Spendenbenachrichtigung ist ein Fehler auf unserer Seite aufgetreten. Bitte schicken Sie eine Email an: office@suma-ev.de, damit wir uns darum kümmern können.';
+            }
+        }
+
+
+        return view('spende')
+                ->with('title', 'Kontakt')
+                ->with('css', 'donation.css')
+                ->with($messageType,$messageToUser);
     }
 }
