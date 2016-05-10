@@ -59,6 +59,12 @@
             return view('datenschutz')
                 ->with('title', 'Datenschutz und Privatsphäre')
                 ->with('css', 'privacy.css');
+
+        Route::get('hilfe', function()
+        {
+            return view('hilfe')
+                ->with('title', 'MetaGer - hilfe')
+                ->with('css', 'help.css');
         });
     });
 
