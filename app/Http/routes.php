@@ -51,7 +51,15 @@
                 ->with('css', 'kontakt.css')
                 ->with('js', ['openpgp.min.js','kontakt.js']);
         });
+
         Route::post('kontakt', 'MailController@contactMail');
+
+        Route::get('hilfe', function()
+        {
+            return view('hilfe')
+                ->with('title', 'MetaGer - hilfe')
+                ->with('css', 'help.css');
+        });
     });
 
 
