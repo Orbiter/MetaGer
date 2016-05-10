@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\MetaGer\Forwarder;
+use App\MetaGer\Results;
 
 class MetaGerSearch extends Controller
 {
@@ -22,6 +24,12 @@ class MetaGerSearch extends Controller
 
 
         #return view('index', [ 'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen']);
+    }
+
+    public function search(Request $request)
+    {
+        $results = new Results($request);
+        return $results->loadSearchEngines();
     }
 
 }

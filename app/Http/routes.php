@@ -52,6 +52,8 @@
                 ->with('js', ['openpgp.min.js','kontakt.js']);
         });
         Route::post('kontakt', 'MailController@contactMail');
+
+        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
     });
 
 
