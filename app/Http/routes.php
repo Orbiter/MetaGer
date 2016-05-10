@@ -51,7 +51,17 @@
                 ->with('css', 'kontakt.css')
                 ->with('js', ['openpgp.min.js','kontakt.js']);
         });
+
         Route::post('kontakt', 'MailController@contactMail');
+
+        Route::get('spende', function()
+        {
+            return view('spende')
+                ->with('title', 'Spenden')
+                ->with('css', 'donation.css');
+        });
+
+        Route::post('spende', 'DonationControlle@donate');
     });
 
 
