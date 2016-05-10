@@ -19,7 +19,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 function encrypt() {
 	if (window.crypto && window.crypto.getRandomValues) {
 			var message = document.getElementById("message");
-			console.log(message);
 			if (message.value.indexOf("-----BEGIN PGP MESSAGE-----") !== -1 && message.value.indexOf("-----END PGP MESSAGE-----") !== -1) {
 				// encryption done
 			} else {
@@ -27,7 +26,6 @@ function encrypt() {
 				var plaintext = message.value;
 				var ciphertext = openpgp.encryptMessage([pub_key],plaintext);
 				message.value = ciphertext;
-				alert(message.value);
 				return true;
 			}
 	} else {

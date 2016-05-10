@@ -19,12 +19,18 @@ class MailController extends Controller
         # Nachricht, die wir an den Nutzer weiterleiten:
         $messageType = ""; # [success|error]
         $returnMessage = '';
-        if(!$request->has('email') || !$request->has('message')){
+        $replyTo = $request->input('email', 'noreply@metager.de');
+        if($replyTo === ""){
+            $replyTo = "noreply@metager.de";
+        }else{
+            $replyTo = $request->input('email');
+        }
+
+        if(!$request->has('message')){
             $messageType = "error";
             $returnMessage = "Tut uns leid, aber leider haben wir mit Ihrer Kontaktanfrage keine Daten erhalten. Die Email wurde nicht versand";
         }else{
             # Wir versenden die Mail des Benutzers an uns:
-            $replyTo = $request->input('email');
             $message = $request->input('message');
 
             if( Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo){
