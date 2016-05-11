@@ -1,10 +1,10 @@
 <?php
 
 return [
-	'web' 			=>	"web",
-	'nachrichten'	=>	"news",
-	'wissenschaft'	=>	'science',
-	'produktsuche'	=>	'shopping',
-	'bilder'		=>	'picture',
-	'angepasst'		=>	'custom'
+	'web' 		=>	"web",
+	'news'		=>	"nachrichten",
+	'science'	=>	'wissenschaft',
+	'shopping'	=>	'produktsuche',
+	'picture'	=>	'bilder',
+	'custom'	=>	'angepasst'
 ];
