@@ -299,7 +299,7 @@ return [
 
 	// Negotiate for the user locale using the Accept-Language header if it's not defined in the URL?
 	// If false, system will take app.php locale attribute
-	'useAcceptLanguageHeader' => true,
+	'useAcceptLanguageHeader' => false,
 
 	// If LaravelLocalizationRedirectFilter is active and hideDefaultLocaleInURL
 	// is true, the url would not have the default application language
