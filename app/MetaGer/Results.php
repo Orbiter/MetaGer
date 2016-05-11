@@ -2,30 +2,31 @@
 
 namespace App\MetaGer;
 use Illuminate\Http\Request;
-
+use File;
 class Results
 {
-	private $request;
 	private $fokiNames = [];
 	private $fokus;
-	function __construct (Request $request)
+	function __construct ($engines)
 	{
-		$this->request = $request;
-
-		$this->fokiNames[] = trans('fokiNames.web');
-		$this->fokiNames[] = trans('fokiNames.nachrichten');
-		$this->fokiNames[] = trans('fokiNames.wissenschaft');
-		$this->fokiNames[] = trans('fokiNames.produktsuche');
-		$this->fokiNames[] = trans('fokiNames.bilder');
-		$this->fokiNames[] = trans('fokiNames.angepasst');
+		$this->results = $this->loadResults($engines);
 	}
 
-	public function loadSearchEngines ()
+	private function loadResults($engines)
 	{
-		# Wenn keine persönlichen Einstellungen gesetzt sind, dafür aber ein existierender Fokus von uns,
-		# werden die zu dem Fokus gehörenden Suchmaschinen angeschaltet.
-		return $this->request->input('focus', 'test');
-		return var_dump($this->fokiNames);
+		# Das Laden der Ergebnisse besteht aus 2 Elementaren Schritten:
+		# 1. GET-Requests abarbeiten
+		# 2. Ergebnisse parsen
+
+		# 1. GET-Requests abarbeiten
+		# Wir generiern zunächst alle GET-Strings:
+		$getStrings = [];
+		foreach($engines as $engine)
+		{
+			$getStrings[] = $engine->generateGetString();
+		}
+
+		return print_r($getStrings, TRUE);
 	}
 
 }
