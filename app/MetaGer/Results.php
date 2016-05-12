@@ -11,7 +11,7 @@ class Results
 
 	function __construct ($engines)
 	{
-		$this->results[] = $this->loadResults($engines);
+		$this->results = $this->loadResults($engines);
 	}
 
 	private function loadResults($engines)

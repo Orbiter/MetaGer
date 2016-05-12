@@ -14,7 +14,7 @@ class Fastbot extends Searchengine
 
 	public function loadResults ()
 	{
-		$result = curl_multi_getcontent($this->ch);
+		$result = utf8_encode(curl_multi_getcontent($this->ch));
 		foreach( explode("\n", $result) as $line )
 		{
 			$line = trim($line);
@@ -33,5 +33,6 @@ class Fastbot extends Searchengine
 			}
 			
 		}
+
 	}
 }

@@ -78,9 +78,18 @@ class MetaGerSearch extends Controller
         $searchengines = Search::loadSearchEngines($request);
         $results = new Results($searchengines);
 
-        return view('results');
+        $viewResults = [];
+        # Wir extrahieren alle notwendigen Variablen und geben Sie an unseren View:
+        foreach($results->results as $result)
+        {
+            $viewResults[] = get_object_vars($result);
+        }
+        
 
-        return print_r($results->results, TRUE);
+        return view('metager3')
+            ->with('results', $viewResults);
+
+        return print_r( $viewResults, TRUE);
     }
 
 }

@@ -7,9 +7,9 @@ class Result
 	
 	function __construct ( $titel, $link, $anzeigeLink , $descr )
 	{
-		$this->titel = $titel;
-		$this->link = $link;
-		$this->anzeigeLink = $anzeigeLink;
-		$this->descr = $descr;
+		$this->titel = trim($titel);
+		$this->link = trim($link);
+		$this->anzeigeLink = trim($anzeigeLink);
+		$this->descr = trim($descr);
 	}
 }

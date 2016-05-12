@@ -61,7 +61,7 @@
             <div class="tab-pane active" data-focus="web" id="web" role="tabpanel">
                 <div class="row">
                     <div class="col-md-8">
-                        
+                        @yield('results')
                     </div>
                     <div class="col-md-4" id="quicktips">
                        
