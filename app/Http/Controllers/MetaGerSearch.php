@@ -78,6 +78,8 @@ class MetaGerSearch extends Controller
         $searchengines = Search::loadSearchEngines($request);
         $results = new Results($searchengines);
 
+        return view('results');
+
         return print_r($results->results, TRUE);
     }
 
