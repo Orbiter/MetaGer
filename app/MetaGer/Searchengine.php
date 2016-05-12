@@ -7,6 +7,7 @@ abstract class Searchengine
 {
 
 	protected $ch; 	# Curl Handle zum erhalten der Ergebnisse
+
 	function __construct(\SimpleXMLElement $engine)
 	{
 		foreach($engine->attributes() as $key => $value){
@@ -110,6 +111,7 @@ abstract class Searchengine
 	    $affilDataValue = $this->urlEncode($affil_data);
 		# Wir benötigen die ServeUrl:
 		$serveUrl = $this->urlEncode(Request::url());#
+
 		return "&affilData=" . $affilDataValue . "&serveUrl=" . $serveUrl;
 	}
 }
