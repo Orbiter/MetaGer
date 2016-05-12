@@ -20,12 +20,12 @@ class Search
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	|| ( FOKUS !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                #	|| ( FOKUS !== "bilder" 
+                #		&& ($suma["name"]->__toString() === "qualigo" 
+                #			|| $suma["name"]->__toString() === "similar_product_ads" 
+                #			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+               # 			)
+               # 		)
                 	){
                 	if($suma["name"]->__toString() === "overture")
                 	{
@@ -39,12 +39,12 @@ class Search
             foreach($sumas as $suma){
                 $types = explode(",",$suma["type"]);
                 if(in_array(FOKUS, $types) 
-                	|| ( FOKUS !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                #	|| ( FOKUS !== "bilder" 
+                	#	&& ($suma["name"]->__toString() === "qualigo" 
+                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
+                #			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                #			)
+              #  		)
                 	){
                 	if($suma["name"]->__toString() === "overture")
                 	{
@@ -57,7 +57,8 @@ class Search
         
 		$engines = [];
 		foreach($enabledSearchengines as $engine){
-			$engines[] = new Searchengine($engine);
+            $path = "App\MetaGer\parserSkripte\\" . $engine["name"]->__toString();
+			$engines[] = new $path($engine);
 		}
 
         return $engines;

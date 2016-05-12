@@ -72,10 +72,13 @@ class MetaGerSearch extends Controller
         }
         # Category
         define("CATEGORY", $request->input('category', ''));
+        # Request Times:
+        define("TIME", $request->input('time', 1));
  
         $searchengines = Search::loadSearchEngines($request);
         $results = new Results($searchengines);
-        return $results->results;
+
+        return print_r($results->results, TRUE);
     }
 
 }

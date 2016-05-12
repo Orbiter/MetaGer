@@ -1,11 +1,12 @@
 <?php
 
 namespace App\MetaGer;
+use Request;
 
-class Searchengine
+abstract class Searchengine
 {
 
-
+	protected $ch; 	# Curl Handle zum erhalten der Ergebnisse
 	function __construct(\SimpleXMLElement $engine)
 	{
 		foreach($engine->attributes() as $key => $value){
@@ -20,9 +21,25 @@ class Searchengine
 			$this->useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
 		}
 
+		$this->ch = curl_init($this->generateGetString());
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT , TIME); 
 	}
 
-	public function generateGetString()
+	public abstract function loadResults();
+
+	public function addCurlHandle ($mh)
+	{
+		curl_multi_add_handle($mh, $this->ch);
+	}
+
+	public function removeCurlHandle ($mh)
+	{
+		curl_multi_remove_handle($mh, $this->ch);
+	}
+
+	private function generateGetString()
 	{
 		$getString = "";
 		# Protokoll:
@@ -64,6 +81,11 @@ class Searchengine
 		{
 			$getString = str_replace("<<CATEGORY>>", $this->urlEncode(CATEGORY), $getString);
 		}
+
+		if( strpos($getString, "<<AFFILDATA>>") )
+		{
+			$getString = str_replace("<<AFFILDATA>>", $this->getOvertureAffilData(), $getString);
+		}
 		return $getString;
 	}
 
@@ -80,23 +102,14 @@ class Searchengine
 
 	private function getOvertureAffilData()
 	{
-		$xfip="$_SERVER['HTTP_X_FORWARDED_FOR']";
-		$xfip=~ s/^(\d+\.\d+\.\d+)\.\d+/$1\.0/;
-	    my $overt_ip=$ENV{'HTTP_FROM'};
-	    my $overt_xfip=$xfip;
-	    # anonymisierte IPs an Overture:
-	    $overt_ip=~s#(\d+)\.(\d+)\.(\d+)\.\d+#$1\.$2\.$3\.0#;
-	    $overt_xfip=~s#(\d+)\.(\d+)\.(\d+)\.\d+#$1\.$2\.$3\.0#;
-	    $affil_data .= 'ip=' . $overt_ip;
-	    $affil_data .= '&ua=' . $self->{useragent};  
-	    if ($xfip) {
-	       $affil_data .= '&xfip=' . $overt_xfip;
+	    $affil_data = 'ip=' . IP;
+	    $affil_data .= '&ua=' . $this->useragent;  
+	    if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+	       $affil_data .= '&xfip=' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 	    }
-	    $affil_data = URI::Escape::uri_escape_utf8($affil_data);
-	    $affilDataValue=$affil_data;
+	    $affilDataValue = $this->urlEncode($affil_data);
 		# Wir benötigen die ServeUrl:
-		$serveUrl = $cgi->self_url();#URI::Escape::uri_escape_utf8($cgi->self_url());
-		$serveUrl = URI::Escape::uri_escape_utf8($serveUrl);
+		$serveUrl = $this->urlEncode(Request::url());#
 		return "&affilData=" . $affilDataValue . "&serveUrl=" . $serveUrl;
 	}
 }
