@@ -30,7 +30,7 @@
                     <li class="pull-right">
                         <form method="get" action="/meta/meta.ger3" enctype="multipart/form-data" accept-charset="UTF-8" class="form" id="submitForm">
                             <div class="input-group">
-                                <input autocomplete="off" class="form-control" form="submitForm" id="eingabeTop" name="eingabe" placeholder="Suchbegriffe erweitern/verändern, oder völlig neue Suche:" tabindex="1" type="text" value="test" />
+                                <input autocomplete="off" class="form-control" form="submitForm" id="eingabeTop" name="eingabe" placeholder="Suchbegriffe erweitern/verändern, oder völlig neue Suche:" tabindex="1" type="text" value="{{ $eingabe }}" />
                                 <div class="input-group-addon">
                                     <button type='submit' form="submitForm" id='search'><span class="glyphicon glyphicon-search"></span>
                                     </button>
@@ -59,6 +59,24 @@
         </ul>
         <div class="tab-content container-fluid">
             <div class="tab-pane active" data-focus="web" id="web" role="tabpanel">
+                @if( sizeof($errors) > 0 )
+                    <div class="alert alert-danger">
+                        <ul>
+                        @foreach($errors as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if( sizeof($warnings) > 0)
+                    <div class="alert alert-warning">
+                        <ul>
+                        @foreach($warnings as $warning)
+                            <li>{{ $warning }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-8">
                         @yield('results')

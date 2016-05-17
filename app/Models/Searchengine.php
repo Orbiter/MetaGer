@@ -1,14 +1,13 @@
 <?php
 
-namespace App\MetaGer;
-use Request;
+namespace App\Models;
 
 abstract class Searchengine
 {
 
 	protected $ch; 	# Curl Handle zum erhalten der Ergebnisse
 
-	function __construct(\SimpleXMLElement $engine)
+	function __construct(\SimpleXMLElement $engine, $mh, $query, $time)
 	{
 		foreach($engine->attributes() as $key => $value){
 			$this->$key = $value->__toString();
@@ -22,10 +21,12 @@ abstract class Searchengine
 			$this->useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
 		}
 
-		$this->ch = curl_init($this->generateGetString());
+		$this->ch = curl_init($this->generateGetString($query));
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT , TIME); 
+		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT , $time); 
+
+		$this->addCurlHandle($mh);
 	}
 
 	public abstract function loadResults();
@@ -40,7 +41,7 @@ abstract class Searchengine
 		curl_multi_remove_handle($mh, $this->ch);
 	}
 
-	private function generateGetString()
+	private function generateGetString($query)
 	{
 		$getString = "";
 		# Protokoll:
@@ -65,7 +66,7 @@ abstract class Searchengine
 
 		if( strpos($getString, "<<QUERY>>") )
 		{
-			$getString = str_replace("<<QUERY>>", $this->urlEncode(Q), $getString);
+			$getString = str_replace("<<QUERY>>", $this->urlEncode($query), $getString);
 		}
 
 		if( strpos($getString, "<<IP>>") )

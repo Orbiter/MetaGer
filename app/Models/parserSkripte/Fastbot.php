@@ -1,15 +1,15 @@
 <?php
 
-namespace app\MetaGer\parserSkripte;
-use App\MetaGer\Searchengine;
+namespace app\Models\parserSkripte;
+use App\Models\Searchengine;
 
 class Fastbot extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine)
+	function __construct (\SimpleXMLElement $engine, $mh, $query, $time)
 	{
-		parent::__construct($engine);
+		parent::__construct($engine, $mh, $query, $time);
 	}
 
 	public function loadResults ()
@@ -24,11 +24,12 @@ class Fastbot extends Searchengine
 				$link = $result[1];
 				$link = substr($link, strpos($link, "href=\"") + 6);
 				$link = substr($link, 0, strpos($link, "\""));
-				$this->results[] = new \App\MetaGer\Result(
+				$this->results[] = new \App\Models\Result(
 					trim(strip_tags($result[1])),
 					$link,
 					$result[3],
-					$result[2]
+					$result[2],
+					"<a href=\"http://www.fastbot.de\">fastbot</a>"
 					);
 			}
 			

@@ -4,90 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\MetaGer\Forwarder;
-use App\MetaGer\Results;
+#use App\MetaGer\Forwarder;
+#use App\MetaGer\Results;
+#use App\MetaGer\Search;
 use App;
-use App\MetaGer\Search;
+use App\MetaGer;
+
 
 class MetaGerSearch extends Controller
 {
-    /**
-     * Select a free Server to forward the Request to:
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function forwardToServer()
+
+    public function test(Request $request, MetaGer $metager)
     {
-        
-        return Forwarder::getFreeServer();
-        return var_dump($serversArray);
-        return $cfg['redis']['password'];
-
-
-        #return view('index', [ 'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen']);
+        # Mit gelieferte Formulardaten parsen und abspeichern:
+        $metager->parseFormData($request);
+        # Nach Spezialsuchen überprüfen:
+        $metager->checkSpecialSearches($request);
+        # Alle Suchmaschinen erstellen
+        $metager->createSearchEngines($request);
+        # Ergebnisse der Suchmaschinen kombinieren:
+        $metager->combineResults();
+        # Die Ausgabe erstellen:
+        return $metager->createView();
     }
 
     public function search(Request $request)
     {
-        # Zunächst überprüfen wir die eingegebenen Einstellungen:
-        # FOKUS
-        $fokus = $request->input('focus', 'web');
-        $fokus = trans('fokiNames.'.$fokus);
-        if(strpos($fokus,".")){
-            $fokus = trans('fokiNames.web');
-        }
-        define("FOKUS", $fokus);
-        # SUMA-FILE
-        if(App::isLocale("en")){
-            define("SUMA_FILE", config_path() . "/sumasEn.xml");
-        }else{
-            define("SUMA_FILE", config_path() . "/sumas.xml");
-        }
-        if(!file_exists(SUMA_FILE)){
-            die("Suma-File konnte nicht gefunden werden");
-        }
-        # Sucheingabe:
-        $eingabe = trim($request->input('eingabe', ''));
-        if(strlen($eingabe) === 0){
-            return 'Achtung: Sie haben keinen Suchbegriff eingegeben. Sie können ihre Suchbegriffe oben eingeben und es erneut versuchen.';
-        }else{
-            define("Q", $eingabe);
-        }
-        # IP:
-        if( isset($_SERVER['HTTP_FROM']) )
-        {
-            define("IP", $_SERVER['HTTP_FROM']);
-        }else
-        {
-            define("IP", "127.0.0.1");
-        }
-        # Language:
-        if( isset($_SERVER['HTTP_LANGUAGE']) )
-        {
-            define("LANGUAGE", $_SERVER['HTTP_LANGUAGE']);
-        }else
-        {
-            define("LANGUAGE", "");
-        }
-        # Category
-        define("CATEGORY", $request->input('category', ''));
-        # Request Times:
-        define("TIME", $request->input('time', 1));
+       
  
         $searchengines = Search::loadSearchEngines($request);
         $results = new Results($searchengines);
 
-        $viewResults = [];
-        # Wir extrahieren alle notwendigen Variablen und geben Sie an unseren View:
-        foreach($results->results as $result)
-        {
-            $viewResults[] = get_object_vars($result);
-        }
+        
         
 
-        return view('metager3')
-            ->with('results', $viewResults);
+        
 
         return print_r( $viewResults, TRUE);
     }

@@ -79,5 +79,5 @@
                 ->with('css', 'help.css');
         });
 
-        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
+        Route::get('meta/meta.ger3', 'MetaGerSearch@test');
     });
