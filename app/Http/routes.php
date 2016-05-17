@@ -31,7 +31,8 @@
         Route::get('about', function()
         {
             return view('about')
-                ->with('title', 'Über Uns');
+                ->with('title', 'Über Uns')
+                ->with('css', 'about.css');
         });
         Route::get('team', function()
         {

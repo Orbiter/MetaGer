@@ -7,7 +7,7 @@
 </h1>
 <h3>Welche Vorteile bietet die Nutzung von MetaGer?
 </h3>
-<ul>
+<ul id="about-list">
   <li>Datenschutz und Privatsphäre sind bei uns einfach und selbstverständlich: Fertig eingebaut und automatisch bei jeder Suche angewandt. 
     <a href="/datenschutz/">Mehr dazu...
     </a>
