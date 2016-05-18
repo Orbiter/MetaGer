@@ -26,7 +26,7 @@
             <div class="container">
               <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                  <span class="sr-only">Navigation anzeigen
+                  <span class="sr-only">{{ trans('staticPages.navigationToggle') }}
                   </span>
                   <span class="icon-bar">
                   </span>
@@ -151,7 +151,7 @@
                 </li>
                 <li id="info">
                   <a href="/kontakt/">{{ trans('staticPages.nav5') }}</a> - <a href="/impressum/">{{ trans('staticPages.nav8') }}</a>
-                  MetaGer wird entwickelt und betrieben vom <a href="https://www.suma-ev.de/" target="_blank" >SUMA-EV - Verein f&uuml;r freien Wissenszugang.</a>
+                  {{ trans('staticPages.sumaev.1') }}<a href="https://www.suma-ev.de/" target="_blank" >{{ trans('staticPages.sumaev.2') }}</a>
                 </li>
                 <li>
                   <a href="https://www.uni-hannover.de/" target="_blank">

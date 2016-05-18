@@ -18,5 +18,8 @@ return [
 	'nav15' => 'Tools',
 	'nav16' => 'Support',
 	'nav17' => 'Purchase at MetaGer Supporting Shops',
-	'nav18' => 'Contact'
+	'nav18' => 'Contact',
+	'navigationToggle'	=> 'show navigation',
+	'sumaev.1'			=>	'MetaGer is developed and run by ',
+	'sumaev.2'			=>	'SUMA-EV - Association for Free Access to Knowledge.'
 ];
