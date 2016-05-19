@@ -7,9 +7,14 @@ class Fastbot extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, $query, $time)
+	function __construct (\SimpleXMLElement $engine, $mh, \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $query, $time);
+		parent::__construct($engine, $mh, $metager);
+		if ( strpos($this->urlEncode($metager->getEingabe()), "%") !== FALSE )
+		{
+			$this->removeCurlHandle($mh);
+			return FALSE;
+		}
 	}
 
 	public function loadResults ()

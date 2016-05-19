@@ -18,8 +18,11 @@ class MetaGerSearch extends Controller
     {
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);
-        # Nach Spezialsuchen überprüfen:
-        $metager->checkSpecialSearches($request);
+        if($metager->getFokus() !== "bilder" )
+        {
+            # Nach Spezialsuchen überprüfen:
+            $metager->checkSpecialSearches($request);
+        }
         # Alle Suchmaschinen erstellen
         $metager->createSearchEngines($request);
         # Ergebnisse der Suchmaschinen kombinieren:
