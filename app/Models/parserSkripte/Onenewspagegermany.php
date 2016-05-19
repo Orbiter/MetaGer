@@ -8,9 +8,9 @@ class Onenewspagegermany extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, $query, $time)
+	function __construct (\SimpleXMLElement $engine, $mh, $query, $time, $ip, $url)
 	{
-		parent::__construct($engine, $mh, $query, $time);
+		parent::__construct($engine, $mh, $query, $time, $ip, $url);
 	}
 
 	public function loadResults ()

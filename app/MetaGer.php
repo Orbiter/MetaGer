@@ -4,6 +4,8 @@ namespace App;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 use App;
+use Storage;
+use Log;
 
 class MetaGer
 {
@@ -23,6 +25,7 @@ class MetaGer
 	protected $engines = [];
 	protected $results = [];
 	protected $warnings = [];
+    protected $errors = [];
 	# Daten über die Abfrage
 	protected $ip;
 	protected $language;
@@ -32,10 +35,23 @@ class MetaGer
 	protected $mobile;
 	protected $resultCount;
 	protected $sprueche;
+    protected $domainsBlacklisted = [];
+    protected $urlsBlacklisted = [];
+    protected $url;
 
 	function __construct()
 	{
-		#$this->eingabe = Input::get('eingabe');
+        if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
+        {
+            # Blacklists einlesen:
+            $tmp = file_get_contents(config_path() . "/blacklistDomains.txt");
+            $this->domainsBlacklisted = explode("\n", $tmp);
+            $tmp = file_get_contents(config_path() . "/blacklistUrl.txt");
+            $this->urlsBlacklisted = explode("\n", $tmp);
+        }else
+        {
+            Log::warning("Achtung: Eine, oder mehrere Blacklist Dateien, konnten nicht geöffnet werden");
+        }
 	}
 
 	public function createView()
@@ -49,7 +65,8 @@ class MetaGer
         return view('metager3')
             ->with('results', $viewResults)
             ->with('eingabe', $this->eingabe)
-            ->with('warnings', $this->warnings);
+            ->with('warnings', $this->warnings)
+            ->with('errors', $this->errors);
 	}
 
 	public function combineResults ()
@@ -76,18 +93,22 @@ class MetaGer
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                #	|| ( FOKUS !== "bilder" 
-                #		&& ($suma["name"]->__toString() === "qualigo" 
-                #			|| $suma["name"]->__toString() === "similar_product_ads" 
-                #			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-               # 			)
-               # 		)
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                 	){
-                	if($suma["name"]->__toString() === "overture")
-                	{
-                		$overtureEnabled = TRUE;
-                	}
-                    $enabledSearchengines[] = $suma;
+
+                	if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
+                    {
+                        if($suma["name"]->__toString() === "overture")
+                        {
+                            $overtureEnabled = TRUE;
+                        }
+                        $enabledSearchengines[] = $suma;
+                    }
                 }
             }
         }else{
@@ -95,26 +116,38 @@ class MetaGer
             foreach($sumas as $suma){
                 $types = explode(",",$suma["type"]);
                 if(in_array($this->fokus, $types) 
-                #	|| ( FOKUS !== "bilder" 
-                	#	&& ($suma["name"]->__toString() === "qualigo" 
-                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
-                #			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                #			)
-              #  		)
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                 	){
-                	if($suma["name"]->__toString() === "overture")
-                	{
-                		$overtureEnabled = TRUE;
-                	}
-                    $enabledSearchengines[] = $suma;
+                    if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
+                    {
+                        if($suma["name"]->__toString() === "overture")
+                        {
+                            $overtureEnabled = TRUE;
+                        }
+                        $enabledSearchengines[] = $suma;
+                    }
                 }
             }
         }
         
+        if( ( $this->fokus !== "bilder" && sizeof($enabledSearchengines) <= 3 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
+        {
+            $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
+        }
+
 		$engines = [];
 		foreach($enabledSearchengines as $engine){
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["name"]->__toString());
-			$engines[] = new $path($engine, $mh, $this->q, $this->time);
+            $tmp = new $path($engine, $mh, $this);
+            if($tmp)
+            {
+                $engines[] = $tmp;
+            }
 		}
 
 		# Nun führen wir die Get-Requests aus und warten auf alle Ergebnisse:
@@ -133,6 +166,12 @@ class MetaGer
 
 		# Und auch den Multicurl-Handle:
 		curl_multi_close($mh);
+        $string = ["Curl-Timings:"];
+        foreach($engines as $engine)
+        {
+            $string[] = $engine->getCurlInfo();
+        }
+        Log::debug($string);
 
         $this->engines = $engines;
 	}
@@ -149,6 +188,7 @@ class MetaGer
 			}
 			$request->replace($input);
 		}
+        $this->url = $request->url();
 		# Zunächst überprüfen wir die eingegebenen Einstellungen:
         # FOKUS
         $this->fokus = trans('fokiNames.'
@@ -322,4 +362,38 @@ class MetaGer
 			$this->warnings[] = "Sie führen eine Phrasensuche durch: \"" . $match[1] . "\"";
 		}
 	}
+
+    public function getFokus ()
+    {
+        return $this->fokus;
+    }
+
+    public function getIp ()
+    {
+        return $this->ip;
+    }
+
+    public function getEingabe ()
+    {
+        return $this->eingabe;
+    }
+
+    public function getUrl ()
+    {
+        return $this->url;
+    }
+    public function getTime ()
+    {
+        return $this->time;
+    }
+
+    public function getLanguage ()
+    {
+        return $this->language;
+    }
+
+    public function getCategory ()
+    {
+        return $this->category;
+    }
 }
