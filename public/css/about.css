@@ -1,0 +1,8 @@
+#about-list li {
+    margin-bottom: 15px;
+}
+
+#about-list {
+    list-style-type: disc;
+    text-align: left;
+}
