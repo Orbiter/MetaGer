@@ -30,7 +30,7 @@
 <h3>{{ trans('hilfe.help.23') }}</h3>
 <p>{{ trans('hilfe.help.24') }}</p>
 <h3>{{ trans('hilfe.help.25') }}</h3>
-<p>{{ trans('hilfe.help.26') }} <a href="https://metager.de/klassik/asso/" target="_blank">{{ trans('hilfe.help.27') }}</a> {{ trans('hilfe.help.28') }}</p>
+<p>{{ trans('hilfe.help.26') }} <a href="https://metager.de/klassik/asso/" target="_blank">{{ trans('hilfe.help.27') }}</a>{{ trans('hilfe.help.28') }}</p>
 <p>{{ trans('hilfe.help.29') }}</p>
 <p>{{ trans('hilfe.help.30') }} <a href="https://metager.de/kontakt/" target="_blank">{{ trans('hilfe.help.31') }}</a> {{ trans('hilfe.help.32') }}</p>
 <h2>{{ trans('hilfe.help.33') }}</h2>
