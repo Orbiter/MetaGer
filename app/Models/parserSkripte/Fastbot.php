@@ -7,19 +7,19 @@ class Fastbot extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $metager);
+		parent::__construct($engine, $metager);
 		if ( strpos($this->urlEncode($metager->getEingabe()), "%") !== FALSE )
 		{
-			$this->removeCurlHandle($mh);
-			return FALSE;
+			return null;
 		}
 	}
 
-	public function loadResults ()
+	public function loadResults (String $result)
 	{
-		$result = utf8_encode(curl_multi_getcontent($this->ch));
+		$result = utf8_encode($result);
+		$counter = 0;
 		foreach( explode("\n", $result) as $line )
 		{
 			$line = trim($line);
@@ -29,12 +29,14 @@ class Fastbot extends Searchengine
 				$link = $result[1];
 				$link = substr($link, strpos($link, "href=\"") + 6);
 				$link = substr($link, 0, strpos($link, "\""));
+				$counter++;
 				$this->results[] = new \App\Models\Result(
 					trim(strip_tags($result[1])),
 					$link,
 					$result[3],
 					$result[2],
-					"<a href=\"http://www.fastbot.de\">fastbot</a>"
+					$this->gefVon,
+					$counter
 					);
 			}
 			

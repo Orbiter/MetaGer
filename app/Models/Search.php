@@ -6,6 +6,7 @@ use App\MetaGer\Searchengine;
 
 class Search
 {
+
 	public static function loadSearchEngines(Request $request)
 	{
 

@@ -24,7 +24,9 @@ class MetaGerSearch extends Controller
             $metager->checkSpecialSearches($request);
         }
         # Alle Suchmaschinen erstellen
+        
         $metager->createSearchEngines($request);
+
         # Ergebnisse der Suchmaschinen kombinieren:
         $metager->combineResults();
         # Die Ausgabe erstellen:
