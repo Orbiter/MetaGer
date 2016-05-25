@@ -36,28 +36,28 @@
               <label id="bilder-label" for="bilder">
                 <span class="glyphicon glyphicon-picture">
                 </span>
-                <span class="content">Bilder
+                <span class="content">{{ trans('index.foki.bilder') }}
                 </span>
               </label>
               <input id="nachrichten" type="radio" name="focus" value="nachrichten" form="searchForm" required="">
               <label id="nachrichten-label" for="nachrichten">
                 <span class="glyphicon glyphicon-bullhorn">
                 </span>
-                <span class="content">Nachrichten
+                <span class="content">{{ trans('index.foki.nachrichten') }}
                 </span>
               </label>
               <input id="wissenschaft" type="radio" name="focus" value="wissenschaft" form="searchForm" required="">
               <label id="wissenschaft-label" for="wissenschaft">
                 <span class="glyphicon glyphicon-file">
                 </span>
-                <span class="content">Wissenschaft
+                <span class="content">{{ trans('index.foki.wissenschaft') }}
                 </span>
               </label>
               <input id="produkte" type="radio" name="focus" value="produktsuche" form="searchForm" required="">
               <label id="produkte-label" for="produkte">
                 <span class="glyphicon glyphicon-shopping-cart">
                 </span>
-                <span class="content">Produkte
+                <span class="content">{{ trans('index.foki.produkte') }}
                 </span>
               </label>
               <input id="angepasst" type="radio" name="focus" value="angepasst" form="searchForm" required="">
@@ -65,7 +65,7 @@
                 <span class="glyphicon glyphicon-cog">
                 </span>
                 <span class="content">
-                  <a href="/settings/">anpassen
+                  <a href="/settings/">{{ trans('index.foki.anpassen') }}
                   </a>
                 </span>
               </label>
@@ -106,13 +106,13 @@
             </fieldset>
             <ul class="list-inline">
               <li>
-                <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl" target="_blank" id="foerdershops">Einkaufen bei MetaGer-F&ouml;rdershops
+                <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl" target="_blank" id="foerdershops">{{ trans('index.conveyor') }}
                 </a>
               </li>
               <li class="hidden-xs seperator">|
               </li>
               <li id="plug">
-                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal">MetaGer-Plugin hinzuf&uuml;gen
+                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal">{{ trans('index.plugin') }}
                 </a>
               </li>
             </ul>
@@ -126,36 +126,33 @@
           </h1>
           <div class="row">
             <div id="sponsors" class="col-md-6 col-sm12">
-              <h2>Sponsoren
+              <h2>{{ trans('index.sponsors') }}
               </h2>
               <ul>
                 <li>
-                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">Woxikon: Nach W&ouml;rtern &amp; Synonymen suchen
+                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.woxikon') }}
                   </a>
                 </li>
                 <li>
-                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">Aktuelle Gutscheine auf Gutschein-Magazin.de
+                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.gutscheine') }}
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">G&uuml;nstige Kredite auf FINANZCHECK.de vergleichen
+                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.kredite') }}
                   </a>
                 </li>
               </ul>
             </div>
             <div class="col-md-6 col-sm-12">
               <h2>
-                <a href="/about/">&Uuml;ber uns
+                <a href="/about/">{{ trans('index.about.title') }}
                 </a>
               </h2>
               <ul>
                 <li>
-                  <a href="/datenschutz/">Datenschutz &amp; Privatsph&auml;re
-                  </a> sind bei uns einfach &amp; selbstverst&auml;ndlich.
+                  <a href="/datenschutz/">{{ trans('index.about.1.1') }}</a>{{ trans('index.about.1.2') }}
                 </li>
-                <li>Wir arbeiten nicht gewinnorientiert, wir sind ein 
-                  <a href="/spende/">gemeinn&uuml;tziger Verein.
-                  </a>
+                <li>{{ trans('index.about.2.1') }}<a href="/spende/">{{ trans('index.about.2.2') }}</a>
                 </li>
               </ul>
             </div>

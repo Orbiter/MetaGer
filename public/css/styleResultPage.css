@@ -1,0 +1,466 @@
+*{
+	font-family: Liberation Sans, sans-serif;
+}
+
+.row {
+    margin: 10px 15px;
+    margin-top: 0;
+}
+
+header * {
+}
+
+#foki li {
+    /* background-color: rgba(255, 255, 255, 0.93); */
+    /* border-top-right-radius: 5px; */
+}
+
+.nav-tabs > li.active {
+}
+
+nav-tabs > li.active {
+    border-bottom: 0;
+}
+
+.tab-pane.active {
+	/* -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.55); */
+		-moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.55);
+		
+	/* box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.55); */	
+	padding: 10px 0;
+	padding-top: 0;
+}
+
+/* Hier der Style fÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼r unsere Suchleiste */
+	#researchBar
+	{
+		
+	}
+	.alert{
+	
+    margin: 10px 0;
+    padding: 5px 15px;
+}
+	.alert ul{
+		list-style-type:none;
+	
+		padding-left: 49px;
+}
+	/* Logo */
+	.logo
+	{
+    height: 35px;
+	
+    padding: 5px 0;
+}
+	.logo > a
+	{
+    line-height: 100%;
+	
+    height: 100%;
+    display: block;
+}
+#research *{
+}
+
+#research ul.list-inline {
+    margin-left: 0;
+    width: 100%;
+}
+
+@media (max-width: 767px){
+	#research .visible-xs {
+		display: inline-block!important;
+	}
+	#research nav ul li + li + li{
+	}
+}
+
+.input-group-addon {
+    padding: 0;
+}
+
+input#eingabeTop {
+    height: 35px;
+}
+
+nav .input-group {
+    height: 35px;
+    padding: 5px 0;
+}
+
+header nav {
+    height: 100%;
+    /* margin-left: 15px; */
+}
+
+header ul {
+    height: 100%;
+    vertical-align: middle;
+}
+
+#research nav ul > li {
+    width: 20%;
+    height: 45px;
+    vertical-align: middle;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#research nav ul > li.visible-xs {
+    width: 10%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#research nav ul li + li + li {
+    width: 80%;
+}
+
+#research {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 45px;
+    z-index: 500;
+		
+		
+    width: 80%;
+    left: 50%;
+    margin-left: -40%;
+}
+	.logo h1
+	{
+		font-family: Liberation Sans, sans-serif;
+		font-style: italic;
+		margin: 0;
+		font-weight: bold;
+		line-height:1;
+		white-space:nowrap;
+	
+		/* padding: 5px 0; */
+}
+	#search
+	{
+		background-color: inherit;
+		border:0;
+	
+		width: 50px;
+		height: 100%;
+}
+	#reSearch
+	{
+	
+}
+	#reSearch a
+	{
+		color: black;
+	}	
+.content-wrapper
+	{
+		width: 80%;
+		margin: 0 auto;
+		padding-top: 60px;
+		/* padding: 10px; */
+	
+		background-color: white;        
+		-webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3); -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3); box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
+}
+	#helpButton
+	{
+		color:black;
+	}
+body
+{
+    height: 100%;
+    background-image: inherit;
+    /* background-attachment: fixed; */
+    background-color: rgba(2,93,140,.03);
+}
+a:link
+{
+	color:#0000FF;
+}
+
+a#donation:hover {}
+
+a#donation,a#donation:visited {
+    color: inherit;
+}
+
+a#donation:hover {
+    color: red;
+}
+a:visited
+{
+	color: #7676FF;
+}
+a:hover
+{
+	text-decoration:none;
+	color:red;	
+}
+/* Hier der Style fÃƒÆ’Ã‚Â¼r unsere Tabliste */
+#foki{
+    background-color: white;
+}
+#foki a{
+	color: grey;
+}
+#foki li.active a{
+	color: black;
+	background-color: white;
+}
+#foki li.active span + span{
+	display:inline!important;
+}
+
+/* Hier der Style fÃƒÆ’Ã‚Â¼r unseren Spruch */
+#spruch
+{
+	padding: 10px;
+	/* margin-top: 10px; */
+	margin-bottom: 0;
+	padding-bottom: 10px;
+	padding-left: 65px;
+	color:green;
+	font-weight:bold;
+}
+#spenden{
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+#spruch .author{
+	font-size:80%;
+	font-weight:normal;
+	font-style:italic;
+	color:#333333;
+}
+#spruch > p
+{
+	margin-bottom:0;
+}
+#spruch > p + p
+{
+	margin-top:4px;	
+}
+
+/* Hier der Style fÃƒÆ’Ã‚Â¼r die einzelnen Ergebnisboxen */
+.result
+{
+	margin-bottom:20px;
+	/* padding:0 50px; */
+	width:100%
+}
+.result > .number
+{
+	float: left;
+	font-size: 15px;
+	line-height:1;	
+}
+
+.result > .resultInformation
+{
+	margin-left: 40px;
+  	padding-left: 10px;
+  	border-radius: 5px;
+}
+.result .title
+{
+	color: black;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom:0;
+	white-space:nowrap;
+	line-height:1.1;
+	max-width:115ch;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.result.ad .title {
+    color: green;
+}
+.result .link
+{
+	font-size: 13px;
+	margin: 0;
+	line-height:1.5;
+}
+.result .link-link{
+	white-space:nowrap;
+	max-width:60%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	float:left;
+}
+.result:not(.ad) .link > div{
+	white-space:nowrap;
+}
+.result:not(.ad) .link > span{
+	white-space:nowrap;
+}
+.result:not(.ad) .link  .options{
+	color: #333;
+	float:left;
+}
+.result:not(.ad) .link:hover{
+	cursor:pointer;
+}
+.result:not(.ad) .link  .options > a{
+	color: #333;
+	display:block;
+	padding-left:5px;
+	padding-right:10px;
+}
+.result:not(.ad) .link  .options > a > span{
+	font-size:10px;
+}
+.result .description
+{
+	margin-bottom: 3px;
+	color: black;
+	font-size: 14px;
+	white-space:pre-wrap;
+	line-height: 1.3;
+	clear: both;
+}
+
+.result.ad .description {
+    color: green;
+    max-width: 115ch;   overflow: hidden;   text-overflow: ellipsis;   white-space: nowrap;
+}
+.result:not(.ad) .hoster
+{
+	font-size: 13px;
+	margin: 0;
+	color:#777;
+	margin-right:10px;
+	white-space:nowrap;
+}
+.result:not(.ad) .hoster a{
+	color:#333;
+}
+.result .result-image > img{
+	height:100px;
+	padding:10px;
+}
+.result .proxy{
+	font-size:13px;
+	margin-top:0;
+	white-space:nowrap;
+}
+.result .partnershop-info{
+	font-size:13px;
+	margin-top:0;
+	margin-left:10px;
+}
+.result .proxy img{
+	margin-bottom:0px;
+	margin-right:2px
+}
+
+.popover-content{
+	/*padding-left: 0;
+	padding-right:0;*/
+}
+
+.options-list > li{
+}
+
+.options-list > li:hover{
+	background-color:lightgrey;
+}
+
+.options-list > li > a{
+	color: #333;
+	white-space:nowrap;
+	display:block;
+	padding:5px 14px;
+}
+
+.options-list > li input[type=submit]{
+	width:100%;
+	background-color:transparent;
+	border:0;
+	margin:5px 0;
+}
+
+.container-fluid {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	background-color: white;
+}
+#quicktips iframe{
+	width:100%;
+	height: 1000px;
+	background-color: transparent;
+    border: 0px none transparent;
+    padding: 0px;
+    overflow: hidden;
+}
+/* Hier der Style fÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¼r die Bilder */
+#fit-width .masonry {
+	margin: 0 auto;
+}
+.item{
+	width: 150px;
+	text-align:center;
+	margin-bottom:10px;
+}
+#container{
+	margin: 10px auto;
+}
+
+/* Hier der Style fÃƒÆ’Ã‚Â¼r die Werbeboxen */
+.result.ad{
+}
+.result.ad .link a{
+}
+.result.ad .description{
+}
+.result.ad .hoster{
+	color:green;
+}
+/* Style fÃƒÆ’Ã‚Â¼r den Footer */
+.footer{
+	padding: 15px 0;
+	margin-top:50px;
+	margin-bottom: 0;
+}
+.footer a{
+	color:black;
+}
+.footer li{
+	width:49%;
+	padding:0;
+	margin:0;
+	text-align:center;
+}
+.footer .left{
+	text-align:right;
+	padding-right:20px;
+}
+.footer .right{
+	text-align:left;
+	padding-left:20px;
+}
+/* Ein resetter fÃƒÆ’Ã‚Â¼r Floats */
+.clearfix{
+	clear:both;
+}
+/* Placeholder fÃƒÆ’Ã‚Â¼r ladende Tabs */
+.loader{
+	text-align:center;
+	margin-top:20px;
+}
+.loader > img{
+	width:30px;
+}
+
+.pager{
+	text-align:center;
+}
