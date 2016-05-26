@@ -26,6 +26,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ---
+# MetaGer source code
+
 Other MetaGer source code, unless otherwise noted, is licensed under the AGPL v3 license:
 
                     GNU AFFERO GENERAL PUBLIC LICENSE
