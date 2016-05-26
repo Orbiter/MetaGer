@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ac43207ede0f63c9fafc0f63d04346ae",
-    "content-hash": "db9cfe1e3caebe3afb5890033afb9452",
+    "hash": "a5625c89574373a28838231ec9326946",
+    "content-hash": "ede6c673894b3df9d137acec400d9125",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2854,6 +2854,61 @@
             "time": "2015-10-02 06:51:40"
         },
         {
+            "name": "predis/predis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "9398a793a5f0280d789c19fc70e479207dc48da8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/9398a793a5f0280d789c19fc70e479207dc48da8",
+                "reference": "9398a793a5f0280d789c19fc70e479207dc48da8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete Redis client for PHP and HHVM",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2016-05-25 09:25:12"
+        },
+        {
             "name": "sebastian/comparator",
             "version": "1.2.0",
             "source": {
@@ -3385,7 +3440,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "predis/predis": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

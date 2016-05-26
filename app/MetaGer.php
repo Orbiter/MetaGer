@@ -3,6 +3,7 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+use App\Models\SocketRocket;
 use App;
 use Storage;
 use Log;
@@ -41,6 +42,8 @@ class MetaGer
 
 	function __construct()
 	{
+        define('CRLF', "\r\n");
+        define('BUFFER_LENGTH', 8192);
         if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
         {
             # Blacklists einlesen:
@@ -79,8 +82,9 @@ class MetaGer
 
 	public function createSearchEngines (Request $request)
 	{
-		# Curl-Multihandle um die Ergebnisse abzurufen:
-		$mh = curl_multi_init();
+
+        #die(SocketRocket::get("tls", "dominik-pfennig.de", "", 443));
+
 
 		# Überprüfe, welche Sumas eingeschaltet sind
         $xml = simplexml_load_file($this->sumaFile);
@@ -93,12 +97,13 @@ class MetaGer
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	|| ( $this->fokus !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                	#|| ( $this->fokus !== "bilder" 
+                	#	&& ($suma["name"]->__toString() === "qualigo" 
+                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
+                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                	#		)
+                	#	)
+                    #|| 1 === 1  #Todo: entfernen
                 	){
 
                 	if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
@@ -107,6 +112,7 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
+
                         $enabledSearchengines[] = $suma;
                     }
                 }
@@ -116,12 +122,12 @@ class MetaGer
             foreach($sumas as $suma){
                 $types = explode(",",$suma["type"]);
                 if(in_array($this->fokus, $types) 
-                	|| ( $this->fokus !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                	#|| ( $this->fokus !== "bilder" 
+                	#	&& ($suma["name"]->__toString() === "qualigo" 
+                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
+                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                	#		)
+                	#	)
                 	){
                     if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
                     {
@@ -142,37 +148,22 @@ class MetaGer
 
 		$engines = [];
 		foreach($enabledSearchengines as $engine){
-            $path = "App\Models\parserSkripte\\" . ucfirst($engine["name"]->__toString());
-            $tmp = new $path($engine, $mh, $this);
-            if($tmp)
+
+            $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
+
+            $tmp = new $path($engine, $this);
+
+            if($tmp->isEnabled())
             {
                 $engines[] = $tmp;
             }
 		}
-
-		# Nun führen wir die Get-Requests aus und warten auf alle Ergebnisse:
-		$running = null;
-		do
-		{
-			curL_multi_exec($mh, $running);
-		}while($running);
-
-		# Und beenden noch alle Handles
-		foreach($engines as $engine)
-		{
-			$engine->removeCurlHandle($mh);
-			$engine->loadResults();
-		}
-
-		# Und auch den Multicurl-Handle:
-		curl_multi_close($mh);
-        $string = ["Curl-Timings:"];
         foreach($engines as $engine)
         {
-            $string[] = $engine->getCurlInfo();
+            $engine->retrieveResults();
+           # $engine->closeFp();
         }
-        Log::debug($string);
-
+        
         $this->engines = $engines;
 	}
 
@@ -395,5 +386,10 @@ class MetaGer
     public function getCategory ()
     {
         return $this->category;
+    }
+
+    public function getSumaFile ()
+    {
+        return $this->sumaFile;
     }
 }

@@ -8,26 +8,28 @@ class Onenewspagegermany extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, $query, $time, $ip, $url)
+	function __construct (\SimpleXMLElement $engine,  \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $query, $time, $ip, $url);
+		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults ()
+	public function loadResults (String $result)
 	{
-		$result = curl_multi_getcontent($this->ch);
+		$counter = 0;
 		foreach( explode("\n", $result) as $line )
 		{
 			$line = trim($line);
 			if( strlen($line) > 0 ){
 				# Hier bekommen wir jedes einzelne Ergebnis
 				$result = explode("|", $line);
+				$counter++;
 				$this->results[] = new Result(
 					trim(strip_tags($result[0])),
 					$result[2],
 					$result[2],
 					$result[1],
-					"<a href=\"http://www.newsdeutschland.com/videos.htm\">newsdeutschland.com</a>"
+					$this->gefVon,
+					$counter
 					);
 			}
 			

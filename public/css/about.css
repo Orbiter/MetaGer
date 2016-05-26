@@ -1,8 +1,16 @@
-#about-list li {
-    margin-bottom: 15px;
+main ul {
+	margin-top: 20px;
+}
+
+main li {
+	margin-bottom: 15px;
 }
 
 #about-list {
-    list-style-type: disc;
-    text-align: left;
+	list-style-type: disc;
+	text-align: left;
+}
+
+#about-list li {
+	margin-bottom: 15px;
 }

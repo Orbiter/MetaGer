@@ -1,0 +1,30 @@
+<?php
+
+namespace app\Models\parserSkripte;
+use App\Models\Searchengine;
+
+class Wikipedia extends Searchengine 
+{
+	public $results = [];
+
+	function __construct (\SimpleXMLElement $engine,\App\MetaGer $metager)
+	{
+		parent::__construct($engine, $metager);
+	}
+
+	public function loadResults (String $result)
+	{
+		$result = utf8_decode($result);
+		$counter = 0;
+		
+		#die($crawler);
+		$this->results[] = new \App\Models\Result(
+			trim(strip_tags($result[1])),
+			$link,
+			$result[3],
+			$result[2],
+			$this->gefVon,
+			$counter
+		);
+	}
+}
