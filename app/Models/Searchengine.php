@@ -2,18 +2,39 @@
 
 namespace App\Models;
 use App\MetaGer;
+use Log;
+use Redis;
 
 abstract class Searchengine
 {
 
 	protected $ch; 	# Curl Handle zum erhalten der Ergebnisse
+	protected $fp;
+	protected $getString = "";
+	protected $engine;
+    protected $counter = 0;
+    protected $socketNumber = null;
+    protected $enabled = true;
 	public $results = [];
 
-	function __construct(\SimpleXMLElement $engine, $mh, MetaGer $metager)
+	function __construct(\SimpleXMLElement $engine, MetaGer $metager)
 	{
+
 		foreach($engine->attributes() as $key => $value){
 			$this->$key = $value->__toString();
 		}
+
+		# Eine Suchmaschine kann automatisch temporär deaktiviert werden, wenn es Verbindungsprobleme gab:
+        if(isset($this->disabled) && strtotime($this->disabled) <= time() )
+        {
+        	# In diesem Fall ist der Timeout der Suchmaschine abgelaufen.
+        	$this->enable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde wieder eingeschaltet.");
+        }elseif (isset($this->disabled) && strtotime($this->disabled) > time()) 
+        {
+        	$this->enabled = false;
+        	return;
+        }
+
 		# User-Agent definieren:
 		if( isset($_SERVER['HTTP_USER_AGENT']))
 		{
@@ -23,30 +44,337 @@ abstract class Searchengine
 			$this->useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
 		}
 		$this->ip = $metager->getIp();
-		$this->ch = curl_init($this->generateGetString($metager->getEingabe(), $metager->getUrl(), $metager->getLanguage(), $metager->getCategory()) );
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->ch, CURLOPT_USERAGENT, $this->useragent); // set browser/user agent
-		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1); // automatically follow Location: headers (ie redirects)
-		curl_setopt($this->ch, CURLOPT_AUTOREFERER, 1); // auto set the referer in the event of a redirect
-		curl_setopt($this->ch, CURLOPT_MAXREDIRS, 5); // make sure we dont get stuck in a loop
-		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT , $metager->getTime()); 
-		curl_setopt($this->ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 ); 
-		curl_setopt($this->ch, CURLOPT_TIMEOUT, 1); // 10s timeout time for cURL connection
-		if($this->port ==="443")
-		{
-			curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true); // allow https verification if true
-			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2); // check common name and verify with host name
-			curl_setopt($this->ch, CURLOPT_SSLVERSION,3); // verify ssl version 2 or 3
-		}
+		$this->gefVon = "<a href=\"" . $this->homepage . "\" target=\"_blank\">" . $this->displayName . "</a>";
+		$this->startTime = microtime();
+		$this->getString = $this->generateGetString($metager->getEingabe(), $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
+		$counter = 0;
 
-		$this->addCurlHandle($mh);
+		# Wir benötigen einen verfügbaren Socket, über den wir kommunizieren können:
+		$this->fp = $this->getFreeSocket();
+
+		do
+		{
+			#try
+			#{
+				
+				
+			/*}catch(\Exception $e)
+			{
+				# Connection Timeout: Wir schalten die Suchmaschine aus:
+				$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde deaktiviert, weil keine Verbindung aufgebaut werden konnte");
+				break;
+			}*/
+			if(!$this->fp)
+			{
+				// Mache etwas
+				$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde für 1h deaktiviert, weil keine Verbindung aufgebaut werden konnte");
+				break;
+			}else
+			{
+				$out = "GET " . $this->getString . " HTTP/1.1\r\n";
+				$out .= "Host: " . $this->host . "\r\n";
+				$out .= "User-Agent: " . $this->useragent . "\r\n";
+				$out .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
+				$out .= "Accept-Language: de,en-US;q=0.7,en;q=0.3\r\n";
+				$out .= "Accept-Encoding: gzip, deflate, br\r\n";
+				$out .= "Connection: keep-alive\r\n\r\n";
+				// Daten senden:
+				#try 
+				#{
+					if(fwrite($this->fp, $out))
+					{
+						break;
+					}else
+					{
+						abort(500, "Fehler beim schreiben.");
+					}
+					
+				#}catch(\Exception $e)
+				#{
+				#	fclose($this->fp);
+				#	if($counter >= 5)
+				#	{
+#
+				#		Log::error("Konnte auch nach 6 Versuchen keine schreibbare Verbindung zum Server \"" . $this->host . "\" aufbauen.");
+				#		break;
+				#	}
+				#}
+			}
+		}while(true);
 	}
 
-	public abstract function loadResults();
+	public abstract function loadResults(String $result);
+
+	private function getFreeSocket()
+	{
+		# Je nach Auslastung des Servers ( gleichzeitige Abfragen ), kann es sein, dass wir mehrere Sockets benötigen um die Abfragen ohne Wartezeit beantworten zu können.
+		# pfsockopen öffnet dabei einen persistenten Socket, der also auch zwischen den verschiedenen php Prozessen geteilt werden kann. 
+		# Wenn der Hostname mit einem bereits erstellten Socket übereinstimmt, wird die Verbindung also aufgegriffen und fortgeführt.
+		# Allerdings dürfen wir diesen nur verwenden, wenn er nicht bereits von einem anderen Prozess zur Kommunikation verwendet wird.
+		# Wenn dem so ist, probieren wir den nächsten Socket zu verwenden.
+		# Dies festzustellen ist komplizierter, als man sich das vorstellt. Folgendes System sollte funktionieren:
+		# 1. Stelle fest, ob dieser Socket neu erstellt wurde, oder ob ein existierender geöffnet wurde.
+
+		$counter = 0;
+		do
+		{
+			if(intval(Redis::getBit($this->name, $counter)) === 0)
+			{
+
+				#die($counter . "Socket.");
+				Redis::setBit($this->name, $counter, 1);
+				$this->socketNumber = $counter;
+
+				try
+				{
+					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
+					return $fp;
+				}catch(\ErrorException $e)
+				{
+					return null;
+				}
+				
+				
+			}
+			$counter++;
+		}while($counter < 20);
+
+		# Wenn wir hier hin kommen, läuft etwas falsch! Wir kappen alle bestehenden Verbindungen:
+		$connectionError = false;
+		for($i = 0; $i < 20; $i++)
+		{
+			if(!$connectionError)
+			{
+				try
+				{
+					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
+					fclose($fp);
+				}catch(\ErrorException $e)
+				{
+					$connectionError = true;
+				}
+			}
+			
+			Redis::setBit($this->name, $i, 0);
+			
+		}
+
+		return null;
+	}
+
+	public function disable(string $sumaFile, string $message)
+	{
+		Log::info($message);
+		$xml = simplexml_load_file($sumaFile);
+		$xml->xpath("//sumas/suma[@name='" . $this->name . "']")['0']['disabled'] = date(DATE_RFC822, mktime(date("H")+1,date("i"), date("s"), date("m"), date("d"), date("Y")));
+		$xml->saveXML($sumaFile);
+	}
+
+	public function enable(string $sumaFile, string $message)
+	{
+		Log::info($message);
+		$xml = simplexml_load_file($sumaFile);
+		unset($xml->xpath("//sumas/suma[@name='" . $this->name . "']")['0']['disabled']);
+		$xml->saveXML($sumaFile);
+	}
+
+	public function closeFp()
+	{
+		fclose($this->fp);
+	}
+
+	public function retrieveResults()
+	{
+		
+		$headers = '';
+		$body = '';
+		$length = 0;
+		if(!$this->fp)
+		{
+			return;
+		}
+		// We need a waiting Loop to wait till the server is ready
+		// get headers FIRST
+		stream_set_blocking($this->fp, 1);
+		do
+		{
+    		// use fgets() not fread(), fgets stops reading at first newline
+   			// or buffer which ever one is reached first
+    		$data = fgets($this->fp, BUFFER_LENGTH);
+    		// a sincle CRLF indicates end of headers
+    		if ($data === false || $data == CRLF || feof($this->fp)) {
+        		// break BEFORE OUTPUT
+        		break;
+    		}
+    		if( sizeof(($tmp = explode(": ", $data))) === 2 )
+    			$headers[trim($tmp[0])] = trim($tmp[1]);
+		}
+		while (true);
+		// end of headers
+		$bodySize = 0;
+		if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
+		{
+			$body = $this->readChunked();
+			
+		}elseif( isset($headers['Content-Length']) )
+		{
+			$length = trim($headers['Content-Length']);
+			if(is_numeric($length) && $length >= 1)
+				$body = $this->readBody($length);
+			$bodySize = strlen($body);
+		}else
+		{
+			abort(500, "Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
+		}
+		Redis::setBit($this->name, $this->socketNumber, 0 );
+
+		if( isset($headers["Content-Encoding"]) && $headers['Content-Encoding'] === "gzip")
+		{
+			$body = $this->gunzip($body);
+		}
+		#print_r($headers);
+		#print($body);
+		#print("\r\n". $bodySize);
+		#exit;
+		#die(print_r($headers));
+		// $body and $headers should contain your stream data
+		$this->loadResults($body);
+		#print(print_r($headers, TRUE) . $body);
+		#exit;
+	}
+
+	private function readBody(int $length)
+	{
+		$theData = '';
+        $done = false;
+        stream_set_blocking($this->fp, 0);
+        $startTime = time();
+        $lastTime = $startTime;
+        while (!feof($this->fp) && !$done && (($startTime + 1) > time()) && $length !== 0)
+        {
+            usleep(100);
+            $theNewData = fgets($this->fp, BUFFER_LENGTH);
+            $theData .= $theNewData;
+            $length -= strlen($theNewData);
+            $done = (trim($theNewData) === '0');
+
+        }
+        return $theData;
+	}
+
+	private function readChunked()
+	{
+		$body = '';
+		// read from chunked stream
+		// loop though the stream
+		do
+		{
+	    	// NOTE: for chunked encoding to work properly make sure
+	    	// there is NOTHING (besides newlines) before the first hexlength
+
+	    	// get the line which has the length of this chunk (use fgets here)
+	    	$line = fgets($this->fp, BUFFER_LENGTH);
+
+	    	// if it's only a newline this normally means it's read
+	    	// the total amount of data requested minus the newline
+	    	// continue to next loop to make sure we're done
+	    	if ($line == CRLF) {
+	        	continue;
+	    	}
+
+	    	// the length of the block is sent in hex decode it then loop through
+	    	// that much data get the length
+	    	// NOTE: hexdec() ignores all non hexadecimal chars it finds
+	    	$length = hexdec($line);
+
+	    	if (!is_int($length)) {
+	        	trigger_error('Most likely not chunked encoding', E_USER_ERROR);
+	    	}
+
+		    // zero is sent when at the end of the chunks
+		    // or the end of the stream or error
+		    if ($line === false || $length < 1 || feof($this->fp)) {
+		    	if($length <= 0)
+		            	fgets($this->fp, BUFFER_LENGTH);
+		        // break out of the streams loop
+		        break;
+		    }
+
+		    // loop though the chunk
+		    do
+		    {
+		        // read $length amount of data
+		        // (use fread here)
+		        $data = fread($this->fp, $length);
+
+		        // remove the amount received from the total length on the next loop
+		        // it'll attempt to read that much less data
+		        $length -= strlen($data);
+
+		        // PRINT out directly
+		        #print $data;
+		        #flush();
+		        // you could also save it directly to a file here
+
+		        // store in string for later use
+		        $body .= $data;
+
+		        // zero or less or end of connection break
+		        if ($length <= 0 || feof($this->fp))
+		        {
+		            // break out of the chunk loop
+		            if($length <= 0)
+		            	fgets($this->fp, BUFFER_LENGTH);
+		            break;
+		        }
+		    }
+		    while (true);
+		    // end of chunk loop
+		}
+		while (true);
+		// end of stream loop
+		return $body;
+	}
+
+	private function gunzip($zipped) {
+      $offset = 0;
+      if (substr($zipped,0,2) == "\x1f\x8b")
+         $offset = 2;
+      if (substr($zipped,$offset,1) == "\x08")  
+      {
+      	try
+      	{
+         return gzinflate(substr($zipped, $offset + 8));
+      	} catch (\Exception $e)
+      	{
+      		abort(500, "Fehler beim unzip des Ergebnisses von folgendem Anbieter: " . $this->name);
+      	}
+      }
+      return "Unknown Format";
+   }  
+
+	protected function getHost()
+	{
+		$return = "";
+		if( $this->port === "443" )
+		{
+			$return .= "tls://";
+		}else
+		{
+			$return .= "tcp://";
+		}
+		$return .= $this->host;
+		return $return;
+	}
 
 	public function getCurlInfo()
 	{
 		return curl_getinfo($this->ch);
+	}
+
+	public function getCurlErrors()
+	{
+		return curl_errno($this->ch);
 	}
 
 	public function addCurlHandle ($mh)
@@ -62,20 +390,15 @@ abstract class Searchengine
 	private function generateGetString($query, $url, $language, $category)
 	{
 		$getString = "";
-		# Protokoll:
-		if($this->port === "443"){
-			$getString .= "https://";
-		}else{
-			$getString .= "http://";
-		}
-		# Host:
-		$getString .= $this->host;
-		# Port:
-		$getString .= ":" . $this->port;
+
 		# Skript:
-		$getString .= $this->skript;
+		if(strlen($this->skript) > 0)
+			$getString .= $this->skript;
+		else
+			$getString .= "/";
 		# FormData:
-		$getString .= "?" . $this->formData;
+		if(strlen($this->formData) > 0)
+			$getString .= "?" . $this->formData;
 
 		# Wir müssen noch einige Platzhalter in dem GET-String ersetzen:
 		if( strpos($getString, "<<USERAGENT>>") ){
@@ -132,5 +455,10 @@ abstract class Searchengine
 		$serveUrl = $this->urlEncode($url);
 
 		return "&affilData=" . $affilDataValue . "&serveUrl=" . $serveUrl;
+	}
+
+	public function isEnabled ()
+	{
+		return $this->enabled;
 	}
 }
