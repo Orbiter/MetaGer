@@ -112,6 +112,7 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
+
                         $enabledSearchengines[] = $suma;
                     }
                 }
@@ -152,7 +153,7 @@ class MetaGer
 
             $tmp = new $path($engine, $this);
 
-            if($tmp)
+            if($tmp->isEnabled())
             {
                 $engines[] = $tmp;
             }

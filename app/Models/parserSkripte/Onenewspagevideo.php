@@ -15,11 +15,13 @@ class Onenewspagevideo extends Searchengine
 	public function loadResults (String $result)
 	{
 		$results = trim($result);
-		
 		foreach( explode("\n", $results) as $result )
 		{
 			$res = explode("|", $result);
-
+			if(sizeof($res) < 3)
+			{
+				continue;
+			}
 			$title = $res[0];
 			$link = $res[2];
 			$anzeigeLink = $link;

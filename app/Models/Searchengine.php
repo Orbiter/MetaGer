@@ -13,8 +13,8 @@ abstract class Searchengine
 	protected $getString = "";
 	protected $engine;
     protected $counter = 0;
-    protected $enabled;
     protected $socketNumber = null;
+    protected $enabled = true;
 	public $results = [];
 
 	function __construct(\SimpleXMLElement $engine, MetaGer $metager)
@@ -23,6 +23,17 @@ abstract class Searchengine
 		foreach($engine->attributes() as $key => $value){
 			$this->$key = $value->__toString();
 		}
+
+		# Eine Suchmaschine kann automatisch temporär deaktiviert werden, wenn es Verbindungsprobleme gab:
+        if(isset($this->disabled) && strtotime($this->disabled) <= time() )
+        {
+        	# In diesem Fall ist der Timeout der Suchmaschine abgelaufen.
+        	$this->enable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde wieder eingeschaltet.");
+        }elseif (isset($this->disabled) && strtotime($this->disabled) > time()) 
+        {
+        	$this->enabled = false;
+        	return;
+        }
 
 		# User-Agent definieren:
 		if( isset($_SERVER['HTTP_USER_AGENT']))
@@ -56,7 +67,7 @@ abstract class Searchengine
 			if(!$this->fp)
 			{
 				// Mache etwas
-				Log::error("Konnte keine Verbindung zur Suchmaschine: " . $this->name . " aufbauen.");
+				$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde für 1h deaktiviert, weil keine Verbindung aufgebaut werden konnte");
 				break;
 			}else
 			{
@@ -148,14 +159,22 @@ abstract class Searchengine
 			
 		}
 
-		abort(500, "Konnte keinen freien Socket bekommen für: " . $this->name);
+		return null;
 	}
 
 	public function disable(string $sumaFile, string $message)
 	{
 		Log::info($message);
 		$xml = simplexml_load_file($sumaFile);
-		$xml->xpath("//sumas/suma[@name='" . $this->name . "']")['0']['disabled'] = "1";
+		$xml->xpath("//sumas/suma[@name='" . $this->name . "']")['0']['disabled'] = date(DATE_RFC822, mktime(date("H")+1,date("i"), date("s"), date("m"), date("d"), date("Y")));
+		$xml->saveXML($sumaFile);
+	}
+
+	public function enable(string $sumaFile, string $message)
+	{
+		Log::info($message);
+		$xml = simplexml_load_file($sumaFile);
+		unset($xml->xpath("//sumas/suma[@name='" . $this->name . "']")['0']['disabled']);
 		$xml->saveXML($sumaFile);
 	}
 
@@ -182,11 +201,6 @@ abstract class Searchengine
     		// use fgets() not fread(), fgets stops reading at first newline
    			// or buffer which ever one is reached first
     		$data = fgets($this->fp, BUFFER_LENGTH);
-    		if($data === false)
-    		{
-    			usleep(10000);
-    			continue;
-    		}
     		// a sincle CRLF indicates end of headers
     		if ($data === false || $data == CRLF || feof($this->fp)) {
         		// break BEFORE OUTPUT
@@ -197,15 +211,20 @@ abstract class Searchengine
 		}
 		while (true);
 		// end of headers
-
+		$bodySize = 0;
 		if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
 		{
 			$body = $this->readChunked();
+			
 		}elseif( isset($headers['Content-Length']) )
 		{
 			$length = trim($headers['Content-Length']);
 			if(is_numeric($length) && $length >= 1)
-				$body = fread($this->fp, $headers['Content-Length']);
+				$body = $this->readBody($length);
+			$bodySize = strlen($body);
+		}else
+		{
+			abort(500, "Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
 		}
 		Redis::setBit($this->name, $this->socketNumber, 0 );
 
@@ -213,11 +232,34 @@ abstract class Searchengine
 		{
 			$body = $this->gunzip($body);
 		}
+		#print_r($headers);
+		#print($body);
+		#print("\r\n". $bodySize);
+		#exit;
 		#die(print_r($headers));
 		// $body and $headers should contain your stream data
 		$this->loadResults($body);
 		#print(print_r($headers, TRUE) . $body);
 		#exit;
+	}
+
+	private function readBody(int $length)
+	{
+		$theData = '';
+        $done = false;
+        stream_set_blocking($this->fp, 0);
+        $startTime = time();
+        $lastTime = $startTime;
+        while (!feof($this->fp) && !$done && (($startTime + 1) > time()) && $length !== 0)
+        {
+            usleep(100);
+            $theNewData = fgets($this->fp, BUFFER_LENGTH);
+            $theData .= $theNewData;
+            $length -= strlen($theNewData);
+            $done = (trim($theNewData) === '0');
+
+        }
+        return $theData;
 	}
 
 	private function readChunked()
