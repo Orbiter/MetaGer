@@ -81,4 +81,11 @@
         });
 
         Route::get('meta/meta.ger3', 'MetaGerSearch@test');
+
+        Route::get('settings', function()
+        {
+            return view('settings')
+                ->with('title', 'Einstellungen') // TODO Titel übersetzen
+                ->with('css', 'settings.css');
+        });
     });
