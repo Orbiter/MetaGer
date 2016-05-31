@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'title' => 'Impressum',
+
 	'headline.1' => 'SUMA-EV - Verein für freien Wissenszugang (e.V.)',
 	'headline.2' => 'in Kooperation mit der',
 
