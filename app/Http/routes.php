@@ -80,5 +80,12 @@
                 ->with('css', 'help.css');
         });
 
+        Route::get('widget', function()
+        {
+            return view('widget')
+                ->with('title', 'MetaGer Widget')
+                ->with('css', 'widget.css');
+        });
+
         Route::get('meta/meta.ger3', 'MetaGerSearch@test');
     });
