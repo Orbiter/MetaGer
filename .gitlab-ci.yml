@@ -16,6 +16,7 @@ update:
     - composer update
     - chmod -R 777 storage
     - chmod -R 777 bootstrap/cache
+    - scp metager@metager3.de:~/.env .
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
