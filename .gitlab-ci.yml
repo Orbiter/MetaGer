@@ -6,6 +6,7 @@ update:
     # Abhängigkeiten überprüfen
     - which composer
     - which git
+    - which php7.0
   script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
