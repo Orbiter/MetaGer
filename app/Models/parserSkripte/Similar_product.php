@@ -3,27 +3,25 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Zeitde extends Searchengine 
+class Similar_product extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine,  \App\MetaGer $metager)
 	{
 		parent::__construct($engine, $metager);
 	}
 
 	public function loadResults (String $result)
 	{
-		
 		$results = json_decode($result);
-		if(!$results)
-			return;
-		foreach( $results->{"matches"} as $result )
+
+		foreach($results->{"products"} as $result)
 		{
 			$title = $result->{"title"};
-			$link = $result->{"href"};
+			$link = $result->{"product_url"};
 			$anzeigeLink = $link;
-			$descr = $result->{"snippet"};
+			$descr = $result->{"description"};
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -36,8 +34,5 @@ class Zeitde extends Searchengine
 				$this->counter
 			);		
 		}
-		
-
-		
 	}
 }

@@ -19,6 +19,7 @@ class Wikipedia extends Searchengine
 		
 		#die($crawler);
 		$this->results[] = new \App\Models\Result(
+			$this->engine,
 			trim(strip_tags($result[1])),
 			$link,
 			$result[3],

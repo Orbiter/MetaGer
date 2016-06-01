@@ -22,8 +22,13 @@ class Onenewspagegermany extends Searchengine
 			if( strlen($line) > 0 ){
 				# Hier bekommen wir jedes einzelne Ergebnis
 				$result = explode("|", $line);
+				if(sizeof($result) < 3)
+				{
+					continue;
+				}
 				$counter++;
 				$this->results[] = new Result(
+					$this->engine,
 					trim(strip_tags($result[0])),
 					$result[2],
 					$result[2],
