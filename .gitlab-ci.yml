@@ -13,6 +13,8 @@ update:
     - git clone "$path" MetaGer_neu
     - cd MetaGer_neu
     - composer update
+    - chmod -R 777 storage
+    - chmod -R 777 /bootstrap/cache
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
