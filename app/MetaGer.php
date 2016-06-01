@@ -87,7 +87,16 @@ class MetaGer
         }
 
         switch ($this->out) {
-            case 'html':
+            case 'results':
+                return view('metager3results')
+                    ->with('results', $viewResults)
+                    ->with('eingabe', $this->eingabe)
+                    ->with('mobile', $this->mobile)
+                    ->with('warnings', $this->warnings)
+                    ->with('errors', $this->errors)
+                    ->with('metager', $this);
+                break;
+            default:
                 return view('metager3')
                     ->with('results', $viewResults)
                     ->with('eingabe', $this->eingabe)
@@ -95,19 +104,8 @@ class MetaGer
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
                     ->with('metager', $this);
-                # code...
-                break;
-            
-            default:
-                # code...
                 break;
         }
-
-        return view('metager3')
-            ->with('results', $viewResults)
-            ->with('eingabe', $this->eingabe)
-            ->with('warnings', $this->warnings)
-            ->with('errors', $this->errors);
 	}
 
     public function removeInvalids ()
@@ -288,9 +286,6 @@ class MetaGer
             if($tmp->enabled && isset($this->debug))
             {
                 $this->warnings[] = $tmp->service . "   Connection_Time: " . $tmp->connection_time . "    Write_Time: " . $tmp->write_time . " Insgesamt:" . ((microtime()-$time)/1000);
-            }else
-            {
-                $this->warnings[] = "Suchmaschine " . $tmp->name . " nicht erreichbar" . " Insgesamt:" . ((microtime()-$time)/1000);
             }
 
             if($tmp->isEnabled())
@@ -645,8 +640,10 @@ class MetaGer
 
     public function generateSearchLink(String $fokus)
     {
-        $link = action('MetaGerSearch@search', $this->request->all());
-        $link = preg_replace("/focus=[^&]*/si", "focus=$fokus", $link);
+        $requestData = $this->request->except('page');
+        $requestData['focus'] = $fokus;
+        $requestData['out'] = "results";
+        $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }
 
@@ -660,24 +657,28 @@ class MetaGer
     public function generateSiteSearchLink(String $host)
     {
         $host = urlencode($host);
-        $link = action('MetaGerSearch@search', $this->request->all());
-        $link = preg_replace("/eingabe=([^&]*)/si", "eingabe=$1 site:$host", $link);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " site:$host";
+        $requestData['focus'] = "web";
+        $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }
 
     public function generateRemovedHostLink (String $host)
     {
         $host = urlencode($host);
-        $link = action('MetaGerSearch@search', $this->request->all());
-        $link = preg_replace("/eingabe=([^&]*)/si", "eingabe=$1 -host:$host", $link);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " -host:$host";
+        $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }
 
     public function generateRemovedDomainLink (String $domain)
     {
         $domain = urlencode($domain);
-        $link = action('MetaGerSearch@search', $this->request->all());
-        $link = preg_replace("/eingabe=([^&]*)/si", "eingabe=$1 -domain:$domain", $link);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " -domain:$domain";
+        $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }
 

@@ -165,12 +165,7 @@
             @if( $metager->getFokus() === "web" )
             <div role="tabpanel" class="tab-pane active" id="web">
                 <div class="row">
-                    <div class="col-md-8">
-                        @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                           <iframe src="/qt/load.php?sprueche=&lang={{ $metager->getSprueche() }}&q={{ $metager->getQ() }}" class="col-md-4 hidden-xs hidden-sm"></iframe>
-                    </div>
+                    @yield('results')
                 </div>
             </div>
             @else
@@ -186,12 +181,7 @@
             @if( $metager->getFokus() === "bilder" )
             <div role="tabpanel" class="tab-pane active" id="bilder">
                 <div class="row">
-                    <div class="col-md-8">
-                        @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                           
-                    </div>
+                    @yield('results')
                 </div>
             </div>
             @else
@@ -207,12 +197,7 @@
             @if( $metager->getFokus() === "nachrichten" )
             <div role="tabpanel" class="tab-pane active" id="nachrichten">
                 <div class="row">
-                    <div class="col-md-8">
-                        @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                           
-                    </div>
+                    @yield('results')
                 </div>
             </div>
             @else
@@ -223,17 +208,24 @@
             </div>
             @endif
             
-
+            @if( $metager->getFokus() === "wissenschaft" )
+            <div role="tabpanel" class="tab-pane active" id="wissenschaft">
+                <div class="row">
+                    @yield('results')
+                </div>
+             </div>
+            @else
+            <div role="tabpanel" class="tab-pane" id="wissenschaft">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
+                </div>
+            </div>
+            @endif
             
             @if( $metager->getFokus() === "produktsuche" )
             <div role="tabpanel" class="tab-pane active" id="produktsuche">
                 <div class="row">
-                    <div class="col-md-8">
                         @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                           
-                    </div>
                 </div>
              </div>
             @else
@@ -249,19 +241,11 @@
             @if( $metager->getFokus() === "angepasst" )
             <div role="tabpanel" class="tab-pane active" id="angepasst">
                 <div class="row">
-                    <div class="col-md-8">
                         @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                        <iframe src="{{ $metager->generateQuicktipLink() }}" class="col-md-4 hidden-xs hidden-sm"></iframe>
-                    </div>
                 </div>
             </div>
             @endif
         </div>
-        <nav class="pager">
-        {!! $metager->getResults()->links() !!}
-        </nav>
     </div>
 
         
