@@ -19,6 +19,7 @@ update:
     - scp metager@metager3.de:~/.env .
     - scp metager@metager3.de:~/sumas.xml config/
     - scp metager@metager3.de:~/sumasEn.xml config/
+    - chmod 777 config/sumas.xml config/sumasEn.xml
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
