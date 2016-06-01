@@ -10,11 +10,12 @@ update:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     - cd ~/
+    - if [ -d MetaGer_neu ];then; rm -rf MetaGer_neu;fi
     - git clone "$path" MetaGer_neu
     - cd MetaGer_neu
     - composer update
     - chmod -R 777 storage
-    - chmod -R 777 /bootstrap/cache
+    - chmod -R 777 bootstrap/cache
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
