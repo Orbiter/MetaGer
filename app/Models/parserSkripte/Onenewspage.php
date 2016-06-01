@@ -19,7 +19,10 @@ class Onenewspage extends Searchengine
 		foreach( explode("\n", $results) as $result )
 		{
 			$res = explode("|", $result);
-
+			if(sizeof($res) < 3)
+			{
+				continue;
+			}
 			$title = $res[0];
 			$link = $res[2];
 			$anzeigeLink = $link;
@@ -27,6 +30,7 @@ class Onenewspage extends Searchengine
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,

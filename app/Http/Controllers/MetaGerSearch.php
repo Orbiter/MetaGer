@@ -14,8 +14,9 @@ use App\MetaGer;
 class MetaGerSearch extends Controller
 {
 
-    public function test(Request $request, MetaGer $metager)
+    public function search(Request $request, MetaGer $metager)
     {
+        $time = microtime();
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);
         if($metager->getFokus() !== "bilder" )
@@ -24,28 +25,22 @@ class MetaGerSearch extends Controller
             $metager->checkSpecialSearches($request);
         }
         # Alle Suchmaschinen erstellen
-        
         $metager->createSearchEngines($request);
+
+        # Alle Ergebnisse vor der Zusammenführung ranken:
+        $metager->rankAll();
 
         # Ergebnisse der Suchmaschinen kombinieren:
         $metager->combineResults();
+
+        $metager->removeInvalids();
         # Die Ausgabe erstellen:
         return $metager->createView();
     }
 
-    public function search(Request $request)
+    public function quicktips(Request $request)
     {
-       
- 
-        $searchengines = Search::loadSearchEngines($request);
-        $results = new Results($searchengines);
 
-        
-        
-
-        
-
-        return print_r( $viewResults, TRUE);
     }
 
 }

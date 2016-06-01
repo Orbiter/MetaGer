@@ -40,6 +40,7 @@ class Minisucher extends Searchengine
 			$descr = strip_tags($descr);
 			$provider = $result->xpath('//doc/str[@name="subcollection"]')[0]->__toString();
 			$this->results[] = new \App\Models\Result(
+					$this->engine,
 					$title,
 					$link,
 					$link,

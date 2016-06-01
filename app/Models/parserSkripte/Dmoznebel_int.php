@@ -3,7 +3,7 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Dmoznebel extends Searchengine 
+class Dmoznebel_int extends Searchengine 
 {
 	public $results = [];
 

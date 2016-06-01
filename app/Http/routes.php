@@ -56,8 +56,6 @@
 
         Route::post('kontakt', 'MailController@contactMail');
 
-        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
-
         Route::get('spende', function()
         {
             return view('spende')
@@ -80,5 +78,7 @@
                 ->with('css', 'help.css');
         });
 
-        Route::get('meta/meta.ger3', 'MetaGerSearch@test');
+        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
+
+        Route::get('qt', 'MetaGerSearch@quicktips');
     });

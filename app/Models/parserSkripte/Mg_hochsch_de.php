@@ -3,27 +3,31 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Zeitde extends Searchengine 
+class Mg_hochsch_de extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine,  \App\MetaGer $metager)
 	{
 		parent::__construct($engine, $metager);
 	}
 
 	public function loadResults (String $result)
 	{
+		die($result);
+		$results = trim($result);
 		
-		$results = json_decode($result);
-		if(!$results)
-			return;
-		foreach( $results->{"matches"} as $result )
+		foreach( explode("\n", $results) as $result )
 		{
-			$title = $result->{"title"};
-			$link = $result->{"href"};
+			$res = explode("|", $result);
+			if(sizeof($res) < 3)
+			{
+				continue;
+			}
+			$title = $res[0];
+			$link = $res[2];
 			$anzeigeLink = $link;
-			$descr = $result->{"snippet"};
+			$descr = $res[1];
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -36,7 +40,6 @@ class Zeitde extends Searchengine
 				$this->counter
 			);		
 		}
-		
 
 		
 	}

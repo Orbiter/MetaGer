@@ -27,6 +27,7 @@ class Nebel extends Searchengine
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,
