@@ -4,15 +4,15 @@ update:
     - triggers
   before_script:
     # Abhängigkeiten überprüfen
-    - which virtualbox
-    - which vagrant
     - which composer
     - which git
-    - which php
   script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     - cd ~/
-    - $path/deploy/checkServerStatus.sh "$path"
-    - cd ~/MetaGer
-    - git pull "$path"
+    - git clone "$path" MetaGer_neu
+    - cd MetaGer_neu
+    - composer update
+    - cd ~/
+    - rm -rf MetaGer
+    - mv MetaGer_neu MetaGer
