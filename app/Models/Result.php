@@ -193,7 +193,7 @@ class Result
 		}
 	}
 
-	private function getStrippedHost (String $link)
+	private function getStrippedHost ($link)
 	{
 		if(strpos($link, "http") !== 0)
 			$link = "http://" . $link;
@@ -201,7 +201,7 @@ class Result
 		$link = preg_replace("/^www\./si", "", $link);
 		return $link;
 	}
-	private function getStrippedLink (String $link)
+	private function getStrippedLink ($link)
 	{
 		if(strpos($link, "http") !== 0)
 			$link = "http://" . $link;
@@ -210,7 +210,7 @@ class Result
 		return $host . $path;
 	}
 
-	private function getStrippedDomain (String $link)
+	private function getStrippedDomain ($link)
 	{
 		if(preg_match("/([^\.]*\.[^\.]*)$/si", $link, $match))
 		{
@@ -221,7 +221,7 @@ class Result
 		}		
 	}
 
-	private function generateProxyLink (String $link)
+	private function generateProxyLink ($link)
 	{
 		if(!$link)
 			return "";

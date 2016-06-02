@@ -18,7 +18,7 @@ class Similar_product_ads extends Searchengine
 		}
 	}
 
-	public function loadResults (String $results)
+	public function loadResults ($results)
 	{
 		$results = json_decode($result);
 

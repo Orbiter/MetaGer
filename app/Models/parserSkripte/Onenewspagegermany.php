@@ -13,7 +13,7 @@ class Onenewspagegermany extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$counter = 0;
 		foreach( explode("\n", $result) as $line )

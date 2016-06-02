@@ -12,7 +12,7 @@ class Minisucher extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $content)
+	public function loadResults ($content)
 	{
 		$content = simplexml_load_string($content);
 		if(!$content)

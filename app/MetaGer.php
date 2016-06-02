@@ -599,7 +599,7 @@ class MetaGer
     {
         return $this->stopWords;
     }
-    public function getHostCount(String $host)
+    public function getHostCount($host)
     {
         if(isset($this->addedHosts[$host]))
         {
@@ -609,7 +609,7 @@ class MetaGer
             return 0;
         }
     }
-    public function addHostCount(String $host)
+    public function addHostCount($host)
     {
         $hash = md5($host);
         if(isset($this->addedHosts[$hash]))
@@ -624,7 +624,7 @@ class MetaGer
     {
         return $this->site;
     }
-    public function addLink(String $link)
+    public function addLink($link)
     {
         $hash = md5($link);
         if(isset($this->addedLinks[$hash]))
@@ -638,7 +638,7 @@ class MetaGer
         }
     }
 
-    public function generateSearchLink(String $fokus)
+    public function generateSearchLink($fokus)
     {
         $requestData = $this->request->except('page');
         $requestData['focus'] = $fokus;
@@ -654,7 +654,7 @@ class MetaGer
         return $link;
     }
 
-    public function generateSiteSearchLink(String $host)
+    public function generateSiteSearchLink($host)
     {
         $host = urlencode($host);
         $requestData = $this->request->except('page');
@@ -664,7 +664,7 @@ class MetaGer
         return $link;
     }
 
-    public function generateRemovedHostLink (String $host)
+    public function generateRemovedHostLink ($host)
     {
         $host = urlencode($host);
         $requestData = $this->request->except('page');
@@ -673,7 +673,7 @@ class MetaGer
         return $link;
     }
 
-    public function generateRemovedDomainLink (String $domain)
+    public function generateRemovedDomainLink ($domain)
     {
         $domain = urlencode($domain);
         $requestData = $this->request->except('page');

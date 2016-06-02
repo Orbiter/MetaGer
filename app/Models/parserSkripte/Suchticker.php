@@ -12,7 +12,7 @@ class Suchticker extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$results = trim($result);
 		

@@ -12,7 +12,7 @@ class Qualigo extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $results)
+	public function loadResults ($results)
 	{
 		try {
 			$content = simplexml_load_string($results);

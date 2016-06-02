@@ -73,7 +73,7 @@ abstract class Searchengine
 
 	}
 
-	public abstract function loadResults(String $result);
+	public abstract function loadResults($result);
 
 	private function writeRequest ()
 	{
@@ -168,7 +168,7 @@ abstract class Searchengine
 		return $fp;
 	}
 
-	private function setStatistic(String $key, float $val)
+	private function setStatistic($key, float $val)
 	{
 
 		$oldVal = floatval(Redis::hget($this->name, $key)) * $this->uses;
@@ -177,7 +177,7 @@ abstract class Searchengine
 		$this->$key = $newVal;
 	}
 
-	public function disable(string $sumaFile, string $message)
+	public function disable($sumaFile, $message)
 	{
 		Log::info($message);
 		$xml = simplexml_load_file($sumaFile);
@@ -185,7 +185,7 @@ abstract class Searchengine
 		$xml->saveXML($sumaFile);
 	}
 
-	public function enable(string $sumaFile, string $message)
+	public function enable($sumaFile, $message)
 	{
 		Log::info($message);
 		$xml = simplexml_load_file($sumaFile);

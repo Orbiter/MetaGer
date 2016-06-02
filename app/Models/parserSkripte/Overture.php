@@ -13,7 +13,7 @@ class Overture extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$result = preg_replace("/\r\n/si", "", $result);
 		try {

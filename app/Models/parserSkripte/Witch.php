@@ -12,7 +12,7 @@ class Witch extends Searchengine
         parent::__construct($engine, $metager);
     }
 
-    public function loadResults (String $result)
+    public function loadResults ($result)
     {
         $result = html_entity_decode(trim(utf8_encode($result)));
 
