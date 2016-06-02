@@ -158,6 +158,7 @@ return [
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         App\Providers\MetaGerProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
     ],
 
