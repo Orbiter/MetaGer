@@ -12,7 +12,7 @@ class Qip extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		die($result);
 		$results = trim($result);

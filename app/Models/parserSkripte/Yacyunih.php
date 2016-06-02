@@ -12,7 +12,7 @@ class Yacyunih extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		try {
 			$content = simplexml_load_string($result);

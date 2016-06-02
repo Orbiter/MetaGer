@@ -17,7 +17,7 @@ class Fastbot extends Searchengine
 		}
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$result = utf8_encode($result);
 		$counter = 0;
