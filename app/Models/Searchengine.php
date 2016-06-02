@@ -168,7 +168,7 @@ abstract class Searchengine
 		return $fp;
 	}
 
-	private function setStatistic($key, float $val)
+	private function setStatistic($key, $val)
 	{
 
 		$oldVal = floatval(Redis::hget($this->name, $key)) * $this->uses;
@@ -263,7 +263,7 @@ abstract class Searchengine
 		#exit;
 	}
 
-	private function readBody(int $length)
+	private function readBody($length)
 	{
 		$theData = '';
         $done = false;
