@@ -13,7 +13,7 @@ class Overture extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$result = preg_replace("/\r\n/si", "", $result);
 		try {
@@ -27,7 +27,6 @@ class Overture extends Searchengine
 			return;
 		}
 		$results = $content->xpath('//Results/ResultSet[@id="inktomi"]/Listing');
-
 		foreach($results as $result)
 		{
 			$title = $result["title"];
@@ -36,6 +35,27 @@ class Overture extends Searchengine
 			$descr = $result["description"];
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
+				$title,
+				$link,
+				$anzeigeLink,
+				$descr,
+				$this->gefVon,
+				$this->counter
+			);
+		}
+
+		# Nun noch die Werbeergebnisse:
+		$ads = $content->xpath('//Results/ResultSet[@id="searchResults"]/Listing');
+		foreach($ads as $ad)
+		{
+			$title = $ad["title"];
+			$link = $ad->{"ClickUrl"}->__toString();
+			$anzeigeLink = $ad["siteHost"];
+			$descr = $ad["description"];
+			$this->counter++;
+			$this->ads[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,

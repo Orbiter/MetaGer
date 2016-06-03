@@ -8,14 +8,13 @@ class Mnogosearch extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $metager);
+		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults ()
+	public function loadResults ($result)
 	{
-		$result = curl_multi_getcontent($this->ch);
 		$counter = 0;
 		$crawler = new Crawler($result);
 		$crawler->filter('table[width=600]')
@@ -37,6 +36,7 @@ class Mnogosearch extends Searchengine
 				$this->counter++;
 
 				$this->results[] = new \App\Models\Result(
+					$this->engine,
 					$title,
 					$link,
 					$anzeigeLink,

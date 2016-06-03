@@ -3,7 +3,7 @@
 @section('title', $title )
 
 @section('content')
-<h1>Impressum</h1>
+<h1>{{ trans('impressum.title') }}</h1>
 <h2><a href="http://suma-ev.de/" target="_blank">{{ trans('impressum.headline.1') }}</a></h2>
 <h2>{{ trans('impressum.headline.2') }} <a href="http://www.uni-hannover.de/" target="_blank">Leibniz Universität Hannover</a></h2>
 <p>{{ trans('impressum.info.1') }} <a href="http://de.wikipedia.org/wiki/Suma_e.V." target="_blank">SUMA-EV</a></p>

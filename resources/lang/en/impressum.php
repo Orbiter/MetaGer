@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'title' => 'Site Notice',
+
 	'headline.1' => 'SUMA-EV - Verein für freien Wissenszugang (e.V.)',
 	'headline.2' => 'in cooperation with the',
 

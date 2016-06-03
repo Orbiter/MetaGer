@@ -3,10 +3,14 @@ namespace App;
 
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
-use App\Models\SocketRocket;
 use App;
 use Storage;
 use Log;
+use App\lib\TextLanguageDetect\TextLanguageDetect;
+use App\lib\TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+#use \Illuminate\Pagination\Paginator;
 
 class MetaGer
 {
@@ -25,8 +29,10 @@ class MetaGer
 	protected $stopWords = [];
 	protected $engines = [];
 	protected $results = [];
+    protected $ads = [];
 	protected $warnings = [];
     protected $errors = [];
+    protected $addedHosts = [];
 	# Daten über die Abfrage
 	protected $ip;
 	protected $language;
@@ -39,9 +45,11 @@ class MetaGer
     protected $domainsBlacklisted = [];
     protected $urlsBlacklisted = [];
     protected $url;
+    protected $languageDetect;
 
 	function __construct()
 	{
+        $this->time = microtime();   
         define('CRLF', "\r\n");
         define('BUFFER_LENGTH', 8192);
         if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
@@ -55,29 +63,135 @@ class MetaGer
         {
             Log::warning("Achtung: Eine, oder mehrere Blacklist Dateien, konnten nicht geöffnet werden");
         }
+
+        $this->languageDetect = new TextLanguageDetect();
+        $this->languageDetect->setNameMode("2");
 	}
+
+    public function rankAll ()
+    {
+        foreach( $this->engines as $engine )
+        {
+            $engine->rank($this);
+        }
+    }
 
 	public function createView()
 	{
 		$viewResults = [];
+
         # Wir extrahieren alle notwendigen Variablen und geben Sie an unseren View:
         foreach($this->results as $result)
         {
             $viewResults[] = get_object_vars($result);
         }
-        return view('metager3')
-            ->with('results', $viewResults)
-            ->with('eingabe', $this->eingabe)
-            ->with('warnings', $this->warnings)
-            ->with('errors', $this->errors);
+
+        switch ($this->out) {
+            case 'results':
+                return view('metager3results')
+                    ->with('results', $viewResults)
+                    ->with('eingabe', $this->eingabe)
+                    ->with('mobile', $this->mobile)
+                    ->with('warnings', $this->warnings)
+                    ->with('errors', $this->errors)
+                    ->with('metager', $this);
+                break;
+            default:
+                return view('metager3')
+                    ->with('results', $viewResults)
+                    ->with('eingabe', $this->eingabe)
+                    ->with('mobile', $this->mobile)
+                    ->with('warnings', $this->warnings)
+                    ->with('errors', $this->errors)
+                    ->with('metager', $this);
+                break;
+        }
 	}
+
+    public function removeInvalids ()
+    {
+        $results = [];
+        foreach($this->results as $result)
+        {
+            if($result->isValid($this))
+                $results[] = $result;
+        }
+        #$this->results = $results;
+    }
 
 	public function combineResults ()
 	{
 		foreach($this->engines as $engine)
 		{
-			$this->results = array_merge($this->results, $engine->results);
+            foreach($engine->results as $result)
+            {
+                if($result->valid)
+                    $this->results[] = $result;
+            }
+            foreach($engine->ads as $ad)
+            {
+                $this->ads[] = $ad;
+            }
 		}
+        uasort($this->results, function($a, $b){
+            if($a->getRank() == $b->getRank())
+                return 0;
+            return ($a->getRank() < $b->getRank()) ? 1 : -1;
+        });
+        # Validate Results
+        $newResults = [];
+        foreach($this->results as $result)
+        {
+            if($result->isValid($this))
+                $newResults[] = $result;
+        }
+        $this->results = $newResults;
+
+        $counter = 0;
+        $firstRank = 0;
+        foreach($this->results as $result)
+        {
+            if($counter === 0)
+                $firstRank = $result->rank;
+            $counter++;
+            $result->number = $counter;
+            $confidence = 0;
+            if($firstRank > 0)
+                $confidence = $result->rank/$firstRank;
+            else
+                $confidence = 0;
+            if($confidence > 0.65)
+                $result->color = "#FF4000";
+            elseif($confidence > 0.4)
+                $result->color = "#FF0080";
+            elseif($confidence > 0.2)
+                $result->color = "#C000C0";
+            else
+                $result->color = "#000000";
+        }
+
+        //Get current page form url e.g. &page=6
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $offset= $currentPage-1;
+
+        //Create a new Laravel collection from the array data
+        $collection = new Collection($this->results);
+
+        //Define how many items we want to be visible in each page
+        $perPage = $this->resultCount;
+
+        //Slice the collection to get the items to display in current page
+        $currentPageSearchResults = $collection->slice($offset * $perPage, $perPage)->all();
+
+        //Create our paginator and pass it to the view
+        $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
+        $paginatedSearchResults->setPath('/meta/meta.ger3');
+        foreach($this->request->all() as $key => $value)
+        {
+            $paginatedSearchResults->addQuery($key, $value);
+        }
+
+        $this->results = $paginatedSearchResults;
 	}
 
 	public function createSearchEngines (Request $request)
@@ -94,15 +208,24 @@ class MetaGer
         if($this->fokus === "angepasst")
         {
             $sumas = $xml->xpath("suma");
+            /**$maxSumas = 30;
+            $count = 0;
+            foreach($sumas as $suma)
+            {
+                if($maxSumas === $count)
+                    break;
+                $enabledSearchengines[] = $suma;
+                $count++;
+            }**/
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	#|| ( $this->fokus !== "bilder" 
-                	#	&& ($suma["name"]->__toString() === "qualigo" 
-                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
-                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                	#		)
-                	#	)
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                     #|| 1 === 1  #Todo: entfernen
                 	){
 
@@ -122,12 +245,12 @@ class MetaGer
             foreach($sumas as $suma){
                 $types = explode(",",$suma["type"]);
                 if(in_array($this->fokus, $types) 
-                	#|| ( $this->fokus !== "bilder" 
-                	#	&& ($suma["name"]->__toString() === "qualigo" 
-                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
-                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                	#		)
-                	#	)
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                 	){
                     if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
                     {
@@ -140,7 +263,7 @@ class MetaGer
                 }
             }
         }
-        
+
         if( ( $this->fokus !== "bilder" && sizeof($enabledSearchengines) <= 3 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
@@ -149,21 +272,42 @@ class MetaGer
 		$engines = [];
 		foreach($enabledSearchengines as $engine){
 
+            if(strlen($this->site) > 0 && (!isset($engine["hasSiteSearch"]) || $engine["hasSiteSearch"]->__toString() !== "1"))
+            {
+                continue;
+            }
+            # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
+
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
 
+            $time = microtime();
             $tmp = new $path($engine, $this);
+
+            if($tmp->enabled && isset($this->debug))
+            {
+                $this->warnings[] = $tmp->service . "   Connection_Time: " . $tmp->connection_time . "    Write_Time: " . $tmp->write_time . " Insgesamt:" . ((microtime()-$time)/1000);
+            }
 
             if($tmp->isEnabled())
             {
                 $engines[] = $tmp;
+                $this->sockets[$tmp->name] = $tmp->fp;
             }
 		}
+
+        # Nun passiert ein elementarer Schritt.
+        # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
+        # aber natürlich nicht ewig.
+        # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
+        # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
+        usleep(500000);
+        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
         foreach($engines as $engine)
         {
             $engine->retrieveResults();
-           # $engine->closeFp();
         }
-        
+
+
         $this->engines = $engines;
 	}
 
@@ -232,7 +376,7 @@ class MetaGer
         $this->page = $request->input('page', 1);
         # Lang
         $this->lang = $request->input('lang', 'all');
-        if ( $this->lang !== "de" || $this->lang !== "en" || $this->lang !== "all" )
+        if ( $this->lang !== "de" && $this->lang !== "en" && $this->lang !== "all" )
         {
         	$this->lang = "all";
         }
@@ -284,6 +428,23 @@ class MetaGer
         	$this->time = 5000;
         	$this->cache = "cache";
         }
+        if( $request->has('tab'))
+        {
+            if($request->input('tab') === "1")
+            {
+                $this->tab = "_blank";
+            }else
+            {
+                $this->tab = "_self";
+            }
+        }else
+        {
+            $this->tab = "_blank";
+        }
+        $this->out = $request->input('out', "html");
+        if($this->out !== "html" && $this->out !== "json" && $this->out !== "results" && $this->out !== "results-with-style")
+            $this->out = "html";
+        $this->request = $request;
 	}
 
 	public function checkSpecialSearches (Request $request)
@@ -369,6 +530,14 @@ class MetaGer
         return $this->eingabe;
     }
 
+    public function getQ ()
+    {
+        if(strlen($this->site) > 0)
+            return $this->q . " site:" . $this->site;
+        else
+            return $this->q;
+    }
+
     public function getUrl ()
     {
         return $this->url;
@@ -383,6 +552,16 @@ class MetaGer
         return $this->language;
     }
 
+    public function getLang ()
+    {
+        return $this->lang;
+    }
+
+    public function getSprueche ()
+    {
+        return $this->sprueche;
+    }
+
     public function getCategory ()
     {
         return $this->category;
@@ -391,5 +570,131 @@ class MetaGer
     public function getSumaFile ()
     {
         return $this->sumaFile;
+    }
+
+    public function getUserHostBlacklist ()
+    {
+        return $this->hostBlacklist;
+    }
+
+    public function getUserDomainBlacklist ()
+    {
+        return $this->domainBlacklist;
+    }
+
+    public function getDomainBlacklist ()
+    {
+        return $this->domainsBlacklisted;
+    }
+
+    public function getUrlBlacklist ()
+    {
+        return $this->urlsBlacklisted;
+    }
+    public function getLanguageDetect ()
+    {
+        return $this->languageDetect;
+    }
+    public function getStopWords ()
+    {
+        return $this->stopWords;
+    }
+    public function getHostCount($host)
+    {
+        if(isset($this->addedHosts[$host]))
+        {
+            return $this->addedHosts[$host];
+        }else
+        {
+            return 0;
+        }
+    }
+    public function addHostCount($host)
+    {
+        $hash = md5($host);
+        if(isset($this->addedHosts[$hash]))
+        {
+            $this->addedHosts[$hash] += 1;
+        }else
+        {
+            $this->addedHosts[$hash] = 1;
+        }
+    }
+    public function getSite()
+    {
+        return $this->site;
+    }
+    public function addLink($link)
+    {
+        $hash = md5($link);
+        if(isset($this->addedLinks[$hash]))
+        {
+            return false;
+        }else
+        {
+            $this->addedLinks[$hash] = 1;
+
+            return true;
+        }
+    }
+
+    public function generateSearchLink($fokus)
+    {
+        $requestData = $this->request->except('page');
+        $requestData['focus'] = $fokus;
+        $requestData['out'] = "results";
+        $link = action('MetaGerSearch@search', $requestData);
+        return $link;
+    }
+
+    public function generateQuicktipLink()
+    {
+        $link = action('MetaGerSearch@quicktips');
+
+        return $link;
+    }
+
+    public function generateSiteSearchLink($host)
+    {
+        $host = urlencode($host);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " site:$host";
+        $requestData['focus'] = "web";
+        $link = action('MetaGerSearch@search', $requestData);
+        return $link;
+    }
+
+    public function generateRemovedHostLink ($host)
+    {
+        $host = urlencode($host);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " -host:$host";
+        $link = action('MetaGerSearch@search', $requestData);
+        return $link;
+    }
+
+    public function generateRemovedDomainLink ($domain)
+    {
+        $domain = urlencode($domain);
+        $requestData = $this->request->except('page');
+        $requestData['eingabe'] .= " -domain:$domain";
+        $link = action('MetaGerSearch@search', $requestData);
+        return $link;
+    }
+
+    public function getTab ()
+    {
+        return $this->tab;
+    }
+    public function getResults ()
+    {
+        return $this->results;
+    }
+    public function popAd()
+    {
+        if(count($this->ads) > 0)
+            return get_object_vars(array_shift($this->ads));
+        else
+            return null;
     }
 }

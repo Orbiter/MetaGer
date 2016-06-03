@@ -14,6 +14,7 @@ function postSize(height){
 }
 
 function tabs(){
+	//return;
 	$("#foki  a").each(function(){
 		$(this).attr("href", "#"+$(this).attr("aria-controls"));
 		$(this).attr("role","tab");
@@ -39,7 +40,7 @@ function getDocumentReadyForUse(){
 	clickLog();
 	popovers();
 	imageLoader();
-	pagination();
+	//pagination();
 	tabs();
 	theme();
 	fokiChanger();
