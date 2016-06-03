@@ -1,7 +1,3 @@
-@extends('layouts.resultPage')
-
-@section('results')
-
 <div class="col-md-8">
 	{{-- 3-Mal Werbung --}}
 	@for($i = 0; $i <= 2; $i++)
@@ -14,12 +10,6 @@
 		@endif
 		@include('layouts.result', ['result' => $result])
 	@endforeach
-	<nav class="pager">
-        {!! $metager->getResults()->links() !!}
-    </nav>
 </div>
 <div class="col-md-4" id="quicktips">
 </div>
-
-@endsection
-

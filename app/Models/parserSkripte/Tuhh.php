@@ -3,7 +3,7 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Onenewspage extends Searchengine 
+class Tuhh extends Searchengine 
 {
 	public $results = [];
 
@@ -14,20 +14,25 @@ class Onenewspage extends Searchengine
 
 	public function loadResults ($result)
 	{
-		$results = trim($result);
+		try {
+			$content = simplexml_load_string($result);
+		} catch (\Exception $e) {
+			abort(500, "$result is not a valid xml string");
+		}
 		
-		foreach( explode("\n", $results) as $result )
+		if(!$content)
 		{
-			$res = explode("|", $result);
-			if(sizeof($res) < 3)
-			{
-				continue;
-			}
-			$title = $res[0];
-			$link = $res[2];
+			return;
+		}
+		$count = 0;
+		foreach($content->{"entry"} as $result)
+		{
+			if($count > 10)
+				break;
+			$title = $result->{"title"}->__toString();
+			$link = $result->{"link"}["href"]->__toString();
 			$anzeigeLink = $link;
-			$descr = $res[1];
-
+			$descr = strip_tags($result->{"summary"}->__toString());
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -37,9 +42,9 @@ class Onenewspage extends Searchengine
 				$descr,
 				$this->gefVon,
 				$this->counter
-			);		
+			);
+			$count++;
 		}
-
 		
 	}
 }

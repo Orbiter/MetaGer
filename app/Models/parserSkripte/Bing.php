@@ -8,12 +8,12 @@ class Bing extends Searchengine
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine, $mh, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $metager);
+		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		
 		$crawler = new Crawler($result);
@@ -28,6 +28,7 @@ class Bing extends Searchengine
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,

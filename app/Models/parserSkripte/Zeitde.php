@@ -12,11 +12,12 @@ class Zeitde extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		
 		$results = json_decode($result);
-
+		if(!$results)
+			return;
 		foreach( $results->{"matches"} as $result )
 		{
 			$title = $result->{"title"};
@@ -26,6 +27,7 @@ class Zeitde extends Searchengine
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,

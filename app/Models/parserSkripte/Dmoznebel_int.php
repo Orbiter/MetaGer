@@ -3,11 +3,11 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class BASE extends Searchengine 
+class Dmoznebel_int extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine,\App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
 		parent::__construct($engine, $metager);
 	}
@@ -20,16 +20,17 @@ class BASE extends Searchengine
 		$anzeigeLink = $link;
 		$descr = "";
 
-		#die($result);
+		die($result);
 
-		/*$this->counter++;
+		$this->counter++;
 		$this->results[] = new \App\Models\Result(
+			$this->engine,
 			$title,
 			$link,
 			$anzeigeLink,
 			$descr,
 			$this->gefVon,
 			$this->counter
-		);*/		
+		);
 	}
 }

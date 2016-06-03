@@ -3,7 +3,7 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Onenewspage extends Searchengine 
+class Qip extends Searchengine 
 {
 	public $results = [];
 
@@ -14,6 +14,7 @@ class Onenewspage extends Searchengine
 
 	public function loadResults ($result)
 	{
+		die($result);
 		$results = trim($result);
 		
 		foreach( explode("\n", $results) as $result )

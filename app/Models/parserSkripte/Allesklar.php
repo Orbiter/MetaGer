@@ -8,14 +8,14 @@ use Symfony\Component\DomCrawler\Crawler;
 class Allesklar extends Searchengine
 {
 	protected $tds = "";
-	function __construct (\SimpleXMLElement $engine, $mh, \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
-		parent::__construct($engine, $mh, $metager);
+		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
-		$crawler = new Crawler($result);
+		$crawler = new Crawler(utf8_decode($result));
 		$crawler = $crawler
 					->filter('table[width=585]')
 					->reduce(function(Crawler $node, $i) {
@@ -42,6 +42,7 @@ class Allesklar extends Searchengine
 				}
 				$this->counter++;
 				$this->results[] = new \App\Models\Result(
+					$this->engine,
 					$title,
 					$link,
 					$link,

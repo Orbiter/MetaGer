@@ -3,7 +3,7 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Onenewspage extends Searchengine 
+class Similar_product extends Searchengine 
 {
 	public $results = [];
 
@@ -14,19 +14,14 @@ class Onenewspage extends Searchengine
 
 	public function loadResults ($result)
 	{
-		$results = trim($result);
-		
-		foreach( explode("\n", $results) as $result )
+		$results = json_decode($result);
+
+		foreach($results->{"products"} as $result)
 		{
-			$res = explode("|", $result);
-			if(sizeof($res) < 3)
-			{
-				continue;
-			}
-			$title = $res[0];
-			$link = $res[2];
+			$title = $result->{"title"};
+			$link = $result->{"product_url"};
 			$anzeigeLink = $link;
-			$descr = $res[1];
+			$descr = $result->{"description"};
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -39,7 +34,5 @@ class Onenewspage extends Searchengine
 				$this->counter
 			);		
 		}
-
-		
 	}
 }

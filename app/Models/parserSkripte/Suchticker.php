@@ -3,7 +3,7 @@
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
 
-class Onenewspage extends Searchengine 
+class Suchticker extends Searchengine 
 {
 	public $results = [];
 
@@ -18,15 +18,15 @@ class Onenewspage extends Searchengine
 		
 		foreach( explode("\n", $results) as $result )
 		{
-			$res = explode("|", $result);
+			$res = explode("';'", $result);
 			if(sizeof($res) < 3)
 			{
 				continue;
 			}
-			$title = $res[0];
-			$link = $res[2];
+			$title = trim($res[0], "'");
+			$link = trim($res[1], "'");
 			$anzeigeLink = $link;
-			$descr = $res[1];
+			$descr = trim($res[2], "'");
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(

@@ -12,11 +12,12 @@ class Fastbot extends Searchengine
 		parent::__construct($engine, $metager);
 		if ( strpos($this->urlEncode($metager->getEingabe()), "%") !== FALSE )
 		{
+			$this->enabled = false;
 			return null;
 		}
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$result = utf8_encode($result);
 		$counter = 0;
@@ -31,6 +32,7 @@ class Fastbot extends Searchengine
 				$link = substr($link, 0, strpos($link, "\""));
 				$counter++;
 				$this->results[] = new \App\Models\Result(
+					$this->engine,
 					trim(strip_tags($result[1])),
 					$link,
 					$result[3],
