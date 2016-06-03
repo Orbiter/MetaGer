@@ -1,2 +1,4 @@
-*.xml
-*.txt
+sumas.xml
+sumasEn.xml
+blacklistUrl.txt
+blacklistDomains.txt
