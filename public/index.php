@@ -9,8 +9,11 @@
 
  # Unser erster Schritt wird sein, IP-Adresse und USER-Agent zu anonymisieren, damit 
  # nicht einmal wir selbst noch Zugriff auf die Daten haben:
-$_SERVER['REMOTE_ADDR'] = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], ".")) . ".0";
-$_SERVER['HTTP_USER_AGENT'] = substr($_SERVER['HTTP_USER_AGENT'], 0, 23);
+if( !isset($_SERVER['HTTP_X_FORWARDED_FOR'] ))
+{
+	$_SERVER['REMOTE_ADDR'] = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], ".")) . ".0";
+	$_SERVER['HTTP_USER_AGENT'] = substr($_SERVER['HTTP_USER_AGENT'], 0, 23);
+}
 
 /*
 |--------------------------------------------------------------------------
