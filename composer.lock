@@ -587,16 +587,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.32",
+            "version": "v5.2.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f688217113f70b01d0e127da9035195415812bef"
+                "reference": "d2b6b0fe32fab610d356c22e74a6ffd101b0f513"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f688217113f70b01d0e127da9035195415812bef",
-                "reference": "f688217113f70b01d0e127da9035195415812bef",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d2b6b0fe32fab610d356c22e74a6ffd101b0f513",
+                "reference": "d2b6b0fe32fab610d356c22e74a6ffd101b0f513",
                 "shasum": ""
             },
             "require": {
@@ -712,7 +712,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-05-17 13:24:40"
+            "time": "2016-05-30 17:42:01"
         },
         {
             "name": "league/flysystem",
@@ -1498,16 +1498,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.0.6",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "807dde98589f9b2b00624dca326740380d78dbbc"
+                "reference": "0343b2cedd0edb26cdc791212a8eb645c406018b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/807dde98589f9b2b00624dca326740380d78dbbc",
-                "reference": "807dde98589f9b2b00624dca326740380d78dbbc",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0343b2cedd0edb26cdc791212a8eb645c406018b",
+                "reference": "0343b2cedd0edb26cdc791212a8eb645c406018b",
                 "shasum": ""
             },
             "require": {
@@ -1527,7 +1527,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -1554,7 +1554,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-05-05 06:56:13"
+            "time": "2016-04-12 18:27:47"
         },
         {
             "name": "symfony/finder",
@@ -2906,16 +2906,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "dev-master",
+            "version": "v1.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nrk/predis.git",
-                "reference": "9398a793a5f0280d789c19fc70e479207dc48da8"
+                "reference": "0e17edbefb50c6cbd1acc4a6f6ef06399deb1af2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/9398a793a5f0280d789c19fc70e479207dc48da8",
-                "reference": "9398a793a5f0280d789c19fc70e479207dc48da8",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/0e17edbefb50c6cbd1acc4a6f6ef06399deb1af2",
+                "reference": "0e17edbefb50c6cbd1acc4a6f6ef06399deb1af2",
                 "shasum": ""
             },
             "require": {
@@ -2929,11 +2929,6 @@
                 "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Predis\\": "src/"
@@ -2957,7 +2952,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2016-05-25 09:25:12"
+            "time": "2016-06-01 22:06:21"
         },
         {
             "name": "sebastian/comparator",
@@ -3441,16 +3436,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.0.6",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "0047c8366744a16de7516622c5b7355336afae96"
+                "reference": "eca51b7b65eb9be6af88ad7cc91685f1556f5c9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/0047c8366744a16de7516622c5b7355336afae96",
-                "reference": "0047c8366744a16de7516622c5b7355336afae96",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/eca51b7b65eb9be6af88ad7cc91685f1556f5c9a",
+                "reference": "eca51b7b65eb9be6af88ad7cc91685f1556f5c9a",
                 "shasum": ""
             },
             "require": {
@@ -3459,7 +3454,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -3486,7 +3481,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-03-04 07:55:57"
+            "time": "2016-05-26 21:46:24"
         }
     ],
     "aliases": [],
