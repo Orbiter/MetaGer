@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>test - MetaGer</title>
+    <title>{{ $metager->getQ() }} - MetaGer</title>
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/styleResultPage.css" rel="stylesheet" />
     @if( isset($mobile) )
