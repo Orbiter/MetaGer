@@ -88,4 +88,5 @@
         Route::get('meta/meta.ger3', 'MetaGerSearch@search');
 
         Route::get('qt', 'MetaGerSearch@quicktips');
+        Route::get('tips', 'MetaGerSearch@tips');
     });
