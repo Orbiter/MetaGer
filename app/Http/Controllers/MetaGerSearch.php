@@ -136,14 +136,7 @@ class MetaGerSearch extends Controller
     }
 
     function get($url) {
-        $process = curl_init($url);
-        curl_setopt($process, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-        curl_setopt($process, CURLOPT_TIMEOUT, 30);
-        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);
-        $return = curl_exec($process);
-        curl_close($process);
-        return $return;
+        return file_get_contents($url);
     } 
 
 }
