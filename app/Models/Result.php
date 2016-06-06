@@ -14,6 +14,12 @@ class Result
 		$this->anzeigeLink = trim($anzeigeLink);
 		$this->descr = strip_tags(trim($descr));
 		$this->descr = preg_replace("/\n+/si", " ", $this->descr);
+		if( strlen($this->descr) > 250 )
+		{
+			$this->descr = wordwrap($this->descr, 250);
+			$this->descr = substr($this->descr, 0, strpos($this->descr, "\n"));
+
+		}
 		$this->gefVon = trim($gefVon);
 		$this->proxyLink = $this->generateProxyLink($this->link);
 		$this->sourceRank = $sourceRank;
