@@ -25,6 +25,8 @@ abstract class Searchengine
 		foreach($engine->attributes() as $key => $value){
 			$this->$key = $value->__toString();
 		}
+		if( !isset($this->homepage) )
+			$this->homepage = "https://metager.de";
 		$this->engine = $engine;
 
 		# Wir registrieren die Benutzung dieser Suchmaschine
