@@ -7,7 +7,7 @@ namespace App\Models;
 class Result
 {
 	
-	function __construct ( \SimpleXMLElement $provider, $titel, $link, $anzeigeLink , $descr, $gefVon, $sourceRank, $partnershop = false )
+	function __construct ( \SimpleXMLElement $provider, $titel, $link, $anzeigeLink , $descr, $gefVon, $sourceRank, $partnershop = false, $image = "" )
 	{
 		$this->titel = strip_tags(trim($titel));
 		$this->link = trim($link);
@@ -41,6 +41,7 @@ class Result
 		$this->strippedLink = $this->getStrippedLink($this->anzeigeLink);
 		$this->rank = 0;
 		$this->partnershop = $partnershop;
+		$this->image = $image;
 
 		#die($this->anzeigeLink . "\r\n" . $this->strippedHost);
 	}
