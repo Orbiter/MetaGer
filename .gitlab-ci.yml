@@ -1,18 +1,57 @@
-update:
+update(144.76.113.134):
+  tags:
+  - 144.76.113.134
   only:
     - tags
     - triggers
   before_script:
     # Abhängigkeiten überprüfen
-    - which virtualbox
-    - which vagrant
     - which composer
     - which git
-    - which php
+    - which php7.0
   script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
     - cd ~/
-    - $path/deploy/checkServerStatus.sh "$path"
-    - cd ~/MetaGer
-    - git pull "$path"
+    - if [ -d MetaGer_neu ]; then rm -rf MetaGer_neu;fi
+    - git clone "$path" MetaGer_neu
+    - cd MetaGer_neu
+    - composer update
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
+    - scp metager@metager3.de:~/.env .
+    - scp metager@metager3.de:~/sumas.xml config/
+    - scp metager@metager3.de:~/sumasEn.xml config/
+    - chmod 777 config/sumas.xml config/sumasEn.xml
+    - cd ~/
+    - rm -rf MetaGer
+    - mv MetaGer_neu MetaGer
+    
+update(metager3.de):
+  tags:
+  - metager3
+  only:
+    - tags
+    - triggers
+  before_script:
+    # Abhängigkeiten überprüfen
+    - which composer
+    - which git
+    - which php7.0
+  script:
+    # Pfad zum neu geklonten Repo
+    - path=`pwd`
+    - cd ~/
+    - if [ -d MetaGer_neu ]; then rm -rf MetaGer_neu;fi
+    - git clone "$path" MetaGer_neu
+    - cd MetaGer_neu
+    - composer update
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
+    - scp metager@metager3.de:~/.env .
+    - scp metager@metager3.de:~/sumas.xml config/
+    - scp metager@metager3.de:~/sumasEn.xml config/
+    - chmod 777 config/sumas.xml config/sumasEn.xml
+    - cd ~/
+    - rm -rf MetaGer
+    - mv MetaGer_neu MetaGer

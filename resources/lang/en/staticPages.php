@@ -8,7 +8,7 @@ return [
 	'nav5' => 'Contact',
 	'nav6' => 'Team',
 	'nav7' => 'About us',
-	'nav8' => 'Impressum',
+	'nav8' => 'Site Notice',
 	'nav9' => 'Help',
 	'nav10' => 'Widget',
 	'nav11' => 'Associator',

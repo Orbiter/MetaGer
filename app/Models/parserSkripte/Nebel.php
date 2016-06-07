@@ -12,7 +12,7 @@ class Nebel extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$results = trim($result);
 		foreach( explode("\n", $results) as $result )
@@ -27,6 +27,7 @@ class Nebel extends Searchengine
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
+				$this->engine,
 				$title,
 				$link,
 				$anzeigeLink,

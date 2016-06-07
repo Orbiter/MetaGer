@@ -12,7 +12,7 @@ class Yacy extends Searchengine
         parent::__construct($engine, $metager);
     }
 
-    public function loadResults (String $result)
+    public function loadResults ($result)
     {
         
        # die($result);
@@ -22,8 +22,11 @@ class Yacy extends Searchengine
             abort(500, "$result is not a valid xml string");
         }
 
+        if(!$content)
+            return;
         $results = $content->xpath("//rss/channel/item");
-
+        if(!$results)
+            return;
         foreach($results as $res)
         {
             $title = $res->{"title"};
@@ -33,6 +36,7 @@ class Yacy extends Searchengine
 
             $this->counter++;
             $this->results[] = new \App\Models\Result(
+                $this->engine,
                 $title,
                 $link,
                 $anzeigeLink,

@@ -2,15 +2,18 @@
 <html>
 
 <head>
-    <title>test - MetaGer</title>
+    <title>{{ $metager->getQ() }} - MetaGer</title>
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/styleResultPage.css" rel="stylesheet" />
+    @if( isset($mobile) )
+    <link href="/css/styleResultPageMobile.css" rel="stylesheet" />
+    @endif
     <link href="/css/theme.css.php" rel="stylesheet" />
     <link href="/favicon.ico" rel="icon" type="image/x-icon" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="3316" name="p" />
-    <meta content="test" name="q" />
+    <meta content="{{ getmypid() }}" name="p" />
+    <meta content="{{ $eingabe }}" name="q" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
@@ -28,7 +31,7 @@
                         </div>
                     </li>
                     <li class="pull-right">
-                        <form method="get" action="/meta/meta.ger3" enctype="multipart/form-data" accept-charset="UTF-8" class="form" id="submitForm">
+                        <form method="get" accept-charset="UTF-8" class="form" id="submitForm">
                             <div class="input-group">
                                 <input autocomplete="off" class="form-control" form="submitForm" id="eingabeTop" name="eingabe" placeholder="Suchbegriffe erweitern/verändern, oder völlig neue Suche:" tabindex="1" type="text" value="{{ $eingabe }}" />
                                 <div class="input-group-addon">
@@ -36,96 +39,216 @@
                                     </button>
                                 </div>
                             </div>
-                            <input type='hidden' name='focus' value='web' form='submitForm' />
-                            <input type='hidden' name='encoding' value='utf8' form='submitForm' />
-                            <input type='hidden' name='lang' value='all' form='submitForm' />
-                            <input type='hidden' name='mobile' value='0' form='submitForm' />
+
+                            @foreach( $metager->request->all() as $key => $value)
+                                @if($key !== "eingabe")
+                                <input type='hidden' name='{{ $key }}' value='{{ $value }}' form='submitForm' />
+                                @endif
+                            @endforeach
+
                         </form>
                     </li>
                 </ul>
             </nav>
         </header>
         <ul class="nav nav-tabs" id="foki" role="tablist">
-            <li class="active" data-loaded="1" id="webTabSelector" role="presentation"><a aria-controls="web" data-href="#web;out=results" href="#web"><span class='glyphicon glyphicon-globe'></span> <span class="hidden-xs">Web</span></a>
+        @if( $metager->getFokus() === "web" )
+        <li id="webTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="web" data-href="#web" href="#web">
+                <span class='glyphicon glyphicon-globe'></span> 
+                <span class="hidden-xs">Web</span>
+            </a>
+        </li>
+        @else
+            <li data-loaded="0" id="webTabSelector" role="presentation">
+                <a aria-controls="web" data-href="{{ $metager->generateSearchLink('web') }}" href="{{ $metager->generateSearchLink('web') }}">
+                    <span class='glyphicon glyphicon-globe'></span> 
+                    <span class="hidden-xs">Web</span>
+                </a>
             </li>
-            <li class="" data-loaded="0" id="bilderTabSelector" role="presentation"><a aria-controls="bilder" data-href="https://metager.de/meta/meta.ger3?focus=bilder&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results" href="https://metager.de/meta/meta.ger3?focus=bilder&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0"><span class='glyphicon glyphicon-picture'></span> <span class="hidden-xs">Bilder</span></a>
-            </li>
-            <li class="" data-loaded="0" id="nachrichtenTabSelector" role="presentation"><a aria-controls="nachrichten" data-href="https://metager.de/meta/meta.ger3?focus=nachrichten&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results" href="https://metager.de/meta/meta.ger3?focus=nachrichten&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0"><span class='glyphicon glyphicon-bullhorn'></span> <span class="hidden-xs">Nachrichten</span></a>
-            </li>
-            <li class="" data-loaded="0" id="wissenschaftTabSelector" role="presentation"><a aria-controls="wissenschaft" data-href="https://metager.de/meta/meta.ger3?focus=wissenschaft&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results" href="https://metager.de/meta/meta.ger3?focus=wissenschaft&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0"><span class='glyphicon glyphicon-file'></span> <span class="hidden-xs">Wissenschaft</span></a>
-            </li>
-            <li class="" data-loaded="0" id="produktsucheTabSelector" role="presentation"><a aria-controls="produktsuche" data-href="https://metager.de/meta/meta.ger3?focus=produktsuche&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results" href="https://metager.de/meta/meta.ger3?focus=produktsuche&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0"><span class='glyphicon glyphicon-shopping-cart'></span> <span class="hidden-xs">Produktsuche</span></a>
-            </li>
+        @endif
+
+        @if( $metager->getFokus() === "bilder" )
+        <li id="bilderTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="bilder" data-href="#bilder" href="#bilder">
+                <span class='glyphicon glyphicon-picture'></span> 
+                <span class="hidden-xs">Bilder</span>
+            </a>
+        </li>
+        @else
+        <li data-loaded="0" id="bilderTabSelector" role="presentation">
+            <a aria-controls="bilder" data-href="{{ $metager->generateSearchLink('bilder') }}" href="{{ $metager->generateSearchLink('bilder') }}">
+                <span class='glyphicon glyphicon-picture'></span> 
+                <span class="hidden-xs">Bilder</span>
+            </a>
+        </li>
+        @endif
+
+        @if( $metager->getFokus() === "nachrichten" )
+        <li id="nachrichtenTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="nachrichten" data-href="#nachrichten" href="#nachrichten">
+                <span class='glyphicon glyphicon-bullhorn'></span> 
+                <span class="hidden-xs">Nachrichten</span>
+            </a>
+        </li>
+        @else
+        <li data-loaded="0" id="nachrichtenTabSelector" role="presentation" >
+            <a aria-controls="nachrichten" data-href="{{ $metager->generateSearchLink('nachrichten') }}" href="{{ $metager->generateSearchLink('nachrichten') }}">
+                <span class='glyphicon glyphicon-bullhorn'></span> 
+                <span class="hidden-xs">Nachrichten</span>
+            </a>
+        </li>
+        @endif
+
+        @if( $metager->getFokus() === "wissenschaft" )
+        <li id="wissenschaftTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="wissenschaft" data-href="#wissenschaft" href="#wissenschaft">
+                <span class='glyphicon glyphicon-file'></span> 
+                <span class="hidden-xs">Wissenschaft</span>
+            </a>
+        </li>
+        @else
+        <li data-loaded="0" id="wissenschaftTabSelector" role="presentation">
+            <a aria-controls="wissenschaft" data-href="{{ $metager->generateSearchLink('wissenschaft') }}" href="{{ $metager->generateSearchLink('wissenschaft') }}">
+                <span class='glyphicon glyphicon-file'></span> 
+                <span class="hidden-xs">Wissenschaft</span>
+            </a>
+        </li>
+        @endif
+
+        @if( $metager->getFokus() === "produktsuche" )
+        <li id="produktsucheTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="produktsuche" data-href="#produktsuche" href="#produktsuche">
+                <span class='glyphicon glyphicon-shopping-cart'></span> 
+                <span class="hidden-xs">Produktsuche</span>
+            </a>
+        </li>
+        @else
+        <li data-loaded="0" id="produktsucheTabSelector" role="presentation" >
+            <a aria-controls="produktsuche" data-href="{{ $metager->generateSearchLink('produktsuche') }}" href="{{ $metager->generateSearchLink('produktsuche') }}">
+                <span class='glyphicon glyphicon-shopping-cart'></span> 
+                <span class="hidden-xs">Produktsuche</span>
+            </a>
+        </li>
+        @endif
+
+        @if( $metager->getFokus() === "angepasst" )
+        <li id="angepasstTabSelector" role="presentation" data-loaded="1" class="active">
+            <a aria-controls="angepasst" data-href="#angepasst" href="#angepasst">
+                <span class='glyphicon glyphicon-cog'></span> 
+                <span class="hidden-xs">angepasst</span>
+            </a>
+        </li>
+        @endif
         </ul>
+
         <div class="tab-content container-fluid">
-            <div class="tab-pane active" data-focus="web" id="web" role="tabpanel">
-                @if( sizeof($errors) > 0 )
-                    <div class="alert alert-danger">
-                        <ul>
+            @if( sizeof($errors) > 0 )
+                <div class="alert alert-danger">
+                    <ul>
                         @foreach($errors as $error)
-                            <li>{{ $error }}</li>
+                        <li>{{ $error }}</li>
                         @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if( sizeof($warnings) > 0)
-                    <div class="alert alert-warning">
-                        <ul>
-                        @foreach($warnings as $warning)
-                            <li>{{ $warning }}</li>
-                        @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <div class="row">
-                    <div class="col-md-8">
-                        @yield('results')
-                    </div>
-                    <div class="col-md-4" id="quicktips">
-                       
-                    </div>
-                </div>
-                <nav class="pager">
-                    <ul class="pagination">
-                        <li class="disabled"><a data-href="" href="#"><span aria-hidden="true">&laquo;</span></a>
-                        </li>
-                        <li class="active"><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=1" href="">1 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=2" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=2">2 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=3" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=3">3 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=4" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=4">4 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=5" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=5">5 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=6" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=6">6 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=7" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=7">7 </a>
-                        </li>
-                        <li class=""><a data-href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;out=results;page=2" href="https://metager.de/meta/meta.ger3?focus=web&amp;eingabe=test&amp;encoding=utf8&amp;lang=all&amp;mobile=0;page=2"><span aria-hidden="true">&raquo;</span></a>
-                        </li>
                     </ul>
-                </nav>
-            </div>
-            <div class="tab-pane " data-focus="bilder" id="bilder" role="tabpanel">
-                <div class="loader"><img alt="" src="/img/ajax-loader.gif" />
+                </div>
+            @endif
+            @if( sizeof($warnings) > 0)
+                <div class="alert alert-warning">
+                    <ul>
+                        @foreach($warnings as $warning)
+                        <li>{{ $warning }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            
+            @if( $metager->getFokus() === "web" )
+            <div role="tabpanel" class="tab-pane active" id="web">
+                <div class="row">
+                    @yield('results')
                 </div>
             </div>
-            <div class="tab-pane " data-focus="nachrichten" id="nachrichten" role="tabpanel">
-                <div class="loader"><img alt="" src="/img/ajax-loader.gif" />
+            @else
+            <div role="tabpanel" class="tab-pane" id="web">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
                 </div>
             </div>
-            <div class="tab-pane " data-focus="wissenschaft" id="wissenschaft" role="tabpanel">
-                <div class="loader"><img alt="" src="/img/ajax-loader.gif" />
+            @endif
+            
+
+            
+            @if( $metager->getFokus() === "bilder" )
+            <div role="tabpanel" class="tab-pane active" id="bilder">
+                <div class="row">
+                    @yield('results')
                 </div>
             </div>
-            <div class="tab-pane " data-focus="produktsuche" id="produktsuche" role="tabpanel">
-                <div class="loader"><img alt="" src="/img/ajax-loader.gif" />
+            @else
+            <div role="tabpanel" class="tab-pane" id="bilder">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
                 </div>
             </div>
+            @endif
+            
+
+            
+            @if( $metager->getFokus() === "nachrichten" )
+            <div role="tabpanel" class="tab-pane active" id="nachrichten">
+                <div class="row">
+                    @yield('results')
+                </div>
+            </div>
+            @else
+            <div role="tabpanel" class="tab-pane" id="nachrichten">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
+                </div>
+            </div>
+            @endif
+            
+            @if( $metager->getFokus() === "wissenschaft" )
+            <div role="tabpanel" class="tab-pane active" id="wissenschaft">
+                <div class="row">
+                    @yield('results')
+                </div>
+             </div>
+            @else
+            <div role="tabpanel" class="tab-pane" id="wissenschaft">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
+                </div>
+            </div>
+            @endif
+            
+            @if( $metager->getFokus() === "produktsuche" )
+            <div role="tabpanel" class="tab-pane active" id="produktsuche">
+                <div class="row">
+                        @yield('results')
+                </div>
+             </div>
+            @else
+            <div role="tabpanel" class="tab-pane" id="produktsuche">
+                <div class="loader">
+                    <img src="/img/ajax-loader.gif" alt="" />
+                </div>
+            </div>
+            @endif
+           
+
+            
+            @if( $metager->getFokus() === "angepasst" )
+            <div role="tabpanel" class="tab-pane active" id="angepasst">
+                <div class="row">
+                        @yield('results')
+                </div>
+            </div>
+            @endif
         </div>
     </div>
+
+        
     <footer>
         <ul class="list-unstyled list-inline footer">
             <li class="left"><a class="btn btn-default" href="/">MetaGer-Startseite</a>

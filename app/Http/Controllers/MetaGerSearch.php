@@ -13,9 +13,9 @@ use App\MetaGer;
 
 class MetaGerSearch extends Controller
 {
-
-    public function test(Request $request, MetaGer $metager)
+    public function search(Request $request, MetaGer $metager)
     {
+        $time = microtime();
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);
         if($metager->getFokus() !== "bilder" )
@@ -24,28 +24,119 @@ class MetaGerSearch extends Controller
             $metager->checkSpecialSearches($request);
         }
         # Alle Suchmaschinen erstellen
-        
         $metager->createSearchEngines($request);
+
+        # Alle Ergebnisse vor der Zusammenführung ranken:
+        $metager->rankAll();
 
         # Ergebnisse der Suchmaschinen kombinieren:
         $metager->combineResults();
+
+        $metager->removeInvalids();
         # Die Ausgabe erstellen:
         return $metager->createView();
     }
 
-    public function search(Request $request)
+    public function quicktips(Request $request)
     {
-       
- 
-        $searchengines = Search::loadSearchEngines($request);
-        $results = new Results($searchengines);
+        $q = $request->input('q', '');
 
-        
-        
+        # Zunächst den Spruch
+        $spruecheFile = storage_path() . "/app/public/sprueche.txt";
+        if( file_exists($spruecheFile) )
+        {
+            $sprueche = file($spruecheFile);
+            $spruch = $sprueche[array_rand($sprueche)];
+        }
 
+        # Die manuellen Quicktips:
+        $file = storage_path() . "/app/public/qtdata.csv";
         
+        $mquicktips = [];
+        if( file_exists($file) && $q !== '')
+        {
+            $file = fopen($file, 'r');
+            while (($line = fgetcsv($file)) !== FALSE) {
+                $words = array_slice($line,3);
+                $isIn = FALSE;
+                foreach($words as $word){
+                        $word = strtolower($word);
+                        if(strpos($q, $word) !== FALSE){
+                                $isIn = TRUE;
+                                break;
+                        }
+                }
+                if($isIn === TRUE){
+                        $quicktip = array('QT_Type' => "MQT");
+                        $quicktip["URL"] = $line[0];
+                        $quicktip["title"] = $line[1];
+                        $quicktip["descr"] = $line[2];
+                        $mquicktips[] = $quicktip;
+                }
+        }
+        fclose($file);
+        }
 
-        return print_r( $viewResults, TRUE);
+        # Wikipedia Quicktip
+        $quicktips = [];
+        $url = "http://de.wikipedia.org/w/api.php?action=query&titles=".urlencode(implode("_",array_diff(explode(" ",$q),array("wikipedia"))))."&prop=info|extracts|categories&inprop=url|displaytitle&exintro&exsentences=3&format=json";
+        $decodedResponse = json_decode($this->get($url), true);
+        foreach($decodedResponse["query"]["pages"] as $result)
+        {
+            if( isset($result['displaytitle']) && isset($result['fullurl']) && isset($result['extract']) )
+            {
+                $quicktip = [];
+                $quicktip["title"] = $result['displaytitle'];
+                $quicktip["URL"] = $result['fullurl'];
+                $quicktip["descr"] = strip_tags($result['extract']);
+
+                $quicktips[] = $quicktip;
+            }
+        }
+        $mquicktips = array_merge($mquicktips, $quicktips);
+
+        # Uns Natürlich das wussten Sie schon:
+        $file = storage_path() . "/app/public/tips.txt";
+        if( file_exists($file) )
+        {
+            $tips = file($file);
+            $tip = $tips[array_rand($tips)];
+
+            $mquicktips[] = ['title' => 'Wussten Sie schon?', 'descr' => $tip, 'URL' => '/tips'];   
+        }   
+
+        # Uns die Werbelinks:
+        $file = storage_path() . "/app/public/ads.txt";
+        if( file_exists($file) )
+        {
+            $ads = json_decode(file_get_contents($file), true);
+            $ad = $ads[array_rand($ads)];
+
+            $mquicktips[] = ['title' => $ad['title'], 'descr' => $ad['descr'], 'URL' => $ad['URL']];   
+        }   
+
+        return view('quicktip')
+            ->with('spruch', $spruch)
+            ->with('mqs', $mquicktips);
+
+            
     }
+
+    public function tips()
+    {
+        $file = storage_path() . "/app/public/tips.txt";
+        $tips = [];
+        if( file_exists($file) )
+        {
+            $tips = file($file);
+        }
+        return view('tips')
+            ->with('title', 'MetaGer - Tipps & Tricks')
+            ->with('tips', $tips);
+    }
+
+    function get($url) {
+        return file_get_contents($url);
+    } 
 
 }

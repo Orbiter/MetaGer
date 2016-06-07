@@ -9,20 +9,29 @@ abstract class Searchengine
 {
 
 	protected $ch; 	# Curl Handle zum erhalten der Ergebnisse
-	protected $fp;
+	public $fp;
 	protected $getString = "";
 	protected $engine;
     protected $counter = 0;
     protected $socketNumber = null;
-    protected $enabled = true;
+    public $enabled = true;
 	public $results = [];
+	public $ads = [];
+	public $write_time = 0;
+	public $connection_time = 0;
 
 	function __construct(\SimpleXMLElement $engine, MetaGer $metager)
 	{
-
 		foreach($engine->attributes() as $key => $value){
 			$this->$key = $value->__toString();
 		}
+		if( !isset($this->homepage) )
+			$this->homepage = "https://metager.de";
+		$this->engine = $engine;
+
+		# Wir registrieren die Benutzung dieser Suchmaschine
+		$this->uses = intval(Redis::hget($this->name, "uses")) + 1;
+		Redis::hset($this->name, "uses", $this->uses);
 
 		# Eine Suchmaschine kann automatisch temporär deaktiviert werden, wenn es Verbindungsprobleme gab:
         if(isset($this->disabled) && strtotime($this->disabled) <= time() )
@@ -46,64 +55,77 @@ abstract class Searchengine
 		$this->ip = $metager->getIp();
 		$this->gefVon = "<a href=\"" . $this->homepage . "\" target=\"_blank\">" . $this->displayName . "</a>";
 		$this->startTime = microtime();
-		$this->getString = $this->generateGetString($metager->getEingabe(), $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
+		
+		$this->getString = $this->generateGetString($metager->getQ(), $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
 		$counter = 0;
-
 		# Wir benötigen einen verfügbaren Socket, über den wir kommunizieren können:
+		$time = microtime(true);
 		$this->fp = $this->getFreeSocket();
-
-		do
+		
+		$this->setStatistic("connection_time", ((microtime(true)-$time) / 1000000));
+		if(!$this->fp)
 		{
-			#try
-			#{
-				
-				
-			/*}catch(\Exception $e)
-			{
-				# Connection Timeout: Wir schalten die Suchmaschine aus:
-				$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde deaktiviert, weil keine Verbindung aufgebaut werden konnte");
-				break;
-			}*/
-			if(!$this->fp)
-			{
-				// Mache etwas
-				$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde für 1h deaktiviert, weil keine Verbindung aufgebaut werden konnte");
-				break;
-			}else
-			{
-				$out = "GET " . $this->getString . " HTTP/1.1\r\n";
-				$out .= "Host: " . $this->host . "\r\n";
-				$out .= "User-Agent: " . $this->useragent . "\r\n";
-				$out .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
-				$out .= "Accept-Language: de,en-US;q=0.7,en;q=0.3\r\n";
-				$out .= "Accept-Encoding: gzip, deflate, br\r\n";
-				$out .= "Connection: keep-alive\r\n\r\n";
-				// Daten senden:
-				#try 
-				#{
-					if(fwrite($this->fp, $out))
-					{
-						break;
-					}else
-					{
-						abort(500, "Fehler beim schreiben.");
-					}
-					
-				#}catch(\Exception $e)
-				#{
-				#	fclose($this->fp);
-				#	if($counter >= 5)
-				#	{
-#
-				#		Log::error("Konnte auch nach 6 Versuchen keine schreibbare Verbindung zum Server \"" . $this->host . "\" aufbauen.");
-				#		break;
-				#	}
-				#}
-			}
-		}while(true);
+			$this->disable($metager->getSumaFile(), "Die Suchmaschine " . $this->name . " wurde für 1h deaktiviert, weil keine Verbindung aufgebaut werden konnte");
+		}else
+		{
+			$time = microtime(true);
+			$this->writeRequest();
+			$this->setStatistic("write_time", ((microtime(true)-$time) / 1000000));
+		}
+
 	}
 
-	public abstract function loadResults(String $result);
+	public abstract function loadResults($result);
+
+	private function writeRequest ()
+	{
+		$out = "GET " . $this->getString . " HTTP/1.1\r\n";
+		$out .= "Host: " . $this->host . "\r\n";
+		$out .= "User-Agent: " . $this->useragent . "\r\n";
+		$out .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
+		$out .= "Accept-Language: de,en-US;q=0.7,en;q=0.3\r\n";
+		$out .= "Accept-Encoding: gzip, deflate, br\r\n";
+		$out .= "Connection: keep-alive\r\n\r\n";
+
+		# Anfrage senden:
+		$sent = 0; $string = $out; $time = microtime(true);
+		while(true)
+		{	
+			try{
+				$tmp = fwrite($this->fp, $string);
+			}catch(\ErrorException $e)
+			{
+				# Irgendwas ist mit unserem Socket passiert. Wir brauchen einen neuen:
+				fclose($this->fp);
+				Redis::del($this->name . "." . $this->socketNumber);
+				$this->fp = $this->getFreeSocket();
+				$sent = 0;
+				$string = $out;
+				continue;
+			}
+			if($tmp){
+				$sent += $tmp;
+				$string = substr($string, $tmp);
+			}else
+				abort(500, "Fehler beim schreiben.");
+
+			if(((microtime(true) - $time) / 1000000) >= 500)
+			{
+				abort(500, "Konnte die Request Daten nicht an: " . $this->name . " senden");
+			}
+
+			if($sent >= strlen($out))
+				break;
+		}
+	}
+
+	public function rank (\App\MetaGer $metager)
+	{
+		foreach($this->results as $result)
+		{
+			$result->rank($metager);
+		}
+	}
 
 	private function getFreeSocket()
 	{
@@ -114,55 +136,50 @@ abstract class Searchengine
 		# Wenn dem so ist, probieren wir den nächsten Socket zu verwenden.
 		# Dies festzustellen ist komplizierter, als man sich das vorstellt. Folgendes System sollte funktionieren:
 		# 1. Stelle fest, ob dieser Socket neu erstellt wurde, oder ob ein existierender geöffnet wurde.
-
-		$counter = 0;
+		$counter = 0; $fp = null;
 		do
 		{
-			if(intval(Redis::getBit($this->name, $counter)) === 0)
+			
+			if( intval(Redis::exists($this->host . ".$counter")) === 0 )              
 			{
-
-				#die($counter . "Socket.");
-				Redis::setBit($this->name, $counter, 1);
+				Redis::set($this->host . ".$counter", 1);
+				Redis::expire($this->host . ".$counter", 5);
 				$this->socketNumber = $counter;
 
 				try
 				{
 					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
-					return $fp;
 				}catch(\ErrorException $e)
 				{
-					return null;
+					break;
 				}
-				
-				
+				# Wir gucken, ob der Lesepuffer leer ist:
+				stream_set_blocking($fp, 0);
+				if(fgets($fp, BUFFER_LENGTH) !== false)
+				{
+					Log::error("Der Lesepuffer von: " . $this->name . " war nach dem Erstellen nicht leer. Musste den Socket neu starten.");
+					fclose($fp);
+					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
+				}
+				header($this->name . ": " . $counter . "_" . $this->getHost());
+				break;
 			}
 			$counter++;
-		}while($counter < 20);
+		}while(true);
 
-		# Wenn wir hier hin kommen, läuft etwas falsch! Wir kappen alle bestehenden Verbindungen:
-		$connectionError = false;
-		for($i = 0; $i < 20; $i++)
-		{
-			if(!$connectionError)
-			{
-				try
-				{
-					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
-					fclose($fp);
-				}catch(\ErrorException $e)
-				{
-					$connectionError = true;
-				}
-			}
-			
-			Redis::setBit($this->name, $i, 0);
-			
-		}
-
-		return null;
+		return $fp;
 	}
 
-	public function disable(string $sumaFile, string $message)
+	private function setStatistic($key, $val)
+	{
+
+		$oldVal = floatval(Redis::hget($this->name, $key)) * $this->uses;
+		$newVal = ($oldVal + max($val, 0)) / $this->uses;
+		Redis::hset($this->name, $key, $newVal);
+		$this->$key = $newVal;
+	}
+
+	public function disable($sumaFile, $message)
 	{
 		Log::info($message);
 		$xml = simplexml_load_file($sumaFile);
@@ -170,7 +187,7 @@ abstract class Searchengine
 		$xml->saveXML($sumaFile);
 	}
 
-	public function enable(string $sumaFile, string $message)
+	public function enable($sumaFile, $message)
 	{
 		Log::info($message);
 		$xml = simplexml_load_file($sumaFile);
@@ -185,7 +202,7 @@ abstract class Searchengine
 
 	public function retrieveResults()
 	{
-		
+		$time = microtime(true);
 		$headers = '';
 		$body = '';
 		$length = 0;
@@ -193,45 +210,50 @@ abstract class Searchengine
 		{
 			return;
 		}
-		// We need a waiting Loop to wait till the server is ready
 		// get headers FIRST
-		stream_set_blocking($this->fp, 1);
+		$c = 0;
+		stream_set_blocking($this->fp, 0);
 		do
 		{
     		// use fgets() not fread(), fgets stops reading at first newline
    			// or buffer which ever one is reached first
     		$data = fgets($this->fp, BUFFER_LENGTH);
     		// a sincle CRLF indicates end of headers
-    		if ($data === false || $data == CRLF || feof($this->fp)) {
+    		if ($data === false || $data == CRLF || feof($this->fp) || ((microtime()-$time)/1000000) > 100 ) {
         		// break BEFORE OUTPUT
         		break;
     		}
     		if( sizeof(($tmp = explode(": ", $data))) === 2 )
     			$headers[trim($tmp[0])] = trim($tmp[1]);
+    		$c++;
 		}
 		while (true);
 		// end of headers
-		$bodySize = 0;
-		if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
-		{
-			$body = $this->readChunked();
-			
-		}elseif( isset($headers['Content-Length']) )
-		{
-			$length = trim($headers['Content-Length']);
-			if(is_numeric($length) && $length >= 1)
-				$body = $this->readBody($length);
-			$bodySize = strlen($body);
-		}else
-		{
-			abort(500, "Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
+		if(sizeof($headers) > 1){
+			$bodySize = 0;
+			if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
+			{
+				$body = $this->readChunked();
+				
+			}elseif( isset($headers['Content-Length']) )
+			{
+				$length = trim($headers['Content-Length']);
+				if(is_numeric($length) && $length >= 1)
+					$body = $this->readBody($length);
+				$bodySize = strlen($body);
+			}else
+			{
+				die("Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
+			}
 		}
-		Redis::setBit($this->name, $this->socketNumber, 0 );
 
+		Redis::del($this->host . "." . $this->socketNumber);
+		$this->setStatistic("read_time", ((microtime(true)-$time) / 1000000));
 		if( isset($headers["Content-Encoding"]) && $headers['Content-Encoding'] === "gzip")
 		{
 			$body = $this->gunzip($body);
 		}
+
 		#print_r($headers);
 		#print($body);
 		#print("\r\n". $bodySize);
@@ -243,7 +265,7 @@ abstract class Searchengine
 		#exit;
 	}
 
-	private function readBody(int $length)
+	private function readBody($length)
 	{
 		$theData = '';
         $done = false;

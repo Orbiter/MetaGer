@@ -14,54 +14,54 @@
     Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     {
         /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-        Route::get('/', function()
+        /* Route::get('/', function()
         {
             return view('index', [ 
-            'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
+            'title' => trans('titles.index'), 
             'homeIcon']);
-        });
+        }); */
+
+        Route::get('/', 'StartpageController@loadStartPage');
 
         Route::get('impressum', function()
         {
             return view('impressum')
-                ->with('title', 'Impressum - MetaGer')
+                ->with('title', trans('titles.impressum'))
                 ->with('css', 'impressum.css');
         });
 
         Route::get('about', function()
         {
             return view('about')
-                ->with('title', 'Über Uns - MetaGer')
+                ->with('title', trans('titles.about'))
                 ->with('css', 'about.css');
         });
         Route::get('team', function()
         {
             return view('team.team')
-                ->with('title', 'Team - MetaGer')
+                ->with('title', trans('titles.team'))
                 ->with('css', 'team.css');
         });
         Route::get('team/pubkey-wsb', function()
         {
             return view('team.pubkey-wsb')
-                ->with('title', 'Team - MetaGer');
+                ->with('title', trans('titles.team'));
         });
 
         Route::get('kontakt', function()
         {
             return view('kontakt.kontakt')
-                ->with('title', 'Kontakt - MetaGer')
+                ->with('title', trans('titles.kontakt'))
                 ->with('css', 'kontakt.css')
                 ->with('js', ['openpgp.min.js','kontakt.js']);
         });
 
         Route::post('kontakt', 'MailController@contactMail');
 
-        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
-
         Route::get('spende', function()
         {
             return view('spende')
-                ->with('title', 'Spenden - MetaGer')
+                ->with('title', trans('titles.spende'))
                 ->with('css', 'donation.css');
         });
         Route::post('spende', 'MailController@donation');
@@ -69,19 +69,24 @@
         Route::get('datenschutz', function()
         {
             return view('datenschutz')
-                ->with('title', 'Datenschutz und Privatsphäre - MetaGer')
+                ->with('title', trans('titles.datenschutz'))
                 ->with('css', 'privacy.css');
         });
 
         Route::get('hilfe', function()
         {
             return view('hilfe')
-                ->with('title', 'Hilfe - MetaGer')
+                ->with('title', trans('titles.hilfe'))
                 ->with('css', 'help.css');
         });
 
-        Route::get('meta/meta.ger3', 'MetaGerSearch@test');
-
+        Route::get('widget', function()
+        {
+            return view('widget')
+                ->with('title', trans('titles.widget'))
+                ->with('css', 'widget.css');
+        });
+        
         Route::get('settings', function()
         {
             return view('settings')
@@ -89,4 +94,10 @@
                 ->with('css', 'settings.css')
                 ->with('js', ['settings.js']);
         });
+
+        
+        Route::get('meta/meta.ger3', 'MetaGerSearch@search');
+
+        Route::get('qt', 'MetaGerSearch@quicktips');
+        Route::get('tips', 'MetaGerSearch@tips');
     });

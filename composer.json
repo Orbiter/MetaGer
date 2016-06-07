@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "mcamara/laravel-localization": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
-        "jenssegers/agent": "^2.3"
+        "jenssegers/agent": "^2.3",
+        "fideloper/proxy": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

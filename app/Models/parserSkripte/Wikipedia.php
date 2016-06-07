@@ -12,13 +12,14 @@ class Wikipedia extends Searchengine
 		parent::__construct($engine, $metager);
 	}
 
-	public function loadResults (String $result)
+	public function loadResults ($result)
 	{
 		$result = utf8_decode($result);
 		$counter = 0;
 		
 		#die($crawler);
 		$this->results[] = new \App\Models\Result(
+			$this->engine,
 			trim(strip_tags($result[1])),
 			$link,
 			$result[3],

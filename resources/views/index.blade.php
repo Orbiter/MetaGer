@@ -25,42 +25,42 @@
           </h1>
           <figure>
             <fieldset id="foki">
-              <input id="web" type="radio" name="focus" value="web" form="searchForm" checked required="">
+              <input id="web" type="radio" name="focus" value="web" form="searchForm" @if ($focus === 'web') checked @endif required="">
               <label id="web-label" for="web">
                 <span class="glyphicon glyphicon-globe">
                 </span>
                 <span class="content">Web
                 </span>
               </label>
-              <input id="bilder" type="radio" name="focus" value="bilder" form="searchForm" required="">
+              <input id="bilder" type="radio" name="focus" value="bilder" form="searchForm" @if ($focus === 'bilder') checked @endif required="">
               <label id="bilder-label" for="bilder">
                 <span class="glyphicon glyphicon-picture">
                 </span>
                 <span class="content">{{ trans('index.foki.bilder') }}
                 </span>
               </label>
-              <input id="nachrichten" type="radio" name="focus" value="nachrichten" form="searchForm" required="">
+              <input id="nachrichten" type="radio" name="focus" value="nachrichten" form="searchForm" @if ($focus === 'nachrichten') checked @endif required="">
               <label id="nachrichten-label" for="nachrichten">
                 <span class="glyphicon glyphicon-bullhorn">
                 </span>
                 <span class="content">{{ trans('index.foki.nachrichten') }}
                 </span>
               </label>
-              <input id="wissenschaft" type="radio" name="focus" value="wissenschaft" form="searchForm" required="">
+              <input id="wissenschaft" type="radio" name="focus" value="wissenschaft" form="searchForm" @if ($focus === 'wissenschaft') checked @endif required="">
               <label id="wissenschaft-label" for="wissenschaft">
                 <span class="glyphicon glyphicon-file">
                 </span>
                 <span class="content">{{ trans('index.foki.wissenschaft') }}
                 </span>
               </label>
-              <input id="produkte" type="radio" name="focus" value="produktsuche" form="searchForm" required="">
+              <input id="produkte" type="radio" name="focus" value="produktsuche" form="searchForm" @if ($focus === 'produkte') checked @endif required="">
               <label id="produkte-label" for="produkte">
                 <span class="glyphicon glyphicon-shopping-cart">
                 </span>
                 <span class="content">{{ trans('index.foki.produkte') }}
                 </span>
               </label>
-              <input id="angepasst" type="radio" name="focus" value="angepasst" form="searchForm" required="">
+              <input id="angepasst" type="radio" name="focus" value="angepasst" form="searchForm" @if ($focus === 'angepasst') checked @endif required="">
               <label id="anpassen-label" for="angepasst">
                 <span class="glyphicon glyphicon-cog">
                 </span>
@@ -94,7 +94,16 @@
                   </div>
                   <input type="text" name="eingabe" required="" autofocus="" class="form-control" placeholder="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen">
                   <input type="hidden" name="encoding" value="utf8">
-                  <input type="hidden" name="lang" value="all">
+                  @if ($focus === 'angepasst') <input type="hidden" name="lang" value={{ $lang }} >
+                  <input type="hidden" name="resultCount" value={{ $resultCount }} >
+                  <input type="hidden" name="time" value={{ $time }} >
+                  <input type="hidden" name="sprueche" value={{ $sprueche }} >
+                  <input type="hidden" name="tab" value={{ $tab }} >
+                    @foreach ($focusPages as $fp)
+                      <input type="hidden" name={{ $fp }} value="on">
+                    @endforeach
+                  @else <input type="hidden" name="lang" value="all">
+                  @endif
                   <div class="input-group-addon">
                     <button type="submit">
                       <span class="glyphicon glyphicon-search">
