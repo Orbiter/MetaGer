@@ -188,6 +188,8 @@ class MetaGer
         $paginatedSearchResults->setPath('/meta/meta.ger3');
         foreach($this->request->all() as $key => $value)
         {
+            if( $key = "out" )
+                continue;
             $paginatedSearchResults->addQuery($key, $value);
         }
 
