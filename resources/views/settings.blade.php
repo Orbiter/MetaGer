@@ -5,7 +5,7 @@
 @section('content')
 <form action="/" method="get">
   <h1>Einstellungen</h1>
-  <p id="lead">Hier k&ouml;nnen Sie Ihr MetaGer anpassen: Nach Anklicken Ihrer gew&uuml;nschten Einstellungen m&uuml;ssen Sie<a href="#unten">unten auf dieser Seite</a> w&auml;hlen, ob Sie die Einstellungen dauerhaft speichern, oder nur einmalig setzen wollen.</p>
+  <p id="lead">Hier k&ouml;nnen Sie Ihr MetaGer anpassen: Nach Anklicken Ihrer gew&uuml;nschten Einstellungen m&uuml;ssen Sie <a href="#unten">unten auf dieser Seite</a> w&auml;hlen, ob Sie die Einstellungen dauerhaft speichern, oder nur einmalig setzen wollen.</p>
   <h2>Allgemein</h2>
   <input type="hidden" name="focus" value="angepasst">
   <div class="checkbox">
@@ -248,6 +248,4 @@
   <input id="unten" type="submit" class="btn btn-primary" value="Startseite f&uuml;r einmalige Nutzung generieren">
   <input type="button" class="btn btn-primary hidden" id="save" value="Einstellungen dauerhaft speichern">
   <input type="button" class="btn btn-danger hidden" id="reset" value="Einstellungen Zur&uuml;cksetzen"></form>
-  <script type="text/javascript" src="/js/settings.js"></script>
-
 @endsection

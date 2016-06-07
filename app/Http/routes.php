@@ -86,6 +86,7 @@
         {
             return view('settings')
                 ->with('title', 'Einstellungen') // TODO Titel übersetzen
-                ->with('css', 'settings.css');
+                ->with('css', 'settings.css')
+                ->with('js', ['settings.js']);
         });
     });
