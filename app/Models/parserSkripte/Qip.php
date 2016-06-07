@@ -2,33 +2,37 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use Log;
 
 class Qip extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine,  \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
 		parent::__construct($engine, $metager);
 	}
 
 	public function loadResults ($result)
 	{
-		die($result);
-		$results = trim($result);
+		$result = preg_replace("/\r\n/si", "", $result);
+		try {
+			$content = simplexml_load_string($result);
+		} catch (\Exception $e) {
+			abort(500, "$result is not a valid xml string");
+		}
 		
-		foreach( explode("\n", $results) as $result )
+		if(!$content)
 		{
-			$res = explode("|", $result);
-			if(sizeof($res) < 3)
-			{
-				continue;
-			}
-			$title = $res[0];
-			$link = $res[2];
+			return;
+		}
+		$results = $content->xpath('//channel/item');
+		foreach($results as $result)
+		{
+			$title = $result->{"title"}->__toString();
+			$link = $result->{"link"}->__toString();
 			$anzeigeLink = $link;
-			$descr = $res[1];
-
+			$descr = $result->{"description"}->__toString();
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -38,9 +42,7 @@ class Qip extends Searchengine
 				$descr,
 				$this->gefVon,
 				$this->counter
-			);		
+			);
 		}
-
-		
 	}
 }
