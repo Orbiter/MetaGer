@@ -86,6 +86,23 @@ class MetaGer
             $viewResults[] = get_object_vars($result);
         }
 
+        if( $this->fokus === "bilder" )
+        {
+            switch ($this->out) 
+            {
+                case 'results':
+                    return '';
+                default:
+                    return view('metager3bilder')
+                        ->with('results', $viewResults)
+                        ->with('eingabe', $this->eingabe)
+                        ->with('mobile', $this->mobile)
+                        ->with('warnings', $this->warnings)
+                        ->with('errors', $this->errors)
+                        ->with('metager', $this);
+            }
+        }
+
         switch ($this->out) {
             case 'results':
                 return view('metager3results')
