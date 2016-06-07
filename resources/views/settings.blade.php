@@ -4,38 +4,38 @@
 
 @section('content')
 <form action="/" method="get">
-  <h1>Einstellungen</h1>
-  <p id="lead">Hier k&ouml;nnen Sie Ihr MetaGer anpassen: Nach Anklicken Ihrer gew&uuml;nschten Einstellungen m&uuml;ssen Sie <a href="#unten">unten auf dieser Seite</a> w&auml;hlen, ob Sie die Einstellungen dauerhaft speichern, oder nur einmalig setzen wollen.</p>
-  <h2>Allgemein</h2>
+  <h1>{{ trans('settings.head.1') }}</h1>
+  <p id="lead">{{ trans('settings.head.2') }} <a href="#unten">{{ trans('settings.head.3') }}</a> {{ trans('settings.head.4') }}</p>
+  <h2>{{ trans('settings.allgemein.1') }}</h2>
   <input type="hidden" name="focus" value="angepasst">
   <div class="checkbox">
     <label>
-      <input type="checkbox" name="param_sprueche">Spr&uuml;che ausblenden</label></div>
+      <input type="checkbox" name="param_sprueche">{{ trans('settings.allgemein.2') }}</label></div>
   <div class="checkbox">
     <label>
-      <input type="checkbox" name="param_tab">Links im gleichen Tab &ouml;ffnen</label></div>
-  <label class="select-label">Sprache ausw&auml;hlen:</label>
+      <input type="checkbox" name="param_tab">{{ trans('settings.allgemein.3') }}</label></div>
+  <label class="select-label">{{ trans('settings.allgemein.4') }}:</label>
   <select class="form-control" name="param_lang">
-    <option value="all">Alle Sprachen</option>
-    <option value="de">Deutsch</option></select>
-  <label class="select-label">Anzahl der Ergebnisse pro Seite:</label>
+    <option value="all">{{ trans('settings.allgemein.5') }}</option>
+    <option value="de">{{ trans('settings.allgemein.6') }}</option></select>
+  <label class="select-label">{{ trans('settings.allgemein.7') }}:</label>
   <select class="form-control" name="param_resultCount">
     <option value="10">10</option>
     <option value="20" selected>20</option>
     <option value="50">50</option>
     <option value="100">100</option>
-    <option value="0">Alle</option></select>
-  <label class="select-label">Maximale Suchzeit:</label>
+    <option value="0">{{ trans('settings.allgemein.8') }}</option></select>
+  <label class="select-label">{{ trans('settings.allgemein.9') }}:</label>
   <select class="form-control" name="param_time">
-    <option value="1000" selected>1 Sekunde (Standard)</option>
-    <option value="2000">2 Sekunden</option>
-    <option value="5000">5 Sekunden</option>
-    <option value="10000">10 Sekunden</option>
-    <option value="20000">20 Sekunden</option></select>
-  <h2>Suchmaschinen</h2>
+    <option value="1000" selected>1 {{ trans('settings.allgemein.10') }}</option>
+    <option value="2000">2 {{ trans('settings.allgemein.11') }}</option>
+    <option value="5000">5 {{ trans('settings.allgemein.11') }}</option>
+    <option value="10000">10 {{ trans('settings.allgemein.11') }}</option>
+    <option value="20000">20 {{ trans('settings.allgemein.11') }}</option></select>
+  <h2>{{ trans('settings.suchmaschinen.1') }}</h2>
   <div class="headingGroup web">
-    <h3>Web-Suche:
-      <small><a data-type="web" class="checker"> (alle an-/abw&auml;hlen)</a></small></h3>
+    <h3>{{ trans('settings.suchmaschinen.2') }}:
+      <small><a data-type="web" class="checker"> ({{ trans('settings.suchmaschinen.3') }})</a></small></h3>
     <div class="row">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
@@ -88,22 +88,22 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagevideo">OneNewspage (Video)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/videos.htm"></a></div></div>
+            <input type="checkbox" name="param_onenewspagevideo">OneNewspage ({{ trans('settings.suchmaschinen.4') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/videos.htm"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagegermany">OneNewspage (Deutschland)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
+            <input type="checkbox" name="param_onenewspagegermany">OneNewspage ({{ trans('settings.suchmaschinen.5') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagegermanyvideo">OneNewspage Video (Deutschland)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/videos.htm"></a></div></div>
+            <input type="checkbox" name="param_onenewspagegermanyvideo">OneNewspage Video ({{ trans('settings.suchmaschinen.5') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/videos.htm"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
             <input type="checkbox" name="param_minism">Minisucher SUMA-Lab</label></div></div></div></div>
   <div class="headingGroup nachrichten">
-    <h3>Nachrichten:
-      <small><a data-type="nachrichten" class="checker"> (alle an-/abw&auml;hlen)</a></small></h3>
+    <h3>{{ trans('settings.suchmaschinen.6') }}:
+      <small><a data-type="nachrichten" class="checker"> ({{ trans('settings.suchmaschinen.3') }})</a></small></h3>
     <div class="row">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
@@ -116,18 +116,18 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagevideo">OneNewspage (Video)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/videos.htm"></a></div></div>
+            <input type="checkbox" name="param_onenewspagevideo">OneNewspage ({{ trans('settings.suchmaschinen.4') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/videos.htm"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagegermany">OneNewspage (Deutschland)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
+            <input type="checkbox" name="param_onenewspagegermany">OneNewspage ({{ trans('settings.suchmaschinen.5') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagegermanyvideo">OneNewspage Video (Deutschland)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/videos.htm"></a></div></div></div></div>
+            <input type="checkbox" name="param_onenewspagegermanyvideo">OneNewspage Video ({{ trans('settings.suchmaschinen.5') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/videos.htm"></a></div></div></div></div>
   <div class="headingGroup wissenschaft">
-    <h3>Wissenschaft:
-      <small><a data-type="wissenschaft" class="checker"> (alle an-/abw&auml;hlen)</a></small></h3>
+    <h3>{{ trans('settings.suchmaschinen.7') }}:
+      <small><a data-type="wissenschaft" class="checker"> ({{ trans('settings.suchmaschinen.3') }})</a></small></h3>
     <div class="row">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
@@ -150,8 +150,8 @@
           <label>
             <input type="checkbox" name="param_pubmed">PubMed</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/"></a></div></div></div></div>
   <div class="headingGroup produktsuche">
-    <h3>Produktsuchen:
-      <small><a data-type="produktsuche" class="checker"> (alle an-/abw&auml;hlen)</a></small></h3>
+    <h3>{{ trans('settings.suchmaschinen.8') }}:
+      <small><a data-type="produktsuche" class="checker"> ({{ trans('settings.suchmaschinen.3') }})</a></small></h3>
     <div class="row">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
@@ -160,11 +160,11 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_mg_produkt">MetaGer Produktsuche</label></div></div>
+            <input type="checkbox" name="param_mg_produkt">MetaGer {{ trans('settings.suchmaschinen.9') }}</label></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_mg_produkt2">MetaGer Produktsuche</label></div></div>
+            <input type="checkbox" name="param_mg_produkt2">MetaGer {{ trans('settings.suchmaschinen.9') }}</label></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
@@ -174,8 +174,8 @@
           <label>
             <input type="checkbox" name="param_similar_product">Ladenpreis</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.ladenpreis.net/"></a></div></div></div></div>
   <div class="headingGroup others">
-    <h3>Andere Suchmaschinen:
-      <small><a data-type="others" class="checker"> (alle an-/abw&auml;hlen)</a></small></h3>
+    <h3>{{ trans('settings.suchmaschinen.10') }}:
+      <small><a data-type="others" class="checker"> ({{ trans('settings.suchmaschinen.3') }})</a></small></h3>
     <div class="row">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
@@ -208,19 +208,19 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_tauchen">OpenCrawl (Tauchen)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=tauchen&amp;query=&amp;hitsPerPage=10&amp;hitsPerSite=1"></a></div></div>
+            <input type="checkbox" name="param_tauchen">OpenCrawl ({{ trans('settings.suchmaschinen.11') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=tauchen&amp;query=&amp;hitsPerPage=10&amp;hitsPerSite=1"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_regengergie">OpenCrawl (Regenerative Energien)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=ernenerg"></a></div></div>
+            <input type="checkbox" name="param_regengergie">OpenCrawl ({{ trans('settings.suchmaschinen.12') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=ernenerg"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_astronomie">OpenCrawl (Astronomie)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=astronom"></a></div></div>
+            <input type="checkbox" name="param_astronomie">OpenCrawl ({{ trans('settings.suchmaschinen.13') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.opencrawl.de/opencrawl/search.jsp?subcollection=astronom"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_goyax">B&ouml;rse &amp; Finanzen (goyax)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.goyax.de/"></a></div></div>
+            <input type="checkbox" name="param_goyax">{{ trans('settings.suchmaschinen.14') }} (goyax)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.goyax.de/"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
@@ -236,11 +236,11 @@
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspageAll">OneNewspage (mit Archiv)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/"></a></div></div>
+            <input type="checkbox" name="param_onenewspageAll">OneNewspage ({{ trans('settings.suchmaschinen.15') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.onenewspage.com/"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="param_onenewspagegermanyAll">OneNewspage (Deutschland, mit Archiv)</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
+            <input type="checkbox" name="param_onenewspagegermanyAll">OneNewspage ({{ trans('settings.suchmaschinen.16') }})</label><a class="glyphicon glyphicon-link" target="_blank" href="http://www.newsdeutschland.com/"></a></div></div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="checkbox">
           <label>
