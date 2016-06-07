@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class StartpageController extends Controller
 {
@@ -12,12 +13,35 @@ class StartpageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function loadStartPage($locale = "de")
+    /* public function loadStartPage($locale = "de")
     {
         \App::setLocale($locale);
         return view('index', [ 
             'title' => 'MetaGer: Sicher suchen & finden, Privatsphäre schützen', 
             'homeIcon']);
+    } */
+
+    public function loadStartPage(Request $request) 
+    {
+        $focusPages = [];
+        foreach($request->all() as $key => $value)
+        {
+            if($value === 'on' && $key != 'param_sprueche' && $key != 'param_tab') 
+            {
+               $focusPages[] = str_replace('param_', '', $key);
+            }
+        }
+
+        return view('index')
+            ->with('title', trans('titles.index'))
+            ->with('homeIcon')
+            ->with('focus', $request->input('focus', 'web'))
+            ->with('lang', $request->input('param_lang', 'all'))
+            ->with('resultCount', $request->input('param_resultCount', '20'))
+            ->with('time', $request->input('param_time', '1000'))
+            ->with('sprueche', $request->input('param_sprueche', 'off'))
+            ->with('tab', $request->input('param_sprueche', 'off'))
+            ->with('focusPages', $focusPages);
     }
 
     public function loadPage($subpage)

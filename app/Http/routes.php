@@ -14,12 +14,14 @@
     Route::group(['prefix' => LaravelLocalization::setLocale()], function()
     {
         /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-        Route::get('/', function()
+        /* Route::get('/', function()
         {
             return view('index', [ 
             'title' => trans('titles.index'), 
             'homeIcon']);
-        });
+        }); */
+
+        Route::get('/', 'StartpageController@loadStartPage');
 
         Route::get('impressum', function()
         {
@@ -84,7 +86,16 @@
                 ->with('title', trans('titles.widget'))
                 ->with('css', 'widget.css');
         });
+        
+        Route::get('settings', function()
+        {
+            return view('settings')
+                ->with('title', 'Einstellungen') // TODO Titel übersetzen
+                ->with('css', 'settings.css')
+                ->with('js', ['settings.js']);
+        });
 
+        
         Route::get('meta/meta.ger3', 'MetaGerSearch@search');
 
         Route::get('qt', 'MetaGerSearch@quicktips');
