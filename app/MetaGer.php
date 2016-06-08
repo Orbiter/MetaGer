@@ -683,7 +683,7 @@ class MetaGer
     public function generateSiteSearchLink($host)
     {
         $host = urlencode($host);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " site:$host";
         $requestData['focus'] = "web";
         $link = action('MetaGerSearch@search', $requestData);
@@ -693,7 +693,7 @@ class MetaGer
     public function generateRemovedHostLink ($host)
     {
         $host = urlencode($host);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " -host:$host";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
@@ -702,7 +702,7 @@ class MetaGer
     public function generateRemovedDomainLink ($domain)
     {
         $domain = urlencode($domain);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " -domain:$domain";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
