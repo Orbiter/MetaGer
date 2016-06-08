@@ -32,6 +32,10 @@ $(document).ready(function(){
 	$("#unten").click(function(){
 		alert("Auf der folgenden Startseite sind Ihre Einstellungen nun einmalig gespeichert. Nach Ihrer ersten Suche sind diese wieder verloren. Wenn Sie diese speichern möchten, können Sie sich allerdings ein Lesezeichnen einrichten.");
 	});
+	$("#plugin").click(function(){
+		$("form").attr('action', '/#plugin-modal');
+		alert("Ihr Browserplugin mit den persönlichen Sucheinstellungen wurde generiert. Folgen Sie bitte der Anleitung auf der folgenden Seite um es zu installieren. Beachten Sie: Zuvor sollten Sie ein eventuell bereits installiertes MetaGer-Plugin entfernen.");
+	});
 });
 
 function tickOptions(){

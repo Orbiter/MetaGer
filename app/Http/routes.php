@@ -101,4 +101,5 @@
 
         Route::get('qt', 'MetaGerSearch@quicktips');
         Route::get('tips', 'MetaGerSearch@tips');
+        Route::get('opensearch.xml', 'StartpageController@loadPlugin');
     });
