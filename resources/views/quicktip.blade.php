@@ -49,7 +49,9 @@
 		</style>
 	</head>
 	<body>
+	@if( $spruch !== "" )
 	<blockquote id="spruch">{!! $spruch !!}</blockquote>
+	@endif
 
 	@foreach( $mqs as $mq)
 		<div class="quicktip">
