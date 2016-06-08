@@ -5,7 +5,7 @@
 
 		@if( $result->image !== "" )
 		<div class="image col-sm-1">
-			<img src="{{ $result->image }}" alt="" height="50px" />
+			<img src="{{ $metager->getImageProxyLink($result->image) }}" alt="" height="50px" />
 		</div>
 		@endif
 		<div class="resultInformation col-sm-10">
