@@ -19,6 +19,7 @@ abstract class Searchengine
 	public $ads = [];
 	public $write_time = 0;
 	public $connection_time = 0;
+	public $loaded = false;
 
 	function __construct(\SimpleXMLElement $engine, MetaGer $metager)
 	{
@@ -231,6 +232,7 @@ abstract class Searchengine
 		// end of headers
 		if(sizeof($headers) > 1){
 			$bodySize = 0;
+			stream_set_blocking($this->fp, 1);
 			if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
 			{
 				$body = $this->readChunked();
@@ -245,9 +247,10 @@ abstract class Searchengine
 			{
 				die("Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
 			}
+			$this->loaded = true;
 		}else
 		{
-			fclose($this->fp);
+			return;
 		}
 
 		Redis::del($this->host . "." . $this->socketNumber);
@@ -256,7 +259,6 @@ abstract class Searchengine
 		{
 			$body = $this->gunzip($body);
 		}
-
 		#print_r($headers);
 		#print($body);
 		#print("\r\n". $bodySize);
@@ -266,6 +268,12 @@ abstract class Searchengine
 		$this->loadResults($body);
 		#print(print_r($headers, TRUE) . $body);
 		#exit;
+	}
+
+	public function shutdown()
+	{
+		fclose($this->fp);
+		Redis::del($this->host . "." . $this->socketNumber);
 	}
 
 	private function readBody($length)
