@@ -223,7 +223,7 @@ class MetaGer
         $xml = simplexml_load_file($this->sumaFile);
         $enabledSearchengines = [];
         $overtureEnabled = FALSE;
-        
+        $countSumas = 0;
         if($this->fokus === "angepasst")
         {
             $sumas = $xml->xpath("suma");
@@ -254,7 +254,8 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
-
+                        if( $suma["name"]->__toString() !== "qualigo" && $suma["name"]->__toString() !== "similar_product_ads" && $suma["name"]->__toString() !== "overtureAds" )
+                            $countSumas += 1;
                         $enabledSearchengines[] = $suma;
                     }
                 }
@@ -277,13 +278,15 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
+                        if( $suma["name"]->__toString() !== "qualigo" && $suma["name"]->__toString() !== "similar_product_ads" && $suma["name"]->__toString() !== "overtureAds" )
+                            $countSumas += 1;
                         $enabledSearchengines[] = $suma;
                     }
                 }
             }
         }
 
-        if( ( $this->fokus !== "bilder" && sizeof($enabledSearchengines) <= 3 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
+        if( ( $this->fokus !== "bilder" && $countSumas <= 0 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
         }
