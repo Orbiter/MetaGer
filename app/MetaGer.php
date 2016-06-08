@@ -716,4 +716,11 @@ class MetaGer
         else
             return null;
     }
+    public function getImageProxyLink($link)
+    {
+        $requestData = [];
+        $requestData["url"] = $link;
+        $link = action('Pictureproxy@get', $requestData);
+        return $link;
+    }
 }
