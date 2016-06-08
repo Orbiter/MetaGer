@@ -91,7 +91,13 @@ class MetaGer
             switch ($this->out) 
             {
                 case 'results':
-                    return '';
+                    return view('metager3bilderresults')
+                        ->with('results', $viewResults)
+                        ->with('eingabe', $this->eingabe)
+                        ->with('mobile', $this->mobile)
+                        ->with('warnings', $this->warnings)
+                        ->with('errors', $this->errors)
+                        ->with('metager', $this);
                 default:
                     return view('metager3bilder')
                         ->with('results', $viewResults)
@@ -218,7 +224,6 @@ class MetaGer
 
         #die(SocketRocket::get("tls", "dominik-pfennig.de", "", 443));
 
-
 		# Überprüfe, welche Sumas eingeschaltet sind
         $xml = simplexml_load_file($this->sumaFile);
         $enabledSearchengines = [];
@@ -239,12 +244,12 @@ class MetaGer
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	|| ( $this->fokus !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                	#|| ( $this->fokus !== "bilder" 
+                	#	&& ($suma["name"]->__toString() === "qualigo" 
+                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
+                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                	#		)
+                	#	)
                     #|| 1 === 1  #Todo: entfernen
                 	){
 
@@ -286,7 +291,7 @@ class MetaGer
             }
         }
 
-        if( ( $this->fokus !== "bilder" && $countSumas <= 0 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
+        if( $countSumas <= 0 )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
         }
@@ -316,19 +321,48 @@ class MetaGer
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
 		}
-
         # Nun passiert ein elementarer Schritt.
         # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
         # aber natürlich nicht ewig.
         # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
         # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
-        usleep(500000);
-        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
-        foreach($engines as $engine)
-        {
-            $engine->retrieveResults();
-        }
 
+        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
+        $enginesToLoad = count($engines);
+        $loadedEngines = 0;
+        $time = 0;
+        while( true )
+        {
+            # Abbruchbedingung
+            if($time < 500)
+            {
+                if($loadedEngines >= $enginesToLoad)
+                    break;
+            }elseif( $time >= 500 && $time < $this->time)
+            {
+                if( ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8 )
+                    break;
+            }else
+            {
+                break;
+            }
+            foreach($engines as $engine)
+            {
+                if(!$engine->loaded)
+                {
+                    $success = $engine->retrieveResults();
+                    if($engine->loaded)
+                        $loadedEngines += 1;
+                }
+            }
+            usleep(50000);
+            $time += 50;
+        }
+        foreach( $engines as $engine )
+        {
+            if( !$engine->loaded )
+                $engine->shutdown();
+        }
 
         $this->engines = $engines;
 	}
@@ -393,7 +427,8 @@ class MetaGer
         # Category
         $this->category = $request->input('category', '');
         # Request Times:
-        $this->time = $request->input('time', 1);
+        $this->time = $request->input('time', 1000);
+       
         # Page
         $this->page = $request->input('page', 1);
         # Lang
@@ -416,12 +451,12 @@ class MetaGer
         # Manchmal müssen wir Parameter anpassen um den Sucheinstellungen gerecht zu werden:
         if( $request->has('dart') )
         {
-        	$this->time = 10;
+        	$this->time = 10000;
         	$this->warnings[] = "Hinweis: Sie haben Dart-Europe aktiviert. Die Suche kann deshalb länger dauern und die maximale Suchzeit wurde auf 10 Sekunden hochgesetzt.";
         }
-        if( $this->time < 0 || $this->time > 20 )
+        if( $this->time <= 500 || $this->time > 20000 )
         {
-        	$this->time = 1;
+        	$this->time = 1000;
         }
         if( $request->has('minism') && ( $request->has('fportal') || $request->has('harvest') ) )
         {
@@ -438,7 +473,7 @@ class MetaGer
         }
         if( $request->has('ebay') )
         {
-        	$this->time = 2;
+        	$this->time = 2000;
         	$this->warnings[] = "Hinweis: Sie haben Ebay aktiviert. Die Suche kann deshalb länger dauern und die maximale Suchzeit wurde auf 2 Sekunden hochgesetzt.";
         }
         if( App::isLocale("en") )
