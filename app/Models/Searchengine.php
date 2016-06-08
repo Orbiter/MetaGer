@@ -245,6 +245,9 @@ abstract class Searchengine
 			{
 				die("Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
 			}
+		}else
+		{
+			fclose($this->fp);
 		}
 
 		Redis::del($this->host . "." . $this->socketNumber);
