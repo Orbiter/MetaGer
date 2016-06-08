@@ -41,7 +41,7 @@
                             </div>
 
                             @foreach( $metager->request->all() as $key => $value)
-                                @if($key !== "eingabe")
+                                @if($key !== "eingabe" && $key !== "page")
                                 <input type='hidden' name='{{ $key }}' value='{{ $value }}' form='submitForm' />
                                 @endif
                             @endforeach
