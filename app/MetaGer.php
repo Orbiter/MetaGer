@@ -91,7 +91,13 @@ class MetaGer
             switch ($this->out) 
             {
                 case 'results':
-                    return '';
+                    return view('metager3bilderresults')
+                        ->with('results', $viewResults)
+                        ->with('eingabe', $this->eingabe)
+                        ->with('mobile', $this->mobile)
+                        ->with('warnings', $this->warnings)
+                        ->with('errors', $this->errors)
+                        ->with('metager', $this);
                 default:
                     return view('metager3bilder')
                         ->with('results', $viewResults)
