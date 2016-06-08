@@ -402,7 +402,11 @@ class MetaGer
         $this->agent = new Agent();
         $this->mobile = $this->agent->isMobile();
         #Sprüche
-        $this->sprueche = $request->input('sprueche', 'on');
+        $this->sprueche = $request->input('sprueche', 'off');
+        if($this->sprueche === "off" )
+            $this->sprueche = true;
+        else
+            $this->sprueche = false;
         # Ergebnisse pro Seite:
         $this->resultCount = $request->input('resultCount', '20');
 
