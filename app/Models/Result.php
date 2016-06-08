@@ -105,18 +105,23 @@ class Result
 		foreach(explode(" ", trim($tmpEingabe)) as $el)
 		{
 			$el = preg_quote($el, "/");
-			if(preg_match("/\b$el\b/si", $tmpTitle))
+			if(strlen($tmpTitle) > 0)
 			{
-				$tmpRank += .7 * .6 * $maxRank;
-			}elseif (strpos($tmpTitle, $el) !== false) {
-				$tmpRank += .3 * .6 * $maxRank;
+				if(preg_match("/\b$el\b/si", $tmpTitle))
+				{
+					$tmpRank += .7 * .6 * $maxRank;
+				}elseif (strpos($tmpTitle, $el) !== false) {
+					$tmpRank += .3 * .6 * $maxRank;
+				}
 			}
-
-			if(preg_match("/\b$el\b/si", $tmpDescription))
+			if( strlen($tmpDescription) > 0 )
 			{
-				$tmpRank += .7 * .4 * $maxRank;
-			}elseif (strpos($tmpDescription, $el) !== false) {
-				$tmpRank += .3 * .4 * $maxRank;
+				if(preg_match("/\b$el\b/si", $tmpDescription))
+				{
+					$tmpRank += .7 * .4 * $maxRank;
+				}elseif (strpos($tmpDescription, $el) !== false) {
+					$tmpRank += .3 * .4 * $maxRank;
+				}
 			}
 		}
 		$tmpRank /= sizeof(explode(" ", trim($tmpEingabe))) * 10;
