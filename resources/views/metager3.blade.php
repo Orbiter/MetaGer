@@ -2,7 +2,7 @@
 
 @section('results')
 
-<div class="col-md-8">
+<div class="col-xs-12 col-md-8 resultContainer">
 	{{-- 3-Mal Werbung --}}
 	@for($i = 0; $i <= 2; $i++)
 		@include('layouts.ad', ['ad' => $metager->popAd()])
@@ -18,7 +18,7 @@
         {!! $metager->getResults()->links() !!}
     </nav>
 </div>
-<div class="col-md-4" id="quicktips">
+<div class="hidden-xs col-md-4" id="quicktips">
 	<iframe class="col-mod-4 hidden-xs hidden-sm" src="/qt?q={{ $metager->getQ() }}&sprueche={{ $metager->getSprueche() }}"></iframe>
 </div>
 

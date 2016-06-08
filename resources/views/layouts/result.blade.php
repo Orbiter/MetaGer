@@ -1,14 +1,14 @@
 <div class="result row">
-	<div class="number col-sm-1" style="color:{{ $result->color }}">
+	<div class="number col-sm-1 hidden-xs" style="color:{{ $result->color }}">
 		{{ $result->number }})
 	</div>
 
 		@if( $result->image !== "" )
-		<div class="image col-sm-1">
-			<img src="{{ $metager->getImageProxyLink($result->image) }}" alt="" height="50px" />
+		<div class="image col-xs-2">
+			<img src="{{ $metager->getImageProxyLink($result->image) }}" alt="" />
 		</div>
 		@endif
-		<div class="resultInformation col-sm-10">
+		<div class="resultInformation col-xs-10 col-sm-10">
 			<p class="title">
 				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ $result->gefVon }}" data-count="{{ $result->number }}">
 				{{ $result->titel }}

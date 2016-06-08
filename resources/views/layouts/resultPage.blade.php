@@ -5,7 +5,7 @@
     <title>{{ $metager->getQ() }} - MetaGer</title>
     <link href="/css/bootstrap.css" rel="stylesheet" />
     <link href="/css/styleResultPage.css" rel="stylesheet" />
-    @if( isset($mobile) )
+    @if( isset($mobile) && $mobile )
     <link href="/css/styleResultPageMobile.css" rel="stylesheet" />
     @endif
     <link href="/css/theme.css.php" rel="stylesheet" />
