@@ -7,7 +7,7 @@
 	<div class="item">
 		<div class="img">
 			<a href="{{ $result->link }}" target="{{ $metager->getTab() }}">
-			<img src="{{ $result->image }}" width="150px" alt="Bild nicht gefunden"/>
+			<img src="{{ $metager->getImageProxyLink($result->image) }}" width="150px" alt="Bild nicht gefunden"/>
 			</a>
 		</div>
 	</div>
