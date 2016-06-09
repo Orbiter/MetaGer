@@ -12,6 +12,20 @@
 if( !isset($_SERVER['HTTP_X_FORWARDED_FOR'] ))
 {
 	$_SERVER['REMOTE_ADDR'] = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], ".")) . ".0";
+
+	$_SERVER['HTTP_USER_AGENT'] = preg_replace("/\(.*\)/s", "( )", $_SERVER['HTTP_USER_AGENT']);
+	$agentPieces = explode(" ", $_SERVER['HTTP_USER_AGENT']);
+
+	for($i = 0; $i < count($agentPieces); $i++)
+	{
+		#$agentPieces[$i] = preg_quote($agentPieces[$i], "/");
+		$agentPieces[$i] = preg_replace("/([^\/]*)\/[^\/]*/s", "$1/0.0", $agentPieces[$i]);
+		#$agentPieces[$i] = "test";
+	}
+
+	$_SERVER['HTTP_USER_AGENT'] = implode(" ", $agentPieces);
+
+	#$_SERVER['HTTP_USER_AGENT'] = preg_replace("/(\b[^\/\s]*)[\B]*/s", "$1", $_SERVER['HTTP_USER_AGENT']);
 	#$_SERVER['HTTP_USER_AGENT'] = substr($_SERVER['HTTP_USER_AGENT'], 0, 23);
 }
 

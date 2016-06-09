@@ -15,6 +15,7 @@ class MetaGerSearch extends Controller
 {
     public function search(Request $request, MetaGer $metager)
     {
+        #die($request->header('User-Agent'));
         $time = microtime();
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);

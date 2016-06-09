@@ -462,6 +462,8 @@ class MetaGer
         }
         $this->agent = new Agent();
         $this->mobile = $this->agent->isMobile();
+        if($this->mobile)
+            die("test");
         #Sprüche
         $this->sprueche = $request->input('sprueche', 'off');
         if($this->sprueche === "off" )
