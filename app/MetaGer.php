@@ -7,6 +7,7 @@ use App;
 use Storage;
 use Log;
 use Config;
+use Redis;
 use App\lib\TextLanguageDetect\TextLanguageDetect;
 use App\lib\TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -50,7 +51,7 @@ class MetaGer
 
 	function __construct()
 	{
-        $this->time = microtime();   
+        $this->starttime = microtime(true);   
         define('CRLF', "\r\n");
         define('BUFFER_LENGTH', 8192);
         if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
@@ -86,6 +87,9 @@ class MetaGer
         {
             $viewResults[] = get_object_vars($result);
         }
+
+        # Wir müssen natürlich noch den Log für die durchgeführte Suche schreiben:
+        $this->createLogs();
 
         if( $this->fokus === "bilder" )
         {
@@ -140,6 +144,36 @@ class MetaGer
                 break;
         }
 	}
+
+    private function createLogs()
+    {
+        $redis = Redis::connection('redisLogs');
+        if( $redis )
+        {
+            $logEntry = "";
+            $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
+            $logEntry .= " From=" . $this->ip;
+            $logEntry .= " pid=" . getmypid();
+            $anonId= md5("MySeCrEtSeEdFoRmd5"
+            .$this->request->header('Accept')
+            .$this->request->header('Accept-Charset')
+            .$this->request->header('Accept-Encoding')
+            .$this->request->header('HTTP_LANGUAGE')
+            .$this->request->header('User-Agent')
+            .$this->request->header('Keep-Alive')
+            .$this->request->header('X-Forwarded-For'));
+            $logEntry .= " anonId=$anonId";
+            $logEntry .= " ref=" . $this->request->header('Referer');
+            $useragent = $this->request->header('User-Agent');
+            $useragent = str_replace("(", " ", $useragent);
+            $useragent = str_replace(")", " ", $useragent);
+            $useragent = str_replace(" ", "", $useragent);
+            $logEntry .= " ua=" . $useragent;
+            $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
+            $logEntry .= " search=" . $this->eingabe;
+            $redis->rpush('logs.search', $logEntry);
+        }
+    }
 
     public function removeInvalids ()
     {
@@ -432,13 +466,8 @@ class MetaGer
         $this->q = $this->eingabe;
 
         # IP:
-        if( isset($_SERVER['HTTP_FROM']) )
-        {
-            $this->ip = $_SERVER['HTTP_FROM'];
-        }else
-        {
-            $this->ip = "127.0.0.1";
-        }
+        $this->ip = $request->ip();
+
         # Language:
         if( isset($_SERVER['HTTP_LANGUAGE']) )
         {
