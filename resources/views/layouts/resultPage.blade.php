@@ -19,7 +19,7 @@
 
 <body id="resultBody">
     
-    @if( isset($header) )
+    @if( !isset($suspendheader) )
     @include('layouts.researchandtabs')
     @else
     <div class="tab-content container-fluid">
