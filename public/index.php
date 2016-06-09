@@ -11,23 +11,19 @@
  # nicht einmal wir selbst noch Zugriff auf die Daten haben:
 if( !isset($_SERVER['HTTP_X_FORWARDED_FOR'] ))
 {
-	$_SERVER['REMOTE_ADDR'] = substr($_SERVER['REMOTE_ADDR'], 0, strrpos($_SERVER['REMOTE_ADDR'], ".")) . ".0";
-
-	$_SERVER['HTTP_USER_AGENT'] = preg_replace("/\(.*\)/s", "( )", $_SERVER['HTTP_USER_AGENT']);
-	$agentPieces = explode(" ", $_SERVER['HTTP_USER_AGENT']);
-
-	for($i = 0; $i < count($agentPieces); $i++)
-	{
-		#$agentPieces[$i] = preg_quote($agentPieces[$i], "/");
-		$agentPieces[$i] = preg_replace("/([^\/]*)\/[^\/]*/s", "$1/0.0", $agentPieces[$i]);
-		#$agentPieces[$i] = "test";
-	}
-
-	$_SERVER['HTTP_USER_AGENT'] = implode(" ", $agentPieces);
-
-	#$_SERVER['HTTP_USER_AGENT'] = preg_replace("/(\b[^\/\s]*)[\B]*/s", "$1", $_SERVER['HTTP_USER_AGENT']);
-	#$_SERVER['HTTP_USER_AGENT'] = substr($_SERVER['HTTP_USER_AGENT'], 0, 23);
+	$_SERVER['REMOTE_ADDR'] = preg_replace("/(\d+)\.(\d+)\.\d+.\d+/s", "$1.$2.0.0", $_SERVER['REMOTE_ADDR']);
+}else
+{
+	$_SERVER['HTTP_X_FORWARDED_FOR'] = preg_replace("/(\d+)\.(\d+)\.\d+.\d+/s", "$1.$2.0.0", $_SERVER['HTTP_X_FORWARDED_FOR']);
 }
+$agentPieces = explode(" ", $_SERVER['HTTP_USER_AGENT']);
+
+for($i = 0; $i < count($agentPieces); $i++)
+{
+	$agentPieces[$i] = preg_replace("/(\d+\.\d+)/s", "0.0", $agentPieces[$i]);
+	$agentPieces[$i] = preg_replace("/([^\/]*)\/\w+/s", "$1/0.0", $agentPieces[$i]);
+}
+$_SERVER['HTTP_USER_AGENT'] = implode(" ", $agentPieces);
 
 /*
 |--------------------------------------------------------------------------
