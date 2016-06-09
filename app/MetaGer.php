@@ -6,6 +6,7 @@ use Jenssegers\Agent\Agent;
 use App;
 use Storage;
 use Log;
+use Config;
 use App\lib\TextLanguageDetect\TextLanguageDetect;
 use App\lib\TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -119,9 +120,18 @@ class MetaGer
                     ->with('errors', $this->errors)
                     ->with('metager', $this);
                 break;
-            default:
+            case 'results-with-style':
                 return view('metager3')
                     ->with('results', $viewResults)
+                    ->with('eingabe', $this->eingabe)
+                    ->with('mobile', $this->mobile)
+                    ->with('warnings', $this->warnings)
+                    ->with('errors', $this->errors)
+                    ->with('metager', $this)
+                    ->with('suspendheader', "yes");
+                break;
+            default:
+                return view('metager3')
                     ->with('eingabe', $this->eingabe)
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
@@ -217,6 +227,19 @@ class MetaGer
         }
 
         $this->results = $paginatedSearchResults;
+
+        if( isset($this->password) )
+        {
+            # Wir bieten einen bezahlten API-Zugriff an, bei dem dementsprechend die Werbung ausgeblendet wurde:
+            # Aktuell ist es nur die Uni-Mainz. Deshalb überprüfen wir auch nur diese.
+            $password = getenv('mainz');
+            $eingabe = $this->eingabe;
+            $password = md5($eingabe . $password);
+            if( $this->password === $password )
+            {
+                $this->ads = [];
+            }
+        }
 	}
 
 	public function createSearchEngines (Request $request)
@@ -502,6 +525,13 @@ class MetaGer
         {
             $this->tab = "_blank";
         }
+        if( $request->has('password') )
+            $this->password = $request->input('password');
+        if( $request->has('quicktips') )
+            $this->quicktips = false;
+        else
+            $this->quicktips = true;
+
         $this->out = $request->input('out', "html");
         if($this->out !== "html" && $this->out !== "json" && $this->out !== "results" && $this->out !== "results-with-style")
             $this->out = "html";
@@ -517,6 +547,11 @@ class MetaGer
 			$this->q = $match[1] . $match[3];
 			$this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
 		}
+        if( $request->has('site') )
+        {
+            $this->site = $request->input('site');
+            $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
+        }
 		# Wenn die Suchanfrage um das Schlüsselwort "-host:*" ergänzt ist, sollen bestimmte Hosts nicht eingeblendet werden
 		# Wir prüfen, ob das hier der Fall ist:
 		while(preg_match("/(.*)(^|\s)-host:(\S+)(.*)/si", $this->q, $match))
@@ -764,5 +799,9 @@ class MetaGer
         $requestData["url"] = $link;
         $link = action('Pictureproxy@get', $requestData);
         return $link;
+    }
+    public function showQuicktips ()
+    {
+        return $this->quicktips;
     }
 }
