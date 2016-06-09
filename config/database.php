@@ -114,6 +114,12 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
+        'redisLogs' => [
+            'host' => env('REDIS_LOGS_HOST', 'localhost'),
+            'password' => env('REDIS_LOGS_PASSWORD', null),
+            'port' => env('REDIS_MAIN_PORT', 6379),
+            'database' => 1,
+        ],
 
     ],
 
