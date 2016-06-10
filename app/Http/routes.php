@@ -98,6 +98,7 @@
         
         Route::get('meta/meta.ger3', 'MetaGerSearch@search');
         Route::get('meta/picture', 'Pictureproxy@get');
+        Route::get('clickstats', 'LogController@clicklog');
 
         Route::get('qt', 'MetaGerSearch@quicktips');
         Route::get('tips', 'MetaGerSearch@tips');
