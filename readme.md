@@ -2,6 +2,12 @@
 
 MetaGer ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
 
+## Live-Version
+Hinweis: Diese Open-Source Version von MetaGer ist noch nicht bereit, auf unserem Live-Server (https://metager.de) verwendet zu werden.
+Während wir daran arbeiten sie soweit fertig zu stellen, dass alles exakt so funktioniert, wie in der Live-Version auch, sorgt
+ein Mechanismus für den automatischen Deploy dafür, dass zu jedem beliebigen Zeitpunkt der Master-Branch in seiner aktuellen Version
+über die Adresse https://metager3.de ( Entwicklungsserver ) erreichbar ist.
+
 ## Offizielle Dokumentation
 
 Die Dokumentation ist im Wiki des Gitlab-Projektes zu finden.
