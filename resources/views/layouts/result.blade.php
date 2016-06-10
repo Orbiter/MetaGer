@@ -10,14 +10,14 @@
 		@endif
 		<div class="resultInformation col-xs-10 col-sm-10">
 			<p class="title">
-				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ $result->gefVon }}" data-count="{{ $result->number }}">
+				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 				{{ $result->titel }}
 				</a>
 			</p>
 			<div class="link">
 				<div>
 					<div class="link-link">
-						<a href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ $result->gefVon }}" data-count="{{ $result->number }}">
+						<a href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 						{{ $result->anzeigeLink }}
 						</a>
 					</div>

@@ -61,9 +61,9 @@ function theme(){
 }
 
 function clickLog(){
-	$(".result .link a, .result .title a").off();
-	$(".result .link a, .result .title a").click(function(){
-		$.get("/meta/clickstats.pl", {i:$("meta[name=p]").attr("content"), s:$(this).attr("data-hoster"), q:$("meta[name=q]").attr("content"), p:$(this).attr("data-count"), url:$(this).attr("href")});
+	$(".result a.title, .result div.link-link a").off();
+	$(".result a.title, .result div.link-link a").click(function(){
+		$.get("/clickstats", {i:$("meta[name=p]").attr("content"), s:$(this).attr("data-hoster"), q:$("meta[name=q]").attr("content"), p:$(this).attr("data-count"), url:$(this).attr("href")});
 	});
 }
 
