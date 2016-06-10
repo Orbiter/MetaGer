@@ -14,7 +14,11 @@ class Minisucher extends Searchengine
 
 	public function loadResults ($content)
 	{
-		$content = simplexml_load_string($content);
+		try {
+			$content = simplexml_load_string($content);
+		} catch (\Exception $e) {
+			return;
+		}
 		if(!$content)
 		{
 			return;
