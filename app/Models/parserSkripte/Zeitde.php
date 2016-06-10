@@ -20,6 +20,8 @@ class Zeitde extends Searchengine
 			return;
 		foreach( $results->{"matches"} as $result )
 		{
+			if( !isset($result->{"title"}) || !isset($result->{"href"}) || !isset($result->{"snippet"}))
+				continue;
 			$title = $result->{"title"};
 			$link = $result->{"href"};
 			$anzeigeLink = $link;

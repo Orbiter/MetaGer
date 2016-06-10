@@ -2,8 +2,7 @@ update(144.76.113.134):
   tags:
   - 144.76.113.134
   only:
-    - tags
-    - triggers
+    - master
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
@@ -22,6 +21,8 @@ update(144.76.113.134):
     - scp metager@metager3.de:~/.env .
     - scp metager@metager3.de:~/sumas.xml config/
     - scp metager@metager3.de:~/sumasEn.xml config/
+    - scp metager@metager3.de:~/blacklistUrl.txt config/
+    - scp metager@metager3.de:~/blacklistDomains.txt config/
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - cd ~/
     - rm -rf MetaGer
@@ -31,8 +32,7 @@ update(metager3.de):
   tags:
   - metager3
   only:
-    - tags
-    - triggers
+    - master
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
@@ -51,6 +51,8 @@ update(metager3.de):
     - scp metager@metager3.de:~/.env .
     - scp metager@metager3.de:~/sumas.xml config/
     - scp metager@metager3.de:~/sumasEn.xml config/
+    - scp metager@metager3.de:~/blacklistUrl.txt config/
+    - scp metager@metager3.de:~/blacklistDomains.txt config/
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - cd ~/
     - rm -rf MetaGer

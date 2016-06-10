@@ -272,7 +272,8 @@ abstract class Searchengine
 
 	public function shutdown()
 	{
-		fclose($this->fp);
+		if( $this->fp )
+			fclose($this->fp);
 		Redis::del($this->host . "." . $this->socketNumber);
 	}
 

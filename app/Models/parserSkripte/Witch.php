@@ -15,15 +15,14 @@ class Witch extends Searchengine
     public function loadResults ($result)
     {
         $result = html_entity_decode(trim(utf8_encode($result)));
-
+        
         $results = explode("\n", $result);
-
         array_shift($results);
         foreach($results as $res)
         {
             
             $res = explode(";", $res);
-            if(sizeof($res) !== 4)
+            if(sizeof($res) !== 4 || $res[3] === "'Kein Ergebnis'")
             {
                 continue;
             }
