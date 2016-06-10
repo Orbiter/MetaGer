@@ -2,8 +2,7 @@ update(144.76.113.134):
   tags:
   - 144.76.113.134
   only:
-    - tags
-    - triggers
+    - master
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
@@ -33,8 +32,7 @@ update(metager3.de):
   tags:
   - metager3
   only:
-    - tags
-    - triggers
+    - master
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
