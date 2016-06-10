@@ -361,6 +361,14 @@ a:hover
 	margin-right:2px
 }
 
+.result .image {
+	padding:0;
+}
+
+.result .image > img{
+	max-width: 100%;
+}
+
 .popover-content{
 	/*padding-left: 0;
 	padding-right:0;*/

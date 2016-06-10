@@ -35,6 +35,7 @@ class Mg_produkt2 extends Searchengine
 			parse_str($anzeigeLink['query'], $query);
 			$anzeigeLink = $query['diurl'];
 			$descr = $result->xpath('/doc/arr[@name="artikelBeschreibung"]')[0]->{"str"}->__toString();
+			$image = $result->xpath('/doc/arr[@name="artikelImageurl"]')[0]->{"str"}->__toString();
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -43,7 +44,9 @@ class Mg_produkt2 extends Searchengine
 				$anzeigeLink,
 				$descr,
 				$this->gefVon,
-				$this->counter
+				$this->counter,
+				false,
+				$image
 			);
 		}
 	}

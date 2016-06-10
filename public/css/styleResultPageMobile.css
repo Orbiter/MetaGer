@@ -1,0 +1,105 @@
+* {
+	
+}
+
+.content-wrapper {
+    padding-top: 50px;
+}
+
+div#fokiChanger {
+    margin-bottom: 0;
+}
+
+#fokiChanger a {
+    color: grey;
+}
+
+li.list-group-item.selected {
+    background-color: #f5f5f5;
+}
+
+select#fokiChanger {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    background-color: inherit;
+    border: 0;
+}
+
+header#research {
+    width: 100%;
+    margin-left: -50%;
+}
+
+p.link {
+    white-space: nowrap;
+}
+
+header nav {
+    width: 100%;
+    padding: 0 10px;
+    margin-left: 0;
+}
+/* Research Bar */
+#researchBar{
+	width:100%;
+	margin-left: -50%;
+	padding-left:0;
+	padding-right:0;
+}
+
+/* Result Boxen */
+.result{
+	padding:0;
+}
+.result > .resultInformation{
+	margin-left:0;
+	padding-left:0;
+}
+.result .link a{
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.result.ad .link > a {
+    width: 50%;
+    max-width: 15ch;
+    overflow: hidden;
+    display: inline-flex;
+    text-overflow: ellipsis;
+}
+.result .hoster{
+	white-space:nowrap;
+}
+
+.row{
+	margin: 10px 0;
+}
+
+.row .col-md-8 {
+   padding: 0 10px;
+}
+
+.container-fluid {
+    padding: 5px 0;
+}
+
+.panel .panel-heading {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.content-wrapper{
+	width: 100%;
+}
+
+.result .link-link{
+	max-width:90%;
+}
+
+.alert ul {
+	padding-left:0px;	
+}
+.resultContainer {
+    padding: 0!important;
+}

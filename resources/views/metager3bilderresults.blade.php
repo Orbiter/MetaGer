@@ -1,7 +1,3 @@
-@extends('layouts.resultPage')
-
-@section('results')
-
 <div id="container">
 @foreach($metager->getResults()->items() as $result)
 	<div class="item">
@@ -16,5 +12,3 @@
 <nav class="pager">
         {!! $metager->getResults()->links() !!}
 </nav>
-@endsection
-

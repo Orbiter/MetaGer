@@ -6,6 +6,8 @@ use Jenssegers\Agent\Agent;
 use App;
 use Storage;
 use Log;
+use Config;
+use Redis;
 use App\lib\TextLanguageDetect\TextLanguageDetect;
 use App\lib\TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -49,7 +51,7 @@ class MetaGer
 
 	function __construct()
 	{
-        $this->time = microtime();   
+        $this->starttime = microtime(true);   
         define('CRLF', "\r\n");
         define('BUFFER_LENGTH', 8192);
         if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
@@ -86,12 +88,21 @@ class MetaGer
             $viewResults[] = get_object_vars($result);
         }
 
+        # Wir müssen natürlich noch den Log für die durchgeführte Suche schreiben:
+        $this->createLogs();
+
         if( $this->fokus === "bilder" )
         {
             switch ($this->out) 
             {
                 case 'results':
-                    return '';
+                    return view('metager3bilderresults')
+                        ->with('results', $viewResults)
+                        ->with('eingabe', $this->eingabe)
+                        ->with('mobile', $this->mobile)
+                        ->with('warnings', $this->warnings)
+                        ->with('errors', $this->errors)
+                        ->with('metager', $this);
                 default:
                     return view('metager3bilder')
                         ->with('results', $viewResults)
@@ -113,9 +124,18 @@ class MetaGer
                     ->with('errors', $this->errors)
                     ->with('metager', $this);
                 break;
-            default:
+            case 'results-with-style':
                 return view('metager3')
                     ->with('results', $viewResults)
+                    ->with('eingabe', $this->eingabe)
+                    ->with('mobile', $this->mobile)
+                    ->with('warnings', $this->warnings)
+                    ->with('errors', $this->errors)
+                    ->with('metager', $this)
+                    ->with('suspendheader', "yes");
+                break;
+            default:
+                return view('metager3')
                     ->with('eingabe', $this->eingabe)
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
@@ -124,6 +144,36 @@ class MetaGer
                 break;
         }
 	}
+
+    private function createLogs()
+    {
+        $redis = Redis::connection('redisLogs');
+        if( $redis )
+        {
+            $logEntry = "";
+            $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
+            $logEntry .= " From=" . $this->ip;
+            $logEntry .= " pid=" . getmypid();
+            $anonId= md5("MySeCrEtSeEdFoRmd5"
+            .$this->request->header('Accept')
+            .$this->request->header('Accept-Charset')
+            .$this->request->header('Accept-Encoding')
+            .$this->request->header('HTTP_LANGUAGE')
+            .$this->request->header('User-Agent')
+            .$this->request->header('Keep-Alive')
+            .$this->request->header('X-Forwarded-For'));
+            $logEntry .= " anonId=$anonId";
+            $logEntry .= " ref=" . $this->request->header('Referer');
+            $useragent = $this->request->header('User-Agent');
+            $useragent = str_replace("(", " ", $useragent);
+            $useragent = str_replace(")", " ", $useragent);
+            $useragent = str_replace(" ", "", $useragent);
+            $logEntry .= " ua=" . $useragent;
+            $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
+            $logEntry .= " search=" . $this->eingabe;
+            $redis->rpush('logs.search', $logEntry);
+        }
+    }
 
     public function removeInvalids ()
     {
@@ -211,6 +261,19 @@ class MetaGer
         }
 
         $this->results = $paginatedSearchResults;
+
+        if( isset($this->password) )
+        {
+            # Wir bieten einen bezahlten API-Zugriff an, bei dem dementsprechend die Werbung ausgeblendet wurde:
+            # Aktuell ist es nur die Uni-Mainz. Deshalb überprüfen wir auch nur diese.
+            $password = getenv('mainz');
+            $eingabe = $this->eingabe;
+            $password = md5($eingabe . $password);
+            if( $this->password === $password )
+            {
+                $this->ads = [];
+            }
+        }
 	}
 
 	public function createSearchEngines (Request $request)
@@ -218,12 +281,11 @@ class MetaGer
 
         #die(SocketRocket::get("tls", "dominik-pfennig.de", "", 443));
 
-
 		# Überprüfe, welche Sumas eingeschaltet sind
         $xml = simplexml_load_file($this->sumaFile);
         $enabledSearchengines = [];
         $overtureEnabled = FALSE;
-        
+        $countSumas = 0;
         if($this->fokus === "angepasst")
         {
             $sumas = $xml->xpath("suma");
@@ -239,12 +301,12 @@ class MetaGer
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	|| ( $this->fokus !== "bilder" 
-                		&& ($suma["name"]->__toString() === "qualigo" 
-                			|| $suma["name"]->__toString() === "similar_product_ads" 
-                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                			)
-                		)
+                	#|| ( $this->fokus !== "bilder" 
+                	#	&& ($suma["name"]->__toString() === "qualigo" 
+                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
+                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                	#		)
+                	#	)
                     #|| 1 === 1  #Todo: entfernen
                 	){
 
@@ -254,7 +316,8 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
-
+                        if( $suma["name"]->__toString() !== "qualigo" && $suma["name"]->__toString() !== "similar_product_ads" && $suma["name"]->__toString() !== "overtureAds" )
+                            $countSumas += 1;
                         $enabledSearchengines[] = $suma;
                     }
                 }
@@ -277,13 +340,15 @@ class MetaGer
                         {
                             $overtureEnabled = TRUE;
                         }
+                        if( $suma["name"]->__toString() !== "qualigo" && $suma["name"]->__toString() !== "similar_product_ads" && $suma["name"]->__toString() !== "overtureAds" )
+                            $countSumas += 1;
                         $enabledSearchengines[] = $suma;
                     }
                 }
             }
         }
 
-        if( ( $this->fokus !== "bilder" && sizeof($enabledSearchengines) <= 3 ) || ( $this->fokus === "bilder" && sizeof($enabledSearchengines) === 0) )
+        if( $countSumas <= 0 )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
         }
@@ -313,19 +378,48 @@ class MetaGer
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
 		}
-
         # Nun passiert ein elementarer Schritt.
         # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
         # aber natürlich nicht ewig.
         # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
         # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
-        usleep(500000);
-        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
-        foreach($engines as $engine)
-        {
-            $engine->retrieveResults();
-        }
 
+        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
+        $enginesToLoad = count($engines);
+        $loadedEngines = 0;
+        $time = 0;
+        while( true )
+        {
+            # Abbruchbedingung
+            if($time < 500)
+            {
+                if($loadedEngines >= $enginesToLoad)
+                    break;
+            }elseif( $time >= 500 && $time < $this->time)
+            {
+                if( ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8 )
+                    break;
+            }else
+            {
+                break;
+            }
+            foreach($engines as $engine)
+            {
+                if(!$engine->loaded)
+                {
+                    $success = $engine->retrieveResults();
+                    if($engine->loaded)
+                        $loadedEngines += 1;
+                }
+            }
+            usleep(50000);
+            $time += 50;
+        }
+        foreach( $engines as $engine )
+        {
+            if( !$engine->loaded )
+                $engine->shutdown();
+        }
 
         $this->engines = $engines;
 	}
@@ -372,13 +466,8 @@ class MetaGer
         $this->q = $this->eingabe;
 
         # IP:
-        if( isset($_SERVER['HTTP_FROM']) )
-        {
-            $this->ip = $_SERVER['HTTP_FROM'];
-        }else
-        {
-            $this->ip = "127.0.0.1";
-        }
+        $this->ip = $request->ip();
+
         # Language:
         if( isset($_SERVER['HTTP_LANGUAGE']) )
         {
@@ -390,7 +479,8 @@ class MetaGer
         # Category
         $this->category = $request->input('category', '');
         # Request Times:
-        $this->time = $request->input('time', 1);
+        $this->time = $request->input('time', 1000);
+       
         # Page
         $this->page = $request->input('page', 1);
         # Lang
@@ -401,20 +491,25 @@ class MetaGer
         }
         $this->agent = new Agent();
         $this->mobile = $this->agent->isMobile();
+
         #Sprüche
-        $this->sprueche = $request->input('sprueche', 'on');
+        $this->sprueche = $request->input('sprueche', 'off');
+        if($this->sprueche === "off" )
+            $this->sprueche = true;
+        else
+            $this->sprueche = false;
         # Ergebnisse pro Seite:
         $this->resultCount = $request->input('resultCount', '20');
 
         # Manchmal müssen wir Parameter anpassen um den Sucheinstellungen gerecht zu werden:
         if( $request->has('dart') )
         {
-        	$this->time = 10;
+        	$this->time = 10000;
         	$this->warnings[] = "Hinweis: Sie haben Dart-Europe aktiviert. Die Suche kann deshalb länger dauern und die maximale Suchzeit wurde auf 10 Sekunden hochgesetzt.";
         }
-        if( $this->time < 0 || $this->time > 20 )
+        if( $this->time <= 500 || $this->time > 20000 )
         {
-        	$this->time = 1;
+        	$this->time = 1000;
         }
         if( $request->has('minism') && ( $request->has('fportal') || $request->has('harvest') ) )
         {
@@ -431,7 +526,7 @@ class MetaGer
         }
         if( $request->has('ebay') )
         {
-        	$this->time = 2;
+        	$this->time = 2000;
         	$this->warnings[] = "Hinweis: Sie haben Ebay aktiviert. Die Suche kann deshalb länger dauern und die maximale Suchzeit wurde auf 2 Sekunden hochgesetzt.";
         }
         if( App::isLocale("en") )
@@ -460,6 +555,13 @@ class MetaGer
         {
             $this->tab = "_blank";
         }
+        if( $request->has('password') )
+            $this->password = $request->input('password');
+        if( $request->has('quicktips') )
+            $this->quicktips = false;
+        else
+            $this->quicktips = true;
+
         $this->out = $request->input('out', "html");
         if($this->out !== "html" && $this->out !== "json" && $this->out !== "results" && $this->out !== "results-with-style")
             $this->out = "html";
@@ -475,6 +577,11 @@ class MetaGer
 			$this->q = $match[1] . $match[3];
 			$this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
 		}
+        if( $request->has('site') )
+        {
+            $this->site = $request->input('site');
+            $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
+        }
 		# Wenn die Suchanfrage um das Schlüsselwort "-host:*" ergänzt ist, sollen bestimmte Hosts nicht eingeblendet werden
 		# Wir prüfen, ob das hier der Fall ist:
 		while(preg_match("/(.*)(^|\s)-host:(\S+)(.*)/si", $this->q, $match))
@@ -676,7 +783,7 @@ class MetaGer
     public function generateSiteSearchLink($host)
     {
         $host = urlencode($host);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " site:$host";
         $requestData['focus'] = "web";
         $link = action('MetaGerSearch@search', $requestData);
@@ -686,7 +793,7 @@ class MetaGer
     public function generateRemovedHostLink ($host)
     {
         $host = urlencode($host);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " -host:$host";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
@@ -695,7 +802,7 @@ class MetaGer
     public function generateRemovedDomainLink ($domain)
     {
         $domain = urlencode($domain);
-        $requestData = $this->request->except('page');
+        $requestData = $this->request->except(['page','out']);
         $requestData['eingabe'] .= " -domain:$domain";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
@@ -715,5 +822,16 @@ class MetaGer
             return get_object_vars(array_shift($this->ads));
         else
             return null;
+    }
+    public function getImageProxyLink($link)
+    {
+        $requestData = [];
+        $requestData["url"] = $link;
+        $link = action('Pictureproxy@get', $requestData);
+        return $link;
+    }
+    public function showQuicktips ()
+    {
+        return $this->quicktips;
     }
 }

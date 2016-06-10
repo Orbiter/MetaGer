@@ -97,7 +97,9 @@
 
         
         Route::get('meta/meta.ger3', 'MetaGerSearch@search');
+        Route::get('meta/picture', 'Pictureproxy@get');
 
         Route::get('qt', 'MetaGerSearch@quicktips');
         Route::get('tips', 'MetaGerSearch@tips');
+        Route::get('opensearch.xml', 'StartpageController@loadPlugin');
     });

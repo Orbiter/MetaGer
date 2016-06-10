@@ -15,6 +15,7 @@ class MetaGerSearch extends Controller
 {
     public function search(Request $request, MetaGer $metager)
     {
+        #die($request->header('User-Agent'));
         $time = microtime();
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);
@@ -43,10 +44,13 @@ class MetaGerSearch extends Controller
 
         # Zunächst den Spruch
         $spruecheFile = storage_path() . "/app/public/sprueche.txt";
-        if( file_exists($spruecheFile) )
+        if( file_exists($spruecheFile) && $_GET['sprueche'])
         {
             $sprueche = file($spruecheFile);
             $spruch = $sprueche[array_rand($sprueche)];
+        }else
+        {
+            $spruch = "";
         }
 
         # Die manuellen Quicktips:
