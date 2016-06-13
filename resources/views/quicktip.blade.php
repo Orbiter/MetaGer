@@ -60,6 +60,9 @@
 			</b>
 			<br />
 			<div>{!! $mq['descr'] !!}</div>
+			@if( isset($mq['gefVon']) )
+			<div class="pull-right">{!! $mq['gefVon'] !!}</div>
+			@endif
 		</div>
 	@endforeach
 
