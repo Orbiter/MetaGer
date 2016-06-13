@@ -50,7 +50,7 @@ function checkPlugin(){
 		$("#plugin-modal .modal-header h4").html("MetaGer zum Firefox hinzufügen");
 		var content = "" +
 				"<ol>" +
-				"<li>Klicken Sie <a href=\"javascript:window.external.AddSearchProvider('https://metager.de/plugins/opensearchplugin.xml')\">hier</a> um MetaGer als Suchmaschine hinzuzufügen.</li>" +
+				"<li>Klicken Sie <a href=\"javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))\">hier</a> um MetaGer als Suchmaschine hinzuzufügen.</li>" +
 				"<li>Setzen Sie einen Haken bei \"Diese als aktuelle Suchmaschine setzen\"</li>" +
 				"<li>Klicken Sie auf \"Hinzufügen\"</li>" +
 				"</ol>";
@@ -59,7 +59,7 @@ function checkPlugin(){
 		$("#plugin-modal .modal-header h4").html("MetaGer zum Chrome hinzufügen");
 		var content = "" +
 				"<ol>" +
-				"<li>Klicken Sie <a href=\"javascript:window.external.AddSearchProvider('https://metager.de/plugins/opensearchplugin.xml')\" onclick=\"$('#more').removeClass('hidden');\">hier</a>, um MetaGer als Suchmaschine hinzuzufügen" +
+				"<li>Klicken Sie <a href=\"javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))\" onclick=\"$('#more').removeClass('hidden');\">hier</a>, um MetaGer als Suchmaschine hinzuzufügen" +
 				"<ul id=\"more\" class=\"hidden list-unstyled\">" +
 				"<li>Klicken Sie im Popup auf OK</li>" +
 				"<li><small>(Sollte der OK-Knopf deaktiviert sein, ist MetaGer bereits in Ihren Suchmaschinen. Klicken Sie dann auf Abbrechen und fahren mit Schritt 2 fort.)</small></li>" +
@@ -85,7 +85,7 @@ function checkPlugin(){
 		$("#plugin-modal .modal-header h4").html("MetaGer zum Internet Explorer hinzufügen");
 		var content = "" +
 			"<ol>" +
-			"<li>Klicken Sie <a href=\"javascript:window.external.addSearchProvider('https://metager.de/plugins/opensearchplugin.xml');\">hier</a>, um MetaGer als Suchmaschine hinzuzufügen" +
+			"<li>Klicken Sie <a href=\"javascript:window.external.addSearchProvider($('link[rel=search]').attr('href'));\">hier</a>, um MetaGer als Suchmaschine hinzuzufügen" +
 			"<li>Klicken Sie in Ihrem Browser oben rechts auf Extras (<span class=\"glyphicon glyphicon-cog\"></span>)</li>" +
 			"<li>Wählen Sie den Menüpunkt \"Add-Ons verwalten\"</li>" +
 			"<li>Klicken Sie im Bereich Add-On-Typen auf \"Suchanbieter\" und danach im rechten Bereich auf \"MetaGer\"</li>" +

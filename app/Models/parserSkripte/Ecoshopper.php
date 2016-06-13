@@ -43,6 +43,7 @@ class Ecoshopper extends Searchengine
 				$anzeigeLink = $link;
 			}
 			$descr = $result->xpath('//doc/str[@name="artikelBeschreibung"]')[0]->__toString();
+			$image = $result->xpath('//doc/str[@name="artikelImageurl"]')[0]->__toString();
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -51,7 +52,9 @@ class Ecoshopper extends Searchengine
 				$anzeigeLink,
 				$descr,
 				$this->gefVon,
-				$this->counter
+				$this->counter,
+				false,
+				$image
 			);
 		}
 	}

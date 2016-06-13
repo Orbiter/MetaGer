@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Response;
 
 class StartpageController extends Controller
 {
@@ -63,5 +64,36 @@ class StartpageController extends Controller
     {
         \App::setLocale($locale);
         return loadPage($subpage);
+    }
+
+    public function loadPlugin(Request $request, $locale = "de")
+    {
+        $requests = $request->all();
+        $params = [];
+        foreach($requests as $key => $value)
+        {
+            if( strpos($key, "param_") === 0 )
+            {
+                $key = substr($key, strpos($key, "param_") + 6 );
+            }
+            $params[$key] = $value;
+        }
+
+        if(!isset($params['focus']))
+            $params['focus'] = 'web';
+        if(!isset($params['encoding']))
+            $params['encoding'] = 'utf8';
+        if(!isset($params['lang']))
+            $params['lang'] = 'all';
+        $params["eingabe"] = "";
+
+
+        $link = action('MetaGerSearch@search', $params);
+
+        $response = Response::make(
+            view('plugin')->with('link', $link), "200");
+        $response->header('Content-Type', "application/xml");
+        return $response;
+        return $link;
     }
 }
