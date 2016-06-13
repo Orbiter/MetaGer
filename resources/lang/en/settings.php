@@ -1,0 +1,37 @@
+<?php
+
+return [
+	'head.1' => 'Settings',
+	'head.2' => 'Here you can customize your MetaGer: After selecting your desired settings, you have to choose, whether you want to save the settings permanently, or just for once,',
+	'head.3' => 'on the bottom of this page.',
+	'head.4' => '',
+
+	'allgemein.1' => 'General',
+	'allgemein.2' => 'disable sayings',
+	'allgemein.3' => 'open links in same tab',
+	'allgemein.4' => 'select language',
+	'allgemein.5' => 'all languages',
+	'allgemein.6' => 'german',
+	'allgemein.7' => 'number of results per page',
+	'allgemein.8' => 'all',
+	'allgemein.9' => 'maximum search time',
+	'allgemein.10' => 'second (standard)',
+	'allgemein.11' => 'seconds',
+
+	'suchmaschinen.1' => 'search engines',
+	'suchmaschinen.2' => 'web-search',
+	'suchmaschinen.3' => 'select / deselect all',
+	'suchmaschinen.4' => 'video',
+	'suchmaschinen.5' => 'germany',
+	'suchmaschinen.6' => 'news',
+	'suchmaschinen.7' => 'science',
+	'suchmaschinen.8' => 'product searches',
+	'suchmaschinen.9' => 'product search',
+	'suchmaschinen.10' => 'other search engines',
+	'suchmaschinen.11' => 'diving',
+	'suchmaschinen.12' => 'regenerative energies',
+	'suchmaschinen.13' => 'astronomy',
+	'suchmaschinen.14' => 'stock &amp; finances',
+	'suchmaschinen.15' => 'with archive',
+	'suchmaschinen.16' => 'germany, with archive',
+];
