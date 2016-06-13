@@ -93,6 +93,7 @@ class MetaGerSearch extends Controller
                 $quicktip["title"] = $result['displaytitle'];
                 $quicktip["URL"] = $result['fullurl'];
                 $quicktip["descr"] = strip_tags($result['extract']);
+                $quicktip['gefVon'] = "aus <a href=\"https://de.wikipedia.org\" target=\"_blank\">Wikipedia, der freien Enzyklopädie</a>";
 
                 $quicktips[] = $quicktip;
             }
@@ -118,7 +119,6 @@ class MetaGerSearch extends Controller
 
             $mquicktips[] = ['title' => $ad['title'], 'descr' => $ad['descr'], 'URL' => $ad['URL']];   
         }   
-
         return view('quicktip')
             ->with('spruch', $spruch)
             ->with('mqs', $mquicktips);
