@@ -162,7 +162,6 @@ abstract class Searchengine
 					fclose($fp);
 					$fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
 				}
-				header($this->name . ": " . $counter . "_" . $this->getHost());
 				break;
 			}
 			$counter++;
