@@ -1,0 +1,37 @@
+<?php
+
+return [
+	'head.1' => 'Einstellungen',
+	'head.2' => 'Hier k&ouml;nnen Sie Ihr MetaGer anpassen: Nach Anklicken Ihrer gew&uuml;nschten Einstellungen m&uuml;ssen Sie',
+	'head.3' => 'unten auf dieser Seite',
+	'head.4' => 'w&auml;hlen, ob Sie die Einstellungen dauerhaft speichern, oder nur einmalig setzen wollen.',
+
+	'allgemein.1' => 'Allgemein',
+	'allgemein.2' => 'Spr&uuml;che ausblenden',
+	'allgemein.3' => 'Links im gleichen Tab &ouml;ffnen',
+	'allgemein.4' => 'Sprache ausw&auml;hlen',
+	'allgemein.5' => 'Alle Sprachen',
+	'allgemein.6' => 'Deutsch',
+	'allgemein.7' => 'Anzahl der Ergebnisse pro Seite',
+	'allgemein.8' => 'Alle',
+	'allgemein.9' => 'Maximale Suchzeit',
+	'allgemein.10' => 'Sekunde (Standard)',
+	'allgemein.11' => 'Sekunden',
+
+	'suchmaschinen.1' => 'Suchmaschinen',
+	'suchmaschinen.2' => 'Web-Suche',
+	'suchmaschinen.3' => 'alle an-/abw&auml;hlen',
+	'suchmaschinen.4' => 'Video',
+	'suchmaschinen.5' => 'Deutschland',
+	'suchmaschinen.6' => 'Nachrichten',
+	'suchmaschinen.7' => 'Wissenschaft',
+	'suchmaschinen.8' => 'Produktsuchen',
+	'suchmaschinen.9' => 'Produktsuche',
+	'suchmaschinen.10' => 'Andere Suchmaschinen',
+	'suchmaschinen.11' => 'Tauchen',
+	'suchmaschinen.12' => 'Regenerative Energien',
+	'suchmaschinen.13' => 'Astronomie',
+	'suchmaschinen.14' => 'B&ouml;rse &amp; Finanzen',
+	'suchmaschinen.15' => 'mit Archiv',
+	'suchmaschinen.16' => 'Deutschland, mit Archiv',
+];
