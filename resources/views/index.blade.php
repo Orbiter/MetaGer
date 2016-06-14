@@ -92,7 +92,7 @@
                       </span>
                     </button>
                   </div>
-                  <input type="text" name="eingabe" required="" autofocus="" class="form-control" placeholder="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen">
+                  <input type="text" name="eingabe" required="" autofocus="" class="form-control" placeholder="{{ trans('index.placeholder') }}">
                   <input type="hidden" name="encoding" value="utf8">
                   @if ($focus === 'angepasst') <input type="hidden" name="lang" value={{ $lang }} >
                   <input type="hidden" name="resultCount" value={{ $resultCount }} >
@@ -131,7 +131,7 @@
 
 @section('optionalContent')
 <section id="moreInformation" class="hidden-xs">
-          <h1 class="hidden">Weitere Informationen
+          <h1 class="hidden">{{ trans('index.furtherInfo') }}
           </h1>
           <div class="row">
             <div id="sponsors" class="col-md-6 col-sm12">
