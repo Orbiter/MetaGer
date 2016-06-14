@@ -90,7 +90,7 @@
         Route::get('settings', function()
         {
             return view('settings')
-                ->with('title', 'Einstellungen') // TODO Titel übersetzen
+                ->with('title', trans('titles.settings'))
                 ->with('css', 'settings.css')
                 ->with('js', ['settings.js']);
         });
