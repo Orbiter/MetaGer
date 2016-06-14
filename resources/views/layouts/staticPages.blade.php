@@ -42,7 +42,7 @@
               <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                   <li>
-                    <a href="/" id="navigationSuche">{{ trans('staticPages.nav1') }}
+                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}" id="navigationSuche">{{ trans('staticPages.nav1') }}
                     </a>
                   </li>
                   <li class="dropdown">
@@ -52,7 +52,7 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="/spende/">{{ trans('staticPages.nav2') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende/") }}">{{ trans('staticPages.nav2') }}
                         </a>
                       </li>
                       <li>
@@ -62,7 +62,7 @@
                     </ul>
                   </li>
                   <li>
-                    <a href="/datenschutz/" id="navigationPrivacy">{{ trans('staticPages.nav3') }}
+                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/datenschutz/") }}" id="navigationPrivacy">{{ trans('staticPages.nav3') }}
                     </a>
                   </li>
                   <li class="dropdown">
@@ -76,19 +76,19 @@
                         </a>
                       </li>
                       <li>
-                        <a href="/kontakt/">{{ trans('staticPages.nav5') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/kontakt/") }}">{{ trans('staticPages.nav5') }}
                         </a>
                       </li>
                       <li>
-                        <a href="/team/">{{ trans('staticPages.nav6') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/team/") }}">{{ trans('staticPages.nav6') }}
                         </a>
                       </li>
                       <li>
-                        <a href="/about/">{{ trans('staticPages.nav7') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/about/") }}">{{ trans('staticPages.nav7') }}
                         </a>
                       </li>
                       <li>
-                        <a href="/impressum/">{{ trans('staticPages.nav8') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/impressum/") }}">{{ trans('staticPages.nav8') }}
                         </a>
                       </li>
                     </ul>
@@ -100,11 +100,11 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="/hilfe/">{{ trans('staticPages.nav9') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/hilfe/") }}">{{ trans('staticPages.nav9') }}
                         </a>
                       </li>
                       <li>
-                        <a href="/widget/">{{ trans('staticPages.nav10') }}
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/widget/") }}">{{ trans('staticPages.nav10') }}
                         </a>
                       </li>
                       <li>
@@ -123,6 +123,16 @@
                         <a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}
                         </a>
                       </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationSprache">{{ trans('staticPages.nav19') }}
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                      <li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
+                      @endforeach
                     </ul>
                   </li>
                 </ul>
