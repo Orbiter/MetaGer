@@ -2,9 +2,9 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
-use Symfony\Component\DomCrawler\Crawler;
+use Log;
 
-class Goyax extends Searchengine 
+class Loklak extends Searchengine 
 {
 	public $results = [];
 
@@ -15,15 +15,19 @@ class Goyax extends Searchengine
 
 	public function loadResults ($result)
 	{
-		
-		$crawler = new Crawler($result);
-		$crawler->filter('tr.treffer')->each(function (Crawler $node, $i)
+		if(!$result)
 		{
-			$title = $node->filter('td.name')->text();
-			$link = "http://www.goyax.de" . $node->filter('td.name > a')->attr('href');
+			return;
+		}
+		$results = json_decode($result, true);
+		if( !isset($results['statuses']) )
+			return;
+		foreach($results['statuses'] as $result)
+		{
+			$title = $result["screen_name"];
+			$link = $result['link'];
 			$anzeigeLink = $link;
-			$descr = "Aktie: " . $node->filter('td.waehrung')->text() . " " . $node->filter('td.isin')->text();
-
+			$descr = $result["text"];
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -34,9 +38,6 @@ class Goyax extends Searchengine
 				$this->gefVon,
 				$this->counter
 			);
-		} );
-
-
-		
+		}
 	}
 }
