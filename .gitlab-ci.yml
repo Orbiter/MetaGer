@@ -16,14 +16,15 @@ update(144.76.113.134):
     - git clone "$path" MetaGer_neu
     - cd MetaGer_neu
     - composer update
-    - chmod -R 777 storage
-    - chmod -R 777 bootstrap/cache
+    - php artisan queue:restart
     - scp metager@metager3.de:~/.env .
     - scp metager@metager3.de:~/sumas.xml config/
     - scp metager@metager3.de:~/sumasEn.xml config/
     - scp metager@metager3.de:~/blacklistUrl.txt config/
     - scp metager@metager3.de:~/blacklistDomains.txt config/
     - chmod 777 config/sumas.xml config/sumasEn.xml
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
@@ -46,14 +47,15 @@ update(metager3.de):
     - git clone "$path" MetaGer_neu
     - cd MetaGer_neu
     - composer update
-    - chmod -R 777 storage
-    - chmod -R 777 bootstrap/cache
+    - php artisan queue:restart
     - scp metager@metager3.de:~/.env .
     - scp metager@metager3.de:~/sumas.xml config/
     - scp metager@metager3.de:~/sumasEn.xml config/
     - scp metager@metager3.de:~/blacklistUrl.txt config/
     - scp metager@metager3.de:~/blacklistDomains.txt config/
     - chmod 777 config/sumas.xml config/sumasEn.xml
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
