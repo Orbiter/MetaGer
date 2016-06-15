@@ -8,6 +8,7 @@ update(144.76.113.134):
     - which composer
     - which git
     - which php7.0
+    - which sqlite3
   script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
@@ -39,6 +40,7 @@ update(metager3.de):
     - which composer
     - which git
     - which php7.0
+    - which sqlite3
   script:
     # Pfad zum neu geklonten Repo
     - path=`pwd`
