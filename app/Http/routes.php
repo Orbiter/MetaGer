@@ -86,13 +86,7 @@
                 ->with('css', 'widget.css');
         });
         
-        Route::get('settings', function()
-        {
-            return view('settings')
-                ->with('title', trans('titles.settings'))
-                ->with('css', 'settings.css')
-                ->with('js', ['settings.js']);
-        });
+        Route::get('settings', 'StartpageController@loadSettings');
 
         
         Route::get('meta/meta.ger3', 'MetaGerSearch@search');

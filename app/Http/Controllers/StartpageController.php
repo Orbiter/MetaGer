@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
+use App;
 
 class StartpageController extends Controller
 {
@@ -95,5 +96,51 @@ class StartpageController extends Controller
         $response->header('Content-Type', "application/xml");
         return $response;
         return $link;
+    }
+
+    public function loadSettings (Request $request)
+    {
+        $sumaFile = "";
+        if(App::isLocale('en'))
+            $sumaFile = config_path() . "/sumasEn.xml";
+        else
+            $sumaFile = config_path() . "/sumas.xml";
+
+        $xml = simplexml_load_file($sumaFile);
+        $sumas = $xml->xpath("suma");
+
+        $foki = [];
+        foreach($sumas as $suma)
+        {
+            if( (!isset($suma['disabled']) || $suma['disabled'] === "") && ( !isset($suma['userSelectable']) || $suma['userSelectable']->__toString() === "1") )
+            {
+                if( isset($suma['type']) )
+                {
+                    $f = explode(",", $suma['type']->__toString());
+                    foreach($f as $tmp)
+                    {
+                        $displayName = $suma['displayName']->__toString();
+                        $url = isset($suma['homepage']) ? $suma['homepage']->__toString() : "https://metager.de";
+                        $service = $suma['service']->__toString();
+                        $foki[$tmp][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url, 'service' => $service];
+                    }
+                }else
+                {
+                    $displayName = $suma['displayName']->__toString();
+                    $url = isset($suma['homepage']) ? $suma['homepage']->__toString() : "https://metager.de";
+                    $service = $suma['service']->__toString();
+                    $foki["andere"][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url, 'service' => $service];
+                }
+            }
+        }
+
+        return view('settings1')
+            ->with('foki', $foki)
+            ->with('title', 'Einstellungen')
+            ->with('css', 'settings.css')
+            ->with('js', ['settings.js']);
+        die(var_dump($foki));
+
+        return $xml->saveXML();
     }
 }
