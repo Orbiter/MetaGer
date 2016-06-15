@@ -11,15 +11,14 @@
 |
 */
 
-    Route::group(['prefix' => LaravelLocalization::setLocale()], function()
-    {
-        /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-        /* Route::get('/', function()
+    Route::group(
+        [
+            'prefix' => LaravelLocalization::setLocale(), 
+            'middleware' => [ 'localeSessionRedirect', 'localizationRedirect' ]
+        ], 
+        function()
         {
-            return view('index', [ 
-            'title' => trans('titles.index'), 
-            'homeIcon']);
-        }); */
+        /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
 
         Route::get('/', 'StartpageController@loadStartPage');
 
