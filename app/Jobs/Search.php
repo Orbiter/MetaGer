@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
 use Redis;
-use Log;
 
 class Search extends Job implements ShouldQueue
 {
@@ -107,7 +106,6 @@ class Search extends Job implements ShouldQueue
                 $bodySize = strlen($body);
             }else
             {
-                Log::error("Konnte nicht herausfinden, wie ich die Serverantwort von: " . $this->name . " auslesen soll. Header war: " . print_r($headers));
                 exit;
             }
         }else
@@ -261,12 +259,6 @@ class Search extends Job implements ShouldQueue
             if($tmp){
                 $sent += $tmp;
                 $string = substr($string, $tmp);
-            }else
-                 Log::error("Fehler beim schreiben.");
-
-            if(((microtime(true) - $time) / 1000000) >= 500)
-            {
-                Log::error("Konnte die Request Daten nicht an: " . $this->name . " senden");
             }
 
             if($sent >= strlen($out))
@@ -301,11 +293,8 @@ class Search extends Job implements ShouldQueue
                 try
                 {
                     $fp = pfsockopen($this->getHost() . ":" . $this->port . "/$counter", $this->port, $errstr, $errno, 1);
-                    if(!$fp)
-                        Log::error("lkajng");
                 }catch(\ErrorException $e)
                 {
-                    Log::error('Fehler beim erstellen des Sockets zu: ' . $this->getHost());
                     break;
                 }
                 # Wir gucken, ob der Lesepuffer leer ist:
@@ -313,11 +302,9 @@ class Search extends Job implements ShouldQueue
                 $string = fgets($fp, 8192);
                 if( $string !== false || feof($fp) )
                 {
-                    Log::error("Der Lesepuffer von: " . $this->name . " war nach dem Erstellen nicht leer. Musste den Socket neu starten.");
                     fclose($fp);
                     continue;
                 }
-                Log::info($this->getHost() . ":" . $this->port . "/$counter");
                 break;
             }
             $counter++;
