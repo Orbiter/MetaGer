@@ -9,21 +9,24 @@
 
  # Unser erster Schritt wird sein, IP-Adresse und USER-Agent zu anonymisieren, damit 
  # nicht einmal wir selbst noch Zugriff auf die Daten haben:
-if( !isset($_SERVER['HTTP_X_FORWARDED_FOR'] ))
+if( !isset($_SERVER['HTTP_X_FORWARDED_FOR']) && isset($_SERVER['REMOTE_ADDR']) )
 {
 	$_SERVER['REMOTE_ADDR'] = preg_replace("/(\d+)\.(\d+)\.\d+.\d+/s", "$1.$2.0.0", $_SERVER['REMOTE_ADDR']);
-}else
+}elseif( isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 {
 	$_SERVER['HTTP_X_FORWARDED_FOR'] = preg_replace("/(\d+)\.(\d+)\.\d+.\d+/s", "$1.$2.0.0", $_SERVER['HTTP_X_FORWARDED_FOR']);
 }
-$agentPieces = explode(" ", $_SERVER['HTTP_USER_AGENT']);
-
-for($i = 0; $i < count($agentPieces); $i++)
+if( isset($_SERVER['HTTP_USER_AGENT']) )
 {
-	$agentPieces[$i] = preg_replace("/(\d+\.\d+)/s", "0.0", $agentPieces[$i]);
-	$agentPieces[$i] = preg_replace("/([^\/]*)\/\w+/s", "$1/0.0", $agentPieces[$i]);
+	$agentPieces = explode(" ", $_SERVER['HTTP_USER_AGENT']);
+
+	for($i = 0; $i < count($agentPieces); $i++)
+	{
+		$agentPieces[$i] = preg_replace("/(\d+\.\d+)/s", "0.0", $agentPieces[$i]);
+		$agentPieces[$i] = preg_replace("/([^\/]*)\/\w+/s", "$1/0.0", $agentPieces[$i]);
+	}
+	$_SERVER['HTTP_USER_AGENT'] = implode(" ", $agentPieces);
 }
-$_SERVER['HTTP_USER_AGENT'] = implode(" ", $agentPieces);
 
 /*
 |--------------------------------------------------------------------------
