@@ -7,8 +7,10 @@
 		<div class="image col-xs-2 col-sm-1">
 			<img src="{{ $metager->getImageProxyLink($result->image) }}" alt="" />
 		</div>
-		@endif
 		<div class="resultInformation col-xs-10 col-sm-10">
+		@else
+		<div class="resultInformation col-xs-12 col-sm-12">
+		@endif
 			<p class="title">
 				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 				{{ $result->titel }}

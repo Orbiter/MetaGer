@@ -46,12 +46,14 @@
     @endif
         
     <footer>
-        <ul class="list-unstyled list-inline footer">
-            <li class="left"><a class="btn btn-default" href="/">MetaGer-Startseite</a>
-            </li>
-            <li class="right"><a class="btn btn-default" href="/impressum/">Impressum</a>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="col-xs-6">
+                <a class="btn btn-default" href="/">MetaGer-Startseite</a>
+            </div>
+            <div class="col-xs-6">
+                <a class="btn btn-default" href="/impressum/">Impressum</a>
+            </div>
+        </div>
     </footer>
     <script src="/js/jquery.js" type="text/javascript"></script>
     <script src="/js/bootstrap.js" type="text/javascript"></script>
