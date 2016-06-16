@@ -1,7 +1,7 @@
 <div class="result row">
-	<div class="number col-sm-1 hidden-xs" style="color:{{ $result->color }}">
-		{{ $result->number }})
-	</div>
+		<div class="number col-sm-1 hidden-xs" style="color:{{ $result->color }}">
+			{{ $result->number }})
+		</div>
 
 		@if( $result->image !== "" )
 		<div class="image col-xs-2 col-sm-1">
@@ -9,7 +9,7 @@
 		</div>
 		<div class="resultInformation col-xs-10 col-sm-10">
 		@else
-		<div class="resultInformation col-xs-12 col-sm-12">
+		<div class="resultInformation col-xs-12 col-sm-11">
 		@endif
 			<p class="title">
 				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
