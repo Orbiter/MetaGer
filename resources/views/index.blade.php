@@ -12,9 +12,64 @@
               </span>
             </button>
             <h4>
+              @if ($browser === 'Firefox' || $browser === 'Mozilla')
+                {{ trans('index.plugin.head.1') }}
+              @elseif ($browser === 'Chrome')
+                {{ trans('index.plugin.head.2') }}
+              @elseif ($browser === 'Opera')
+                {{ trans('index.plugin.head.3') }}
+              @elseif ($browser === 'IE')
+                {{ trans('index.plugin.head.4') }}
+              @elseif ($browser === 'Edge')
+                {{ trans('index.plugin.head.5') }}
+              @else
+                $(".seperator").addClass("hidden");
+              @endif
             </h4>
           </div>
           <div class="modal-body">
+            @if ($browser === 'Firefox' || $browser === 'Mozilla')
+              <ol>
+                <li>{{ trans('index.plugin.firefox.1') }}<a href="javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))">{{ trans('index.plugin.firefox.2') }}</a>{{ trans('index.plugin.firefox.3') }}</li>
+                <li>{{ trans('index.plugin.firefox.4') }}</li>
+                <li>{{ trans('index.plugin.firefox.5') }}</li>
+              </ol>
+            @elseif ($browser === 'Chrome')
+              <ol>
+                <li>{{ trans('index.plugin.chrome.1') }}<a href="javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))" onclick="$('#more').removeClass('hidden');">{{ trans('index.plugin.chrome.2') }}</a>{{ trans('index.plugin.chrome.3') }}
+                <ul id=\"more\" class=\"hidden list-unstyled\">
+                  <li>{{ trans('index.plugin.chrome.4') }}</li>
+                  <li><small>{{ trans('index.plugin.chrome.5') }}</small></li>
+                </ul></li>
+                <li>{{ trans('index.plugin.chrome.6') }}<span class=\"glyphicon glyphicon-menu-hamburger\"></span></li>
+                <li>{{ trans('index.plugin.chrome.7') }}</li>
+                <li>{{ trans('index.plugin.chrome.8') }}</li>
+                <li>{{ trans('index.plugin.chrome.9') }}</li>
+              </ol>
+            @elseif ($browser === 'Opera')
+              <ol>
+                <li>{{ trans('index.plugin.opera.1') }}<a href=\"/\" target=\"_blank\">{{ trans('index.plugin.opera.2') }}</a>{{ trans('index.plugin.opera.3') }}</li>
+                <li>{{ trans('index.plugin.opera.4') }}</li>
+                <li>{{ trans('index.plugin.opera.5') }}</li>
+                <li>{{ trans('index.plugin.opera.6') }}</li>
+                <li><small>{{ trans('index.plugin.opera.7') }}<a href=\"https://www.mozilla.org/de/firefox/new/\" target=\"_blank\">{{ trans('index.plugin.opera.8') }}</a>{{ trans('index.plugin.opera.9') }}</small>
+              </ol>
+            @elseif ($browser === 'IE')
+              <ol>
+                <li>{{ trans('index.plugin.IE.1') }}<a href=\"javascript:window.external.addSearchProvider($('link[rel=search]').attr('href'));\">{{ trans('index.plugin.IE.2') }}</a>{{ trans('index.plugin.IE.3') }}
+                <li>{{ trans('index.plugin.IE.4') }}<span class=\"glyphicon glyphicon-cog\"></span>)</li>
+                <li>{{ trans('index.plugin.IE.5') }}</li>
+                <li>{{ trans('index.plugin.IE.6') }}</li>
+                <li>{{ trans('index.plugin.IE.7') }}</li>
+              </ol>
+            @elseif ($browser === 'Edge')
+              <ol>
+                <li>{{ trans('index.plugin.edge.1') }}<span class=\"glyphicon glyphicon-option-horizontal\"></span>{{ trans('index.plugin.edge.2') }}</li>
+                <li>{{ trans('index.plugin.edge.3') }}</li>
+                <li>{{ trans('index.plugin.edge.4') }}</li>
+                <li>{{ trans('index.plugin.edge.5') }}</li>
+              </ol>
+            @endif
           </div>
         </div>
       </div>
@@ -75,6 +130,10 @@
                 <div class="input-group">
                   <div class="input-group-addon">
                     <button type="button" data-toggle="popover" data-html="true" data-container="body" title="Pers&ouml;nliches Design ausw&auml;hlen" data-content='	&lt;ul id="color-chooser" class="list-inline list-unstyled"&gt;
+}
+}
+}
+}
 &lt;li &gt;&lt;a id="standard" data-rgba="255,194,107,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li &gt;&lt;a id="standardHard" data-rgba="255,128,0,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li &gt;&lt;a id="blue" data-rgba="164,192,230,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
@@ -120,9 +179,9 @@
               </li>
               <li class="hidden-xs seperator">|
               </li>
-              <li id="plug">
-                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal">{{ trans('index.plugin') }}
-                </a>
+              <li id="plug" @unless ($browser === 'Firefox' || $browser === 'Mozilla' || $browser === 'Chrome' || $browser === 'Opera' || $browser === 'IE' || $browser === 'Edge')
+                class="hidden" @endunless >
+                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal">{{ trans('index.plugin') }}</a>
               </li>
             </ul>
           </figure>
@@ -131,31 +190,25 @@
 
 @section('optionalContent')
 <section id="moreInformation" class="hidden-xs">
-          <h1 class="hidden">Weitere Informationen
-          </h1>
+          <h1 class="hidden">{{ trans('index.sponsors.head.1') }}</h1>
           <div class="row">
             <div id="sponsors" class="col-md-6 col-sm12">
-              <h2>{{ trans('index.sponsors') }}
-              </h2>
+              <h2>{{ trans('index.sponsors.head.2') }}</h2>
               <ul>
                 <li>
-                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.woxikon') }}
-                  </a>
+                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.woxikon') }}</a>
                 </li>
                 <li>
-                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.gutscheine') }}
-                  </a>
+                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.gutscheine') }}</a>
                 </li>
                 <li>
-                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.kredite') }}
-                  </a>
+                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.kredite') }}</a>
                 </li>
               </ul>
             </div>
             <div class="col-md-6 col-sm-12">
               <h2>
-                <a href="/about/">{{ trans('index.about.title') }}
-                </a>
+                <a href="/about/">{{ trans('index.about.title') }}</a>
               </h2>
               <ul>
                 <li>
