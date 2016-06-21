@@ -16,6 +16,6 @@ return [
 	'contact.5' => 'MetaGer-forum.',
 	'contact.6' => 'Due to the amount of requests, we can not always answer promptly - in the',
 	'contact.7' => 'MetaGer-forum',
-	'contact.8' => 'there are probably other users which can help you aswell, and the questions and answers benefit EVERYONE.',
+	'contact.8' => 'there are probably other users which can help you aswell, and the questions and answers benefit everyone.',
 	'contact.9' => 'Only in reasoned exceptions, if you want to rech someone directly, you should mail them. Because team members might be on vacation, sick etc.',
 ];

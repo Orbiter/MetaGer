@@ -7,7 +7,7 @@ return [
 	'foki.produkte'			=>	'Shopping',
 	'foki.anpassen'			=>	'customize',
 
-	'conveyor'				=>	'Purchase at supporting MetaGer Shops',
+	'conveyor'				=>	'Purchase at affiliate shops',
 
 	'plugin'				=>	'add the MetaGer-Plugin',
 
