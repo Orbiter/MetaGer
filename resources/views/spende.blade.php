@@ -2,6 +2,8 @@
 
 @section('title', $title )
 
+@section('navbarFocus.donate', 'class="dropdown active"')
+
 @section('content')
 <h1>{{ trans('spenden.headline.1') }}</h1>
 <h2>{{ trans('spenden.headline.2') }}</h2>

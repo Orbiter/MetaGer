@@ -28,12 +28,9 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                   <span class="sr-only">{{ trans('staticPages.navigationToggle') }}
                   </span>
-                  <span class="icon-bar">
-                  </span>
-                  <span class="icon-bar">
-                  </span>
-                  <span class="icon-bar">
-                  </span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
                 </button>
               </div>
               <div>
@@ -41,100 +38,59 @@
               </div>
               <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                  <li>
-                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}" id="navigationSuche">{{ trans('staticPages.nav1') }}
-                    </a>
-                  </li>
-                  <li class="dropdown">
+                  <li @if ($navbarFocus === 'suche') class="active" @endif >
+                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}" id="navigationSuche">{{ trans('staticPages.nav1') }}</a></li>
+                  <li @if ($navbarFocus === 'foerdern') class="dropdown active" @else class="dropdown" @endif >
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('staticPages.nav16') }}
-                      <span class="caret">
-                      </span>
-                    </a>
+                      <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende/") }}">{{ trans('staticPages.nav2') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende/") }}">{{ trans('staticPages.nav2') }}</a></li>
                       <li>
-                        <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl">{{ trans('staticPages.nav17') }}
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/datenschutz/") }}" id="navigationPrivacy">{{ trans('staticPages.nav3') }}
-                    </a>
-                  </li>
-                  <li class="dropdown">
+                        <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl">{{ trans('staticPages.nav17') }}</a></li>
+                    </ul></li>
+                  <li @if ($navbarFocus === 'datenschutz') class="active" @endif >
+                    <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/datenschutz/") }}" id="navigationPrivacy">{{ trans('staticPages.nav3') }}</a></li>
+                  <li @if ($navbarFocus === 'kontakt') class="dropdown active" @else class="dropdown" @endif >
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationKontakt">{{ trans('staticPages.nav18') }}
-                      <span class="caret">
-                      </span>
-                    </a>
+                      <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="http://forum.suma-ev.de/">{{ trans('staticPages.nav4') }}
-                        </a>
-                      </li>
+                        <a href="http://forum.suma-ev.de/">{{ trans('staticPages.nav4') }}</a></li>
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/kontakt/") }}">{{ trans('staticPages.nav5') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/kontakt/") }}">{{ trans('staticPages.nav5') }}</a></li>
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/team/") }}">{{ trans('staticPages.nav6') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/team/") }}">{{ trans('staticPages.nav6') }}</a></li>
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/about/") }}">{{ trans('staticPages.nav7') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/about/") }}">{{ trans('staticPages.nav7') }}</a></li>
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/impressum/") }}">{{ trans('staticPages.nav8') }}
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="dropdown">
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/impressum/") }}">{{ trans('staticPages.nav8') }}</a></li>
+                    </ul></li>
+                  <li @if ($navbarFocus === 'dienste') class="dropdown active" @else class="dropdown" @endif >
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ trans('staticPages.nav15') }}
-                      <span class="caret">
-                      </span>
-                    </a>
+                      <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/hilfe/") }}">{{ trans('staticPages.nav9') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/hilfe/") }}">{{ trans('staticPages.nav9') }}</a></li>
                       <li>
-                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/widget/") }}">{{ trans('staticPages.nav10') }}
-                        </a>
-                      </li>
+                        <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/widget/") }}">{{ trans('staticPages.nav10') }}</a></li>
                       <li>
-                        <a href="https://metager.de/klassik/asso/" target="_blank">{{ trans('staticPages.nav11') }}
-                        </a>
-                      </li>
+                        <a href="https://metager.de/klassik/asso/" target="_blank">{{ trans('staticPages.nav11') }}</a></li>
                       <li>
-                        <a href="http://code.metager.de/" target="_blank">{{ trans('staticPages.nav12') }}
-                        </a>
-                      </li>
+                        <a href="http://code.metager.de/" target="_blank">{{ trans('staticPages.nav12') }}</a></li>
                       <li>
-                        <a href="https://metager.to/" target="_blank">{{ trans('staticPages.nav13') }}
-                        </a>
-                      </li>
+                        <a href="https://metager.to/" target="_blank">{{ trans('staticPages.nav13') }}</a></li>
                       <li>
-                        <a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="dropdown">
+                        <a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}</a></li>
+                    </ul></li>
+                  <li class="dropdown" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationSprache">{{ trans('staticPages.nav19') }}
-                      <span class="caret"></span>
-                    </a>
+                      <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                       <li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
                       @endforeach
-                    </ul>
-                  </li>
+                    </ul></li>
                 </ul>
               </div>
             </div>
@@ -156,18 +112,13 @@
               <ul class="list-inline hidden-xs">
                 <li>
                   <a href="https://www.suma-ev.de/" target="_blank">
-                    <img src="/img/suma_ev_logo-m1-greyscale.png" alt="SUMA-EV Logo">
-                  </a>
-                </li>
+                    <img src="/img/suma_ev_logo-m1-greyscale.png" alt="SUMA-EV Logo"></a></li>
                 <li id="info">
                   <a href="/kontakt/">{{ trans('staticPages.nav5') }}</a> - <a href="/impressum/">{{ trans('staticPages.nav8') }}</a>
-                  {{ trans('staticPages.sumaev.1') }}<a href="https://www.suma-ev.de/" target="_blank" >{{ trans('staticPages.sumaev.2') }}</a>
-                </li>
+                  {{ trans('staticPages.sumaev.1') }}<a href="https://www.suma-ev.de/" target="_blank" >{{ trans('staticPages.sumaev.2') }}</a></li>
                 <li>
                   <a href="https://www.uni-hannover.de/" target="_blank">
-                    <img src="/img/luh_metager.png" alt="LUH Logo">
-                  </a>
-                </li>
+                    <img src="/img/luh_metager.png" alt="LUH Logo"></a></li>
               </ul>
             </footer>
             <script type="text/javascript" src="/js/jquery.js"></script>

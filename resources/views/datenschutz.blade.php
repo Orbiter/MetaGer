@@ -2,6 +2,8 @@
 
 @section('title', $title )
 
+@section('navbarFocus.datenschutz', 'class="active"')
+
 @section('content')
         <h1>{{ trans('datenschutz.head') }}</h1>
         <p>{{ trans('datenschutz.general.1') }} <a href="https://suma-ev.de/presse/Sicher-suchen-UND-finden-mit-MetaGer.html">{{ trans('datenschutz.general.2') }}</a></p>
