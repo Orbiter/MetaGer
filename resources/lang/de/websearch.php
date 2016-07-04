@@ -6,7 +6,7 @@ return [
 	'head.3' => 'Vorschau',
 	'head.4' => 'Sicher suchen &amp; finden mit MetaGer',
 	'head.5' => 'Suche mit MetaGer...',
-	'head.6' => 'de',
+	'head.6' => 'all',
 	'head.7' => 'Code',
 	'head.8' => 'Suchen',
 ];

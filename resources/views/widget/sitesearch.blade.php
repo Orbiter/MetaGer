@@ -20,7 +20,7 @@
   <input type="hidden" name="site" value="{{ $site }}">
 </form>
 <h2>{{ trans('sitesearch.generated.5') }}</h2>
-<code>&lt;form class="metager-searchform" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}/meta/meta.ger3" method="get"&gt;
+<code>&lt;form class="metager-searchform" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}/meta/meta.ger3" method="get" accept-charset="UTF-8" &gt;
   &lt;style type="text/css" scoped&gt;
   .metager-searchinput {
   height: 30px;

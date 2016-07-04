@@ -11,4 +11,6 @@ return [
 	'hilfe' => 'Help - MetaGer',
 	'widget' => 'MetaGer Widget',
 	'settings' => 'Settings',
+	'websearch' => 'Websearch-Widget - MetaGer',
+	'sitesearch' => 'Sitesearch-Widget - MetaGer',
 ];
