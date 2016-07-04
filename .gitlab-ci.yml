@@ -23,6 +23,8 @@ update(144.76.113.134):
     - scp metager@metager3.de:~/sumasEn.xml config/
     - scp metager@metager3.de:~/blacklistUrl.txt config/
     - scp metager@metager3.de:~/blacklistDomains.txt config/
+    - touch storage/logs/laravel.log
+    - touch storage/logs/worker.log
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - chmod -R 777 storage
     - chmod -R 777 bootstrap/cache
@@ -55,6 +57,8 @@ update(metager3.de):
     - scp metager@metager3.de:~/sumasEn.xml config/
     - scp metager@metager3.de:~/blacklistUrl.txt config/
     - scp metager@metager3.de:~/blacklistDomains.txt config/
+    - touch storage/logs/laravel.log
+    - touch storage/logs/worker.log
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - chmod -R 777 storage
     - chmod -R 777 bootstrap/cache
