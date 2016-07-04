@@ -7,7 +7,7 @@ return [
 	'head.4' => '',
 
 	'allgemein.1' => 'General',
-	'allgemein.2' => 'disable sayings',
+	'allgemein.2' => 'disable quotes',
 	'allgemein.3' => 'open links in same tab',
 	'allgemein.4' => 'select language',
 	'allgemein.5' => 'all languages',
@@ -31,7 +31,7 @@ return [
 	'suchmaschinen.11' => 'diving',
 	'suchmaschinen.12' => 'regenerative energies',
 	'suchmaschinen.13' => 'astronomy',
-	'suchmaschinen.14' => 'stock &amp; finances',
+	'suchmaschinen.14' => 'stocks &amp; finances',
 	'suchmaschinen.15' => 'with archive',
 	'suchmaschinen.16' => 'germany, with archive',
 ];

@@ -17,7 +17,7 @@ return [
 	'nav14' => 'TOR-Hidden-Service',
 	'nav15' => 'Tools',
 	'nav16' => 'Support',
-	'nav17' => 'Purchase at MetaGer Supporting Shops',
+	'nav17' => 'Purchase at affiliate shops',
 	'nav18' => 'Contact',
 	'nav19' => 'Language',
 
