@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	checkPlugin();
+	// checkPlugin();
 	if(location.href.indexOf("#plugin-modal") > -1)
 		$("#plugin-modal").modal("show");
 	$("button").popover();
@@ -45,6 +45,7 @@ $(document).ready(function(){
 	});
 });
 
+/*
 function checkPlugin(){
 	if(isFirefox){
 		$("#plugin-modal .modal-header h4").html("MetaGer zum Firefox hinzufügen");
@@ -107,6 +108,7 @@ function checkPlugin(){
 		$(".seperator").addClass("hidden");
 	}
 }
+*/
 
 function setSettings(){
 	for(var i = 0; i < localStorage.length; i++){

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Jenssegers\Agent\Agent;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
@@ -34,6 +36,9 @@ class StartpageController extends Controller
             }
         }
 
+        $agent = new Agent();
+        $browser = $agent->browser();
+
         return view('index')
             ->with('title', trans('titles.index'))
             ->with('homeIcon')
@@ -44,6 +49,7 @@ class StartpageController extends Controller
             ->with('sprueche', $request->input('param_sprueche', 'off'))
             ->with('tab', $request->input('param_sprueche', 'off'))
             ->with('focusPages', $focusPages)
+            ->with('browser', $browser)
             ->with('navbarFocus', 'suche');
 
     }
