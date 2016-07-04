@@ -34,4 +34,4 @@ zögere biite nicht ein Ticket zu schreiben oder eine Mail an [office@suma-ev.de
 
 Der MetaGer-eigene Code, sofern nicht anders anders angegeben, steht unter der [AGPL-Lizenz Version 3](https://www.gnu.org/licenses/agpl-3.0).
 
-Eine Liste der Projekte, auf denen MetaGer basiert, und deren Lizenzen sind in der Datei LICENSES.md zu finden. 
+Eine Liste der Projekte, auf denen MetaGer basiert, und deren Lizenzen sind in der Datei LICENSE zu finden. 
