@@ -5,6 +5,6 @@ return [
 	'news'		=>	"nachrichten",
 	'science'	=>	'wissenschaft',
 	'shopping'	=>	'produktsuche',
-	'picture'	=>	'bilder',
+	'images'	=>	'bilder',
 	'custom'	=>	'angepasst'
 ];

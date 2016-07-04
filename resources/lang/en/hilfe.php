@@ -1,13 +1,13 @@
 <?php
 
 return [
-	'head.1' => 'MetaGer - Support',
-	'head.2' => 'The MetaGer-Support tries to offer help for every level of skills: The professional should not be forced to read lengthy explanations, while the beginner should learn to understand what happens here, and how IT happens.',
+	'head.1' => 'MetaGer - Help',
+	'head.2' => 'The MetaGer help tries to offer help for every level of skill: The professional should not be forced to read lengthy explanations, while the beginner should learn to understand what happens here, and how it happens.',
 
-	'help.1' => 'Help Information About the Usage of Metager',
+	'help.1' => 'Usage',
 	'help.2' => 'General Settings',
-	'help.3' => 'All settings can be found at the searchfocus "customize".',
-	'help.4' => 'On the left hand side of the input field you will find a drop of color, which allows you to customize the color.',
+	'help.3' => 'All settings can be found at the search focus "customize".',
+	'help.4' => 'On the left hand side of the input field you will find a drop icon, which allows you to customize the color.',
 	'help.5' => 'A plugin for most browsers can be found easily via the link next to the search field, where browser should be preset.',
 	'help.6' => 'Personal Settings',
 	'help.7' => 'Selection of the Search Focus',
@@ -24,10 +24,10 @@ return [
 	'help.18' => 'If you want to exclude MetaGer-results, which contain words (stopwords), you can do this by first typing in your searchwords as usual, then typing a blank (" ") followed by a minus ("-") and the words you want to exclude from your search.',
 	'help.19' => 'An Example: You are looking for a new car, but you definitely do not want a BMW. Therefore your input would be: car new -BMW',
 	'help.20' => 'Multi Word Search',
-	'help.21' => 'By default, a multi word search looks for documents, in which all words appear. The search for multiple terms shows almost equal results with or without quotation marks. However, if you have a longer citation or something liek that, you should use quatation marks.',
+	'help.21' => 'By default, a multi word search looks for documents, in which all words appear. The search for multiple terms shows almost equal results with or without quotation marks. However, if you have a longer citation or something like that, you should use quatation marks.',
 	'help.22' => 'Example: a search for "in den öden Fensterhöhlen" will provide many results, but it gets interesting (and more exact) when you search for: Schiller "in den öden Fensterhöhlen"',
 	'help.23' => 'Upper and Lower Case',
-	'help.24' => 'is not distinguished for search, it is a purely contentual search.',
+	'help.24' => 'are usually not distinguished.',
 	'help.25' => 'Search Word Associator',
 	'help.26' => 'The headline above conveys a big problem of retrieving information from the internet: When searching in a certain field of expertise, the technical terms and conceptual field are not always known. To deduce this conceptual field with a click of your mouse, we developed the',
 	'help.27' => 'MetaGer-Web-Assoziator',

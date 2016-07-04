@@ -3,7 +3,7 @@
 return [
 	'headline.1' => 'Contact',
 	'headline.2' => 'Forum',
-	'headline.3' => 'Please ask questions first at our',
+	'headline.3' => 'Please ask your question first at our',
 	'headline.4' => 'This way others can benefit from an answer.',
 	
 	'form.1' => 'Secure Contact Form',

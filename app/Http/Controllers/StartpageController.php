@@ -43,7 +43,9 @@ class StartpageController extends Controller
             ->with('time', $request->input('param_time', '1000'))
             ->with('sprueche', $request->input('param_sprueche', 'off'))
             ->with('tab', $request->input('param_sprueche', 'off'))
-            ->with('focusPages', $focusPages);
+            ->with('focusPages', $focusPages)
+            ->with('navbarFocus', 'suche');
+
     }
 
     public function loadPage($subpage)
@@ -138,7 +140,8 @@ class StartpageController extends Controller
             ->with('foki', $foki)
             ->with('title', 'Einstellungen')
             ->with('css', 'settings.css')
-            ->with('js', ['settings.js']);
+            ->with('js', ['settings.js'])
+            ->with('navbarFocus', 'suche');
         die(var_dump($foki));
 
         return $xml->saveXML();

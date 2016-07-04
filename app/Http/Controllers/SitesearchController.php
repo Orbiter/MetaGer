@@ -14,6 +14,7 @@ class SitesearchController extends Controller
         return view('widget.sitesearch')
             ->with('title', trans('titles.sitesearch'))
             ->with('css', 'sitesearch.css')
-            ->with('site', $request->input('site', ''));
+            ->with('site', $request->input('site', ''))
+            ->with('navbarFocus', 'dienste');
     }
 }
