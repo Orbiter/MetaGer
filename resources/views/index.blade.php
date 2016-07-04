@@ -2,6 +2,10 @@
 
 @section('title', $title )
 
+@section('navbarFocus.search', 'class="active"')
+
+@section('navbarFocus.donate', 'class="dropdown"')
+
 @section('content')
 	<div class="modal fade" id="plugin-modal" tab-index="-1" role="dialog">
       <div class="modal-dialog ">
@@ -75,7 +79,7 @@
       </div>
     </div>
 	 <h1 id="mglogo">
-            <a class="hidden-xs" href="/">MetaGer
+            <a class="hidden-xs" href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}">MetaGer
             </a>
           </h1>
           <figure>
@@ -151,7 +155,7 @@
                       </span>
                     </button>
                   </div>
-                  <input type="text" name="eingabe" required="" autofocus="" class="form-control" placeholder="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen">
+                  <input type="text" name="eingabe" required="" autofocus="" class="form-control" placeholder="{{ trans('index.placeholder') }}">
                   <input type="hidden" name="encoding" value="utf8">
                   @if ($focus === 'angepasst') <input type="hidden" name="lang" value={{ $lang }} >
                   <input type="hidden" name="resultCount" value={{ $resultCount }} >

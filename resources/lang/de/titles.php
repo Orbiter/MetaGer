@@ -9,5 +9,8 @@ return [
 	'spende' => 'Spenden - MetaGer',
 	'datenschutz' => 'Datenschutz und Privatsphäre - MetaGer',
 	'hilfe' => 'Hilfe - MetaGer',
-	'widget' => 'MetaGer Widget'
+	'widget' => 'MetaGer Widget',
+	'settings' => 'Einstellungen',
+	'websearch' => 'Websuche-Widget - MetaGer',
+	'sitesearch' => 'Sitesearch-Widget - MetaGer',
 ];

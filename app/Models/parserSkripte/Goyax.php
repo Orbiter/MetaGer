@@ -2,33 +2,27 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use Symfony\Component\DomCrawler\Crawler;
 
 class Goyax extends Searchengine 
 {
 	public $results = [];
 
-	function __construct (\SimpleXMLElement $engine,  \App\MetaGer $metager)
+	function __construct (\SimpleXMLElement $engine, \App\MetaGer $metager)
 	{
 		parent::__construct($engine, $metager);
 	}
 
 	public function loadResults ($result)
 	{
-		die($result);
-		$results = trim($result);
 		
-		foreach( explode("\n", $results) as $result )
+		$crawler = new Crawler($result);
+		$crawler->filter('tr.treffer')->each(function (Crawler $node, $i)
 		{
-
-			$res = explode("|", $result);
-			if(sizeof($res) < 3)
-			{
-				continue;
-			}
-			$title = $res[0];
-			$link = $res[2];
+			$title = $node->filter('td.name')->text();
+			$link = "http://www.goyax.de" . $node->filter('td.name > a')->attr('href');
 			$anzeigeLink = $link;
-			$descr = $res[1];
+			$descr = "Aktie: " . $node->filter('td.waehrung')->text() . " " . $node->filter('td.isin')->text();
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -39,8 +33,9 @@ class Goyax extends Searchengine
 				$descr,
 				$this->gefVon,
 				$this->counter
-			);		
-		}
+			);
+		} );
+
 
 		
 	}

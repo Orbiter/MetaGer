@@ -52,10 +52,7 @@ header nav {
 .result{
 	padding:0;
 }
-.result > .resultInformation{
-	margin-left:0;
-	padding-left:0;
-}
+
 .result .link a{
 	white-space:nowrap;
 	overflow:hidden;

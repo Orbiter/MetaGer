@@ -19,7 +19,10 @@ return [
 	'nav16' 			=> 'Fördern',
 	'nav17' 			=> 'Einkaufen bei MetaGer-Fördershops',
 	'nav18' 			=> 'Kontakt',
+	'nav19'				=> 'Sprache',
+
 	'navigationToggle'	=> 'Navigation anzeigen',
+	
 	'sumaev.1'			=>	'MetaGer wird entwickelt und betrieben vom ',
 	'sumaev.2'			=>	'SUMA-EV - Verein für freien Wissenszugang.'
 ];

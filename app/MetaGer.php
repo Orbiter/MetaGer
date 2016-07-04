@@ -52,8 +52,6 @@ class MetaGer
 	function __construct()
 	{
         $this->starttime = microtime(true);   
-        define('CRLF', "\r\n");
-        define('BUFFER_LENGTH', 8192);
         if( file_exists(config_path() . "/blacklistDomains.txt") && file_exists(config_path() . "/blacklistUrl.txt") )
         {
             # Blacklists einlesen:
@@ -69,6 +67,12 @@ class MetaGer
         $this->languageDetect = new TextLanguageDetect();
         $this->languageDetect->setNameMode("2");
 	}
+
+    public function getHashCode ()
+    {
+        $string = url()->full();
+        return md5($string);
+    }
 
     public function rankAll ()
     {
@@ -278,7 +282,6 @@ class MetaGer
 
 	public function createSearchEngines (Request $request)
 	{
-
         #die(SocketRocket::get("tls", "dominik-pfennig.de", "", 443));
 
 		# Überprüfe, welche Sumas eingeschaltet sind
@@ -312,7 +315,7 @@ class MetaGer
 
                 	if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
                     {
-                        if($suma["name"]->__toString() === "overture")
+                        if($suma["name"]->__toString() === "overture" || $suma["name"]->__toString() === "overtureAds")
                         {
                             $overtureEnabled = TRUE;
                         }
@@ -336,7 +339,7 @@ class MetaGer
                 	){
                     if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
                     {
-                        if($suma["name"]->__toString() === "overture")
+                        if($suma["name"]->__toString() === "overture" || $suma["name"]->__toString() === "overtureAds")
                         {
                             $overtureEnabled = TRUE;
                         }
@@ -353,6 +356,8 @@ class MetaGer
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
         }
 
+
+
 		$engines = [];
 		foreach($enabledSearchengines as $engine){
 
@@ -360,8 +365,8 @@ class MetaGer
             {
                 continue;
             }
-            # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
 
+            # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
 
             $time = microtime();
@@ -378,43 +383,51 @@ class MetaGer
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
 		}
+
         # Nun passiert ein elementarer Schritt.
         # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
         # aber natürlich nicht ewig.
         # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
         # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
-
-        # Jetzt lesen wir alles aus, was da ist und verwerfen den Rest:
         $enginesToLoad = count($engines);
         $loadedEngines = 0;
-        $time = 0;
+        $timeStart = microtime(true);
+
         while( true )
         {
+            $time = (microtime(true) - $timeStart) * 1000;
+            $loadedEngines = intval(Redis::hlen('search.' . $this->getHashCode()));
+            $canBreak = true;
+            if( $overtureEnabled && !Redis::hexists('search.' . $this->getHashCode(), 'overture') && !Redis::hexists('search.' . $this->getHashCode(), 'overtureAds'))
+                $canBreak = false;
+
+
             # Abbruchbedingung
             if($time < 500)
             {
-                if($loadedEngines >= $enginesToLoad)
+                if($loadedEngines >= $enginesToLoad && $canBreak)
                     break;
             }elseif( $time >= 500 && $time < $this->time)
             {
-                if( ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8 )
+                if( ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8 && $canBreak )
                     break;
             }else
             {
                 break;
             }
-            foreach($engines as $engine)
-            {
-                if(!$engine->loaded)
-                {
-                    $success = $engine->retrieveResults();
-                    if($engine->loaded)
-                        $loadedEngines += 1;
-                }
-            }
             usleep(50000);
-            $time += 50;
         }
+
+        
+        foreach($engines as $engine)
+        {
+            if(!$engine->loaded)
+            {
+                $engine->retrieveResults();
+            }
+        }
+        
+        # und verwerfen den Rest:
         foreach( $engines as $engine )
         {
             if( !$engine->loaded )
