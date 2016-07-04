@@ -90,10 +90,20 @@
 
 		Route::get('widget', function()
 		{
-			return view('widget')
+            return view('widget.widget')
 				->with('title', trans('titles.widget'))
 				->with('css', 'widget.css')
 				->with('navbarFocus', 'dienste');
+        });
+
+        Route::get('sitesearch', 'SitesearchController@loadPage');
+
+        Route::get('websearch', function()
+        {
+            return view('widget.websearch')
+                ->with('title', trans('titles.websearch'))
+                ->with('css', 'websearch.css')
+                ->with('navbarFocus', 'dienste');
 		});
 		
 		Route::get('settings', 'StartpageController@loadSettings');
