@@ -23,6 +23,8 @@ return [
 	'about.2.1'				=>	'Wir arbeiten nicht gewinnorientiert, wir sind ein ',
 	'about.2.2'				=>	'gemeinnütziger Verein. ',
 
+	'placeholder'			=>	'MetaGer: Sicher suchen & finden, Privatsphäre schützen',
+
 	'plugin.head.1'			=>	'MetaGer zum Firefox hinzufügen',
 	'plugin.head.2'			=>	'MetaGer zum Chrome hinzufügen',
 	'plugin.head.3'			=>	'MetaGer zum Opera hinzufügen',
