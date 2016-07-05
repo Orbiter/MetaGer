@@ -36,7 +36,7 @@ update(metager3.de):
   tags:
   - metager3
   only:
-    - master
+    - development
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
