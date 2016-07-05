@@ -21,7 +21,7 @@ EMail: <a href="mailto:office@suma-ev.de">office@suma-ev.de</a><a href="/kontakt
 <a href="http://www.intares.de/service_provider_info/management.html">Dr. Bernhard Biedermann</a>, <a href="http://www.nebel.de/unternehmen/vita.shtml">Michael Nebel</a>, <a href="http://de.wikipedia.org/wiki/Wolfgang_Sander-Beuermann">Dr. Wolfgang Sander-Beuermann</a></p>
 <p>{{ trans('impressum.info.5') }}:
 <a href="http://de.wikipedia.org/wiki/Wolfgang_Sander-Beuermann">Dr. Wolfgang Sander-Beuermann</a>
-Public-PGP-Key: <a href="https://metager.de/team/pubkey-wsb.txt%0A">https://metager.de/team/pubkey-wsb.txt</a>
+Public-PGP-Key: <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/team/pubkey-wsb") }}">{{ url('/team/pubkey-wsb') }}</a>
 Facebook: <a href="https://www.facebook.com/wolfgang.sanderbeuermann%0A">https://www.facebook.com/wolfgang.sanderbeuermann</a>
 Twitter: <a href="http://twitter.com/wosabeu">http://twitter.com/wosabeu</a>
 </p>
