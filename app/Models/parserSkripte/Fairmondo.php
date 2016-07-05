@@ -28,7 +28,10 @@ class Fairmondo extends Searchengine
 			{
 				$descr .= " | Preis: " . (intval($result['price_cents']) / 100.0) . " €";
 			}
-
+			if( isset($result['title_image_url']) )
+			{
+				$image = $result['title_image_url'];
+			}
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -38,7 +41,9 @@ class Fairmondo extends Searchengine
 				$anzeigeLink,
 				$descr,
 				$this->gefVon,
-				$this->counter
+				$this->counter,
+				false,
+				$image
 			);		
 		}
 	}
