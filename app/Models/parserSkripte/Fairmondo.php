@@ -18,10 +18,17 @@ class Fairmondo extends Searchengine
 		$results = $results["articles"];
 		foreach($results as $result)
 		{
+			if( $this->counter >= 10 )
+				break;
 			$title = $result["title"];
-			$link = $result["html_url"];
+			$link = "https://www.fairmondo.de/articles/" . $result["id"];
 			$anzeigeLink = $link;
 			$descr = $result["slug"];
+			if( isset($result['price_cents']))
+			{
+				$descr .= " | Preis: " . (intval($result['price_cents']) / 100.0) . " €";
+			}
+
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
