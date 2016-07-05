@@ -6,6 +6,7 @@ return [
 	'foki.wissenschaft'		=>	'Science',
 	'foki.produkte'			=>	'Shopping',
 	'foki.anpassen'			=>	'customize',
+	'foki.angepasst'		=>	'customized',
 
 	'conveyor'				=>	'Purchase at affiliate shops',
 

@@ -124,13 +124,18 @@
                 <span class="glyphicon glyphicon-cog">
                 </span>
                 <span class="content">
-                  <a href="/settings/">{{ trans('index.foki.anpassen') }}
+                  <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/settings") }}">
+                  @if ($focus === 'angepasst')
+                  {{ trans('index.foki.angepasst') }}
+                  @else
+                  {{ trans('index.foki.anpassen') }}
+                  @endif
                   </a>
                 </span>
               </label>
             </fieldset>
             <fieldset>
-              <form id="searchForm" method="GET" action="/meta/meta.ger3" accept-charset="UTF-8">
+              <form id="searchForm" method="GET" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/meta/meta.ger3") }}" accept-charset="UTF-8">
                 <div class="input-group">
                   <div class="input-group-addon">
                     <button type="button" data-toggle="popover" data-html="true" data-container="body" title="Pers&ouml;nliches Design ausw&auml;hlen" data-content='	&lt;ul id="color-chooser" class="list-inline list-unstyled"&gt;

@@ -20,7 +20,7 @@ return [
 
 	'suchmaschinen.1' => 'Suchmaschinen',
 	'suchmaschinen.2' => 'Web-Suche',
-	'suchmaschinen.3' => 'alle an-/abw&auml;hlen',
+	'suchmaschinen.3' => '(alle an-/abwählen)',
 	'suchmaschinen.4' => 'Video',
 	'suchmaschinen.5' => 'Deutschland',
 	'suchmaschinen.6' => 'Nachrichten',
@@ -34,4 +34,8 @@ return [
 	'suchmaschinen.14' => 'B&ouml;rse &amp; Finanzen',
 	'suchmaschinen.15' => 'mit Archiv',
 	'suchmaschinen.16' => 'Deutschland, mit Archiv',
+
+	'speichern.1'		=>	'Startseite für einmalige Nutzung generieren',
+	'speichern.2'		=>	'Einstellungen dauerhaft speichern',
+	'speichern.3'		=>	'Plugin mit diesen Einstellungen generieren',
 ];

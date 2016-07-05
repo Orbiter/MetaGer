@@ -3,11 +3,11 @@
             <nav>
                 <ul class="list-inline">
                     <li class="hidden-xs hidden-sm pull-left">
-                        <div class="logo"><a href="/"><h1>MetaGer</h1></a>
+                        <div class="logo"><a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}"><h1>MetaGer</h1></a>
                         </div>
                     </li>
                     <li class="visible-xs visible-sm pull-left">
-                        <div class="logo"><a href="/"><h1>MG</h1></a>
+                        <div class="logo"><a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}"><h1>MG</h1></a>
                         </div>
                     </li>
                     <li class="pull-right">
@@ -52,14 +52,14 @@
         <li id="bilderTabSelector" role="presentation" data-loaded="1" class="active">
             <a aria-controls="bilder" data-href="#bilder" href="#bilder">
                 <span class='glyphicon glyphicon-picture'></span> 
-                <span class="hidden-xs">Bilder</span>
+                <span class="hidden-xs">{{ trans('index.foki.bilder') }}</span>
             </a>
         </li>
         @else
         <li data-loaded="0" id="bilderTabSelector" role="presentation">
             <a aria-controls="bilder" data-href="{{ $metager->generateSearchLink('bilder') }}" href="{{ $metager->generateSearchLink('bilder') }}">
                 <span class='glyphicon glyphicon-picture'></span> 
-                <span class="hidden-xs">Bilder</span>
+                <span class="hidden-xs">{{ trans('index.foki.bilder') }}</span>
             </a>
         </li>
         @endif
@@ -68,14 +68,14 @@
         <li id="nachrichtenTabSelector" role="presentation" data-loaded="1" class="active">
             <a aria-controls="nachrichten" data-href="#nachrichten" href="#nachrichten">
                 <span class='glyphicon glyphicon-bullhorn'></span> 
-                <span class="hidden-xs">Nachrichten</span>
+                <span class="hidden-xs">{{ trans('index.foki.nachrichten') }}</span>
             </a>
         </li>
         @else
         <li data-loaded="0" id="nachrichtenTabSelector" role="presentation" >
             <a aria-controls="nachrichten" data-href="{{ $metager->generateSearchLink('nachrichten') }}" href="{{ $metager->generateSearchLink('nachrichten') }}">
                 <span class='glyphicon glyphicon-bullhorn'></span> 
-                <span class="hidden-xs">Nachrichten</span>
+                <span class="hidden-xs">{{ trans('index.foki.nachrichten') }}</span>
             </a>
         </li>
         @endif
@@ -84,14 +84,14 @@
         <li id="wissenschaftTabSelector" role="presentation" data-loaded="1" class="active">
             <a aria-controls="wissenschaft" data-href="#wissenschaft" href="#wissenschaft">
                 <span class='glyphicon glyphicon-file'></span> 
-                <span class="hidden-xs">Wissenschaft</span>
+                <span class="hidden-xs">{{ trans('index.foki.wissenschaft') }}</span>
             </a>
         </li>
         @else
         <li data-loaded="0" id="wissenschaftTabSelector" role="presentation">
             <a aria-controls="wissenschaft" data-href="{{ $metager->generateSearchLink('wissenschaft') }}" href="{{ $metager->generateSearchLink('wissenschaft') }}">
                 <span class='glyphicon glyphicon-file'></span> 
-                <span class="hidden-xs">Wissenschaft</span>
+                <span class="hidden-xs">{{ trans('index.foki.wissenschaft') }}</span>
             </a>
         </li>
         @endif
@@ -100,14 +100,14 @@
         <li id="produktsucheTabSelector" role="presentation" data-loaded="1" class="active">
             <a aria-controls="produktsuche" data-href="#produktsuche" href="#produktsuche">
                 <span class='glyphicon glyphicon-shopping-cart'></span> 
-                <span class="hidden-xs">Produktsuche</span>
+                <span class="hidden-xs">{{ trans('index.foki.produkte') }}</span>
             </a>
         </li>
         @else
         <li data-loaded="0" id="produktsucheTabSelector" role="presentation" >
             <a aria-controls="produktsuche" data-href="{{ $metager->generateSearchLink('produktsuche') }}" href="{{ $metager->generateSearchLink('produktsuche') }}">
                 <span class='glyphicon glyphicon-shopping-cart'></span> 
-                <span class="hidden-xs">Produktsuche</span>
+                <span class="hidden-xs">{{ trans('index.foki.produkte') }}</span>
             </a>
         </li>
         @endif
@@ -116,7 +116,7 @@
         <li id="angepasstTabSelector" role="presentation" data-loaded="1" class="active">
             <a aria-controls="angepasst" data-href="#angepasst" href="#angepasst">
                 <span class='glyphicon glyphicon-cog'></span> 
-                <span class="hidden-xs">angepasst</span>
+                <span class="hidden-xs">{{ trans('index.foki.angepasst') }}</span>
             </a>
         </li>
         @endif

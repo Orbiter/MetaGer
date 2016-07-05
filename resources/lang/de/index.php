@@ -6,6 +6,7 @@ return [
 	'foki.wissenschaft'		=>	'Wissenschaft',
 	'foki.produkte'			=>	'Produkte',
 	'foki.anpassen'			=>	'anpassen',
+	'foki.angepasst'		=>	'angepasst',
 
 	'conveyor'				=>	'Einkaufen bei MetaGer-Fördershops',
 
