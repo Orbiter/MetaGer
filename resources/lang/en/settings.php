@@ -20,7 +20,7 @@ return [
 
 	'suchmaschinen.1' => 'search engines',
 	'suchmaschinen.2' => 'web-search',
-	'suchmaschinen.3' => 'select / deselect all',
+	'suchmaschinen.3' => '(select / deselect all)',
 	'suchmaschinen.4' => 'video',
 	'suchmaschinen.5' => 'germany',
 	'suchmaschinen.6' => 'news',
@@ -34,4 +34,8 @@ return [
 	'suchmaschinen.14' => 'stocks &amp; finances',
 	'suchmaschinen.15' => 'with archive',
 	'suchmaschinen.16' => 'germany, with archive',
+
+	'speichern.1'		=>	'Create a startpage for one-time use',
+	'speichern.2'		=>	'Save settings permanently',
+	'speichern.3'		=>	'Generate plugin with these settings',
 ];
