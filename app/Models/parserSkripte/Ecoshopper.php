@@ -2,6 +2,7 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use Log;
 
 class Ecoshopper extends Searchengine 
 {
@@ -17,7 +18,8 @@ class Ecoshopper extends Searchengine
 		try {
 			$content = simplexml_load_string($result);
 		} catch (\Exception $e) {
-			abort(500, "$result is not a valid xml string");
+			Log::error("Ergebnisse von Ecoshopper konnten nicht eingelesen werden");
+			return;
 		}
 		
 		if(!$content)

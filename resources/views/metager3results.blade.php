@@ -1,3 +1,21 @@
+@if( sizeof($errors) > 0 )
+		<div class="alert alert-danger">
+			<ul>
+				@foreach($errors as $error)
+				<li>{!! $error !!}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+	@if( sizeof($warnings) > 0)
+		<div class="alert alert-warning">
+			<ul>
+				@foreach($warnings as $warning)
+					<li>{!! $warning !!}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
 <div class="col-xs-12 col-md-8">
 	{{-- 3-Mal Werbung --}}
 	@for($i = 0; $i <= 2; $i++)
