@@ -28,6 +28,7 @@ update(144.76.113.134):
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - chmod -R 777 storage
     - chmod -R 777 bootstrap/cache
+    - php artisan migrate
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
@@ -62,6 +63,7 @@ update(metager3.de):
     - chmod 777 config/sumas.xml config/sumasEn.xml
     - chmod -R 777 storage
     - chmod -R 777 bootstrap/cache
+    - php artisan migrate
     - cd ~/
     - rm -rf MetaGer
     - mv MetaGer_neu MetaGer
