@@ -292,25 +292,16 @@ class MetaGer
         if($this->fokus === "angepasst")
         {
             $sumas = $xml->xpath("suma");
-            /**$maxSumas = 30;
-            $count = 0;
-            foreach($sumas as $suma)
-            {
-                if($maxSumas === $count)
-                    break;
-                $enabledSearchengines[] = $suma;
-                $count++;
-            }**/
+
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	#|| ( $this->fokus !== "bilder" 
-                	#	&& ($suma["name"]->__toString() === "qualigo" 
-                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
-                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                	#		)
-                	#	)
-                    #|| 1 === 1  #Todo: entfernen
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                 	){
 
                 	if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
