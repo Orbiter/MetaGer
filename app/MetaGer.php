@@ -435,7 +435,13 @@ class MetaGer
         {
             if(!$engine->loaded)
             {
-                $engine->retrieveResults();
+                try{
+                    $engine->retrieveResults();
+                } catch(\ErrorException $e)
+                {
+                    Log::error($e);
+                    
+                }
             }
         }
         
