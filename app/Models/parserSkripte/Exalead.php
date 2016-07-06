@@ -37,7 +37,12 @@ class Exalead extends Searchengine
 			$namespace = $strNamespace;
 		}
 		$results->registerXPathNamespace($prefix,$namespace);
-		$results = $results->xpath("//a:hits/a:Hit");
+		try{
+			$results = $results->xpath("//a:hits/a:Hit");
+		} catch(\ErrorException $e)
+		{
+			return;
+		}
 		foreach($results as $result)
 		{
 			$result->registerXPathNamespace($prefix,$namespace);
