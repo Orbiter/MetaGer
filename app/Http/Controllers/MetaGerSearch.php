@@ -19,11 +19,11 @@ class MetaGerSearch extends Controller
         $time = microtime();
         # Mit gelieferte Formulardaten parsen und abspeichern:
         $metager->parseFormData($request);
-        if($metager->getFokus() !== "bilder" )
-        {
+        #if($metager->getFokus() !== "bilder" )
+        #{
             # Nach Spezialsuchen überprüfen:
             $metager->checkSpecialSearches($request);
-        }
+        #}
         # Alle Suchmaschinen erstellen
         $metager->createSearchEngines($request);
 

@@ -61,8 +61,15 @@ abstract class Searchengine
 		$this->gefVon = "<a href=\"" . $this->homepage . "\" target=\"_blank\">" . $this->displayName . "</a>";
 		$this->startTime = microtime();
 		
-		$this->getString = $this->generateGetString($metager->getQ(), $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
-
+		$q = "";
+		if( isset($this->hasSiteSearch) && $this->hasSiteSearch === "1")
+		{
+			$q = $metager->getQ() . " site:" . $metager->getSite();
+		}else
+		{
+			$q = $metager->getQ();
+		}
+		$this->getString = $this->generateGetString($q, $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
 		$this->hash = $metager->getHashCode();
 
 		# Die Anfragen an die Suchmaschinen werden nun von der Laravel-Queue bearbeitet:
