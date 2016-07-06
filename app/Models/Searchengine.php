@@ -64,7 +64,10 @@ abstract class Searchengine
 		$q = "";
 		if( isset($this->hasSiteSearch) && $this->hasSiteSearch === "1")
 		{
-			$q = $metager->getQ() . " site:" . $metager->getSite();
+			if(strlen($metager->getSite()) === 0)
+				$q = $metager->getQ();
+			else
+				$q = $metager->getQ() . " site:" . $metager->getSite();
 		}else
 		{
 			$q = $metager->getQ();
