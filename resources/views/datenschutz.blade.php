@@ -8,8 +8,17 @@
 <h1>{{ trans('datenschutz.head') }}</h1>
 <p>{{ trans('datenschutz.general.1') }} <a href="https://suma-ev.de/presse/Sicher-suchen-UND-finden-mit-MetaGer.html">{{ trans('datenschutz.general.2') }}</a></p>
 <h2>{{ trans('datenschutz.policy.1') }}</h2>
-<ul id="privacyList"><li>{{ trans('datenschutz.policy.2') }} <a href="http://www.heise.de/security/meldung/Fingerprinting-Viele-Browser-sind-ohne-Cookies-identifizierbar-1982976.html" target="_blank">{{ trans('datenschutz.policy.3') }}</a> {{ trans('datenschutz.policy.4') }}</li>
-	<li>{{ trans('datenschutz.policy.5') }}</li>
+<ul id="privacyList">
+	<li>{{ trans('datenschutz.policy.2') }} 
+		<a href="http://www.heise.de/security/meldung/Fingerprinting-Viele-Browser-sind-ohne-Cookies-identifizierbar-1982976.html" target="_blank">{{ trans('datenschutz.policy.3') }}</a> {{ trans('datenschutz.policy.4') }}
+	</li>
+	<li >
+		{{ trans('datenschutz.policy.5') }}
+		<ul class="bg-info text-info" style="text-align: left;">
+			<li>In der Zeit vom 07.07.2016 bis 15.07.2016 stellen wir unsere Serverkonfiguration auf ein verteiltes System um. Während dieser Umstellungszeit müssen wir hierfür einen Cookie setzen, der beschreibt, welcher Server welche Abfrage zu bearbeiten hat; in diesem Cookie werden keinerlei personenbeziehbaren Daten gespeichert, sondern lediglich eine Ziffer, welche den Antwort-Server referenziert (Sie können das in Ihrem Cookie nachprüfen). Spätestens nach oben genanntem Umstellungszeitraum verschwindet der Cookie wieder.
+</li>
+		</ul>
+	</li>
 	<li>{{ trans('datenschutz.policy.6') }}</li>
 	<li>{{ trans('datenschutz.policy.7') }} <a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43&amp;sid=c994b628153235dfef098ba6fea3d60e" target="_blank">{{ trans('datenschutz.policy.8') }}</a></li>
 	<li>{{ trans('datenschutz.policy.9') }}</li>
