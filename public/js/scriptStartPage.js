@@ -43,6 +43,17 @@ $(document).ready(function(){
 	$("#anpassen-label").click(function(){
 		window.location = "./settings/";
 	});
+
+	$(".cookie-box button").click(function(){
+		if(localStorage)
+		{
+			localStorage.setItem("cookie", "no");
+		}
+	});
+	if( localStorage && localStorage.getItem("cookie") == "no")
+	{
+		$(".cookie-box").addClass("hidden");
+	}
 });
 
 /*

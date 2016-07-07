@@ -1,14 +1,7 @@
-[
+[	
 	{
-		"title" : "MetaGer4You:",
-		"descr" : "Wenn in Ihrer Firma täglich viele verschiedene Datenbanken und Suchdienste abzufragen sind - warum machen Sie es nicht einfacher? WIR programmieren Ihnen IHRE Metasuche nach Ihren Anforderungen! Fragen Sie uns:  <a href=\"mailto:office@suma-ev.de\">office@suma-ev.de</a>",
-		"URL" : "mailto:office@suma-ev.de"
-
-	},
-	{
-		"title" : "MetaGer im Safari:",
-		"descr" : "Wir sammeln Spenden für unser Safari-PlugIn: <a href=\"https://igg.me/at/mgsafari\" target=\"_blank\">Helfen Sie mit!</a>",
-		"URL" : "https://igg.me/at/mgsafari"
-
+		"title" : "Hinweis:",
+		"descr" : "In der Zeit vom 07.07.2016 bis 15.07.2016 führen wir Wartungsarbeiten durch, die das Setzen eines nicht identifizierenden Cookies für diesen Zeitraum unvermeidbar machen. Weitere Informationen finden Sie auf unserer <a href=\"/datenschutz#cookie\" target=\"_blank\">Datenschutz-Seite</a>.",
+		"URL"	:	"/datenschutz#cookie"
 	}
 ]

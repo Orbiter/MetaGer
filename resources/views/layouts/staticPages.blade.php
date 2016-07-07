@@ -108,6 +108,7 @@
 						<img src="/img/luh_metager.png" alt="LUH Logo"></a></li>
 				</ul>
 			</footer>
+			
 			<script type="text/javascript" src="/js/jquery.js"></script>
 			<script type="text/javascript" src="/js/bootstrap.js"></script>
 			<script type="text/javascript" src="/js/scriptStartPage.js"></script>
@@ -117,6 +118,12 @@
 				@endforeach
 			@endif
 			<!--[if lte IE 8]><script type="text/javascript" src="/js/html5shiv.min.js"></script><![endif]-->
+		</div>
+		<div class="alert alert-info alert-dismissible cookie-box" role="alert" style="position:fixed; width:100%; bottom:0;">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			In der Zeit vom 07.07.2016 bis 15.07.2016 führen wir Wartungsarbeiten durch, die das Setzen eines nicht identifizierenden Cookies für diesen Zeitraum unvermeidbar machen. Weitere Informationen finden Sie auf unserer <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/datenschutz#cookie") }}">Datenschutz-Seite</a>.
 		</div>
 	</body>
 </html>
