@@ -292,25 +292,16 @@ class MetaGer
         if($this->fokus === "angepasst")
         {
             $sumas = $xml->xpath("suma");
-            /**$maxSumas = 30;
-            $count = 0;
-            foreach($sumas as $suma)
-            {
-                if($maxSumas === $count)
-                    break;
-                $enabledSearchengines[] = $suma;
-                $count++;
-            }**/
+
             foreach($sumas as $suma)
             {
                 if($request->has($suma["service"]) 
-                	#|| ( $this->fokus !== "bilder" 
-                	#	&& ($suma["name"]->__toString() === "qualigo" 
-                	#		|| $suma["name"]->__toString() === "similar_product_ads" 
-                	#		|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
-                	#		)
-                	#	)
-                    #|| 1 === 1  #Todo: entfernen
+                	|| ( $this->fokus !== "bilder" 
+                		&& ($suma["name"]->__toString() === "qualigo" 
+                			|| $suma["name"]->__toString() === "similar_product_ads" 
+                			|| ( !$overtureEnabled && $suma["name"]->__toString() === "overtureAds" )
+                			)
+                		)
                 	){
 
                 	if(!(isset($suma['disabled']) && $suma['disabled']->__toString() === "1"))
@@ -355,17 +346,38 @@ class MetaGer
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
         }
-
-
-
 		$engines = [];
-		foreach($enabledSearchengines as $engine){
 
-            if(strlen($this->site) > 0 && (!isset($engine["hasSiteSearch"]) || $engine["hasSiteSearch"]->__toString() !== "1"))
+        $siteSearchFailed = false;
+        if( strlen($this->site) > 0 )
+        {
+            # Wenn eine Sitesearch durchgeführt werden soll, überprüfen wir ob eine der Suchmaschinen überhaupt eine Sitesearch unterstützt:
+            $enginesWithSite = 0;
+            foreach($enabledSearchengines as $engine)
             {
-                continue;
+                if( isset($engine['hasSiteSearch']) && $engine['hasSiteSearch']->__toString() === "1" )
+                {
+                    $enginesWithSite++;
+                }
+            }
+            if( $enginesWithSite === 0 )
+            {
+                $this->errors[] = "Sie wollten eine Sitesearch auf " . $this->site . " durchführen. Leider unterstützen die eingestellten Suchmaschinen diese nicht. Sie können <a href=\"" . $this->generateSearchLink("web", false) . "\">hier</a> die Sitesearch im Web-FoKus durchführen. Es werden ihnen Ergebnisse ohne Sitesearch angezeigt.";
+                $siteSearchFailed = true;
+            }else
+            {
+                $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
             }
 
+        }            
+
+		foreach($enabledSearchengines as $engine){
+
+            if( !$siteSearchFailed && strlen($this->site) > 0 && ( !isset($engine['hasSiteSearch']) || $engine['hasSiteSearch']->__toString() === "0")  )
+            {
+                
+                continue;
+            }
             # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
 
@@ -405,11 +417,11 @@ class MetaGer
             # Abbruchbedingung
             if($time < 500)
             {
-                if($loadedEngines >= $enginesToLoad && $canBreak)
+                if(($enginesToLoad === 0 || $loadedEngines >= $enginesToLoad) && $canBreak)
                     break;
             }elseif( $time >= 500 && $time < $this->time)
             {
-                if( ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8 && $canBreak )
+                if( ($enginesToLoad === 0 || ($loadedEngines / ($enginesToLoad * 1.0)) >= 0.8) && $canBreak )
                     break;
             }else
             {
@@ -423,7 +435,13 @@ class MetaGer
         {
             if(!$engine->loaded)
             {
-                $engine->retrieveResults();
+                try{
+                    $engine->retrieveResults();
+                } catch(\ErrorException $e)
+                {
+                    Log::error($e);
+                    
+                }
             }
         }
         
@@ -588,12 +606,10 @@ class MetaGer
 		{
 			$this->site = $match[2];
 			$this->q = $match[1] . $match[3];
-			$this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
 		}
         if( $request->has('site') )
         {
             $this->site = $request->input('site');
-            $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
         }
 		# Wenn die Suchanfrage um das Schlüsselwort "-host:*" ergänzt ist, sollen bestimmte Hosts nicht eingeblendet werden
 		# Wir prüfen, ob das hier der Fall ist:
@@ -671,9 +687,6 @@ class MetaGer
 
     public function getQ ()
     {
-        if(strlen($this->site) > 0)
-            return $this->q . " site:" . $this->site;
-        else
             return $this->q;
     }
 
@@ -777,11 +790,12 @@ class MetaGer
         }
     }
 
-    public function generateSearchLink($fokus)
+    public function generateSearchLink($fokus, $results = true)
     {
         $requestData = $this->request->except('page');
         $requestData['focus'] = $fokus;
-        $requestData['out'] = "results";
+        if($results)
+            $requestData['out'] = "results";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }

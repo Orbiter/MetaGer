@@ -1,6 +1,24 @@
 @extends('layouts.resultPage')
 
 @section('results')
+@if( sizeof($errors) > 0 )
+		<div class="alert alert-danger">
+			<ul>
+				@foreach($errors as $error)
+				<li>{!! $error !!}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+	@if( sizeof($warnings) > 0)
+		<div class="alert alert-warning">
+			<ul>
+				@foreach($warnings as $warning)
+					<li>{!! $warning !!}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
 	@if( $metager->showQuicktips() )
 		<div class="col-xs-12 col-md-8 resultContainer">
 	@else

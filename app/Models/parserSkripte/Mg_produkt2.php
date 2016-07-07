@@ -2,7 +2,7 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
-
+use Log;
 class Mg_produkt2 extends Searchengine 
 {
 	public $results = [];
@@ -18,7 +18,8 @@ class Mg_produkt2 extends Searchengine
 		try {
 			$content = simplexml_load_string($result);
 		} catch (\Exception $e) {
-			abort(500, "$result is not a valid xml string");
+			Log::error("MG_Produkt konnte keine Ergebnisse bekommen");
+			return;
 		}
 		
 		if(!$content)

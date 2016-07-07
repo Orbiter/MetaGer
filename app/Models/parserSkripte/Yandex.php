@@ -2,6 +2,7 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use Log;
 
 class Yandex extends Searchengine 
 {
@@ -14,22 +15,40 @@ class Yandex extends Searchengine
 
 	public function loadResults ($result)
 	{
+		$result = preg_replace("/\r\n/si", "", $result);
+		try {
+			$content = simplexml_load_string($result);
+		} catch (\Exception $e) {
+			abort(500, "$result is not a valid xml string");
+		}
 		
-		$title = "";
-		$link = "";
-		$anzeigeLink = $link;
-		$descr = "";
-
-		#die($result);
-
-		/*$this->counter++;
-		$this->results[] = new \App\Models\Result(
-			$title,
-			$link,
-			$anzeigeLink,
-			$descr,
-			$this->gefVon,
-			$this->counter
-		);*/		
+		if(!$content)
+		{
+			return;
+		}
+		$results = $content;
+		try{
+			$results = $results->xpath("//yandexsearch/response/results/grouping/group");
+		} catch(\ErrorException $e)
+		{
+			return;
+		}
+		foreach($results as $result)
+		{
+			$title = strip_tags($result->{"doc"}->{"title"}->asXML());
+			$link = $result->{"doc"}->{"url"}->__toString();
+			$anzeigeLink = $link;
+			$descr = strip_tags($result->{"doc"}->{"headline"}->asXML());
+			$this->counter++;
+			$this->results[] = new \App\Models\Result(
+				$this->engine,
+				$title,
+				$link,
+				$anzeigeLink,
+				$descr,
+				$this->gefVon,
+				$this->counter
+			);
+		}
 	}
 }
