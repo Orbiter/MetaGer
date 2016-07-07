@@ -62,6 +62,12 @@
 
 		Route::post('kontakt', 'MailController@contactMail');
 
+		Route::get('tor', function()
+		{
+			return view('tor')
+				->with('title', 'tor hidden service - MetaGer')
+				->with('navbarFocus', 'dienste');
+		});
 		Route::get('spende', function()
 		{
 			return view('spende')
