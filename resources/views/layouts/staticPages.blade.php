@@ -72,7 +72,7 @@
 									<li><a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}</a></li>
 								</ul>
 							</li>
-							<li class="dropdown">
+							<!--<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationSprache">{{ trans('staticPages.nav19') }}
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
@@ -80,7 +80,7 @@
 										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
 									@endforeach
 								</ul>
-							</li>
+							</li>-->
 						</ul>
 					</div>
 				</div>
