@@ -81,6 +81,8 @@ class Result
 		#die($tmpLi . "<br>" . $link . "<br>" . $tmpEingabe . "<br><br>");
 		foreach(str_split($tmpEingabe) as $char)
 		{
+			if( !$char || !$tmpEingabe || strlen($tmpEingabe) === 0 || strlen($char) === 0 )
+				continue;
 			if(strpos(strtolower($tmpLink), strtolower($char)) >= 0)
 			{
 				$count++;
