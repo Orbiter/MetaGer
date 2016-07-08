@@ -44,7 +44,7 @@ class MetaGerSearch extends Controller
 
         # Zunächst den Spruch
         $spruecheFile = storage_path() . "/app/public/sprueche.txt";
-        if( file_exists($spruecheFile) && $_GET['sprueche'])
+        if( file_exists($spruecheFile) && $request->has('sprueche') )
         {
             $sprueche = file($spruecheFile);
             $spruch = $sprueche[array_rand($sprueche)];
