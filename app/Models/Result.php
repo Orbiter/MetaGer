@@ -106,6 +106,8 @@ class Result
 		#die($tmpEingabe);
 		foreach(explode(" ", trim($tmpEingabe)) as $el)
 		{
+			if( strlen($tmpTitle) === 0 || strlen($el) === 0 || strlen($tmpDescription) === 0 )
+				continue;
 			$el = preg_quote($el, "/");
 			if(strlen($tmpTitle) > 0)
 			{
