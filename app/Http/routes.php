@@ -112,6 +112,8 @@
                 ->with('navbarFocus', 'dienste');
 		});
 		
+        Route::get('admin', 'AdminInterface@index');
+
 		Route::get('settings', 'StartpageController@loadSettings');
 
 		
