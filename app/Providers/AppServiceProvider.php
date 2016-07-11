@@ -25,14 +25,16 @@ class AppServiceProvider extends ServiceProvider
             $this->begin = strtotime(date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))));
         });
         Queue::after(function (JobProcessed $event) {
-            $this->end = strtotime(date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))));
+            $today = strtotime(date(DATE_RFC822, mktime(0,0,0, date("m"), date("d"), date("Y"))));
+            $end = strtotime(date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y")))) - $today;
             $expireAt = strtotime(date(DATE_RFC822, mktime(0,0,0, date("m"), date("d")+1, date("Y"))));
             $redis = Redis::connection('redisLogs');
             $p = getmypid();
             $host = gethostname();
-            $redis->pipeline(function($pipe) use ($p, $expireAt, $host)
+            $begin = $this->begin - $today;
+            $redis->pipeline(function($pipe) use ($p, $expireAt, $host, $begin, $end)
             {
-                for( $i = $this->begin; $i <= $this->end; $i++)
+                for( $i = $begin; $i <= $end; $i++)
                 {
                     $pipe->sadd("logs.worker.$host.$i", strval($p));
                     $pipe->expire("logs.worker.$host.$i", 10);
