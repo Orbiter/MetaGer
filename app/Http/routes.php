@@ -112,7 +112,7 @@
                 ->with('navbarFocus', 'dienste');
 		});
 		
-        Route::get('admin', ['middleware' => 'auth.basic', 'uses' => 'AdminInterface@index']);
+        Route::get('admin', 'AdminInterface@index');
 
 		Route::get('settings', 'StartpageController@loadSettings');
 
