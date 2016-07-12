@@ -282,7 +282,9 @@ class MetaGer
 
 	public function createSearchEngines (Request $request)
 	{
-        #die(SocketRocket::get("tls", "dominik-pfennig.de", "", 443));
+
+        if( !$request->has("eingabe") )
+            return;
 
 		# Überprüfe, welche Sumas eingeschaltet sind
         $xml = simplexml_load_file($this->sumaFile);
@@ -341,7 +343,7 @@ class MetaGer
                 }
             }
         }
-
+        #die("test");
         if( $countSumas <= 0 )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";

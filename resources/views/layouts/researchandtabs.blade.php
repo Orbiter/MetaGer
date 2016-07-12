@@ -13,7 +13,7 @@
                     <li class="pull-right">
                         <form method="get" accept-charset="UTF-8" class="form" id="submitForm">
                             <div class="input-group">
-                                <input autocomplete="off" class="form-control" form="submitForm" id="eingabeTop" name="eingabe" placeholder="Suchbegriffe erweitern/verändern, oder völlig neue Suche:" tabindex="1" type="text" value="{{ $eingabe }}" />
+                                <input autocomplete="off" class="form-control" form="submitForm" id="eingabeTop" name="eingabe" placeholder="Suchbegriffe erweitern/verändern, oder völlig neue Suche:" tabindex="1" type="text" value="{{ $eingabe }}" required />
                                 <div class="input-group-addon">
                                     <button type='submit' form="submitForm" id='search'><span class="glyphicon glyphicon-search"></span>
                                     </button>
