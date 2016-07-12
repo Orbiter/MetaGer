@@ -9,8 +9,10 @@ return [
 	'foki.angepasst'		=>	'angepasst',
 
 	'conveyor'				=>	'Einkaufen bei MetaGer-Fördershops',
+	'partnertitle'				=>	'MetaGer unterstützen, ohne Mehrkosten für Sie',
 
 	'plugin'				=>	'MetaGer-Plugin hinzufügen',
+	'plugintitle'				=>	'MetaGer zu Ihrem Browser hinzufügen',
 
 	'sponsors.head.1'		=>	'Weitere Informationen',
 	'sponsors.head.2'		=>	'Sponsoren',
