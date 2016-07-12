@@ -10,7 +10,8 @@
         "mcamara/laravel-localization": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
         "jenssegers/agent": "^2.3",
-        "fideloper/proxy": "^3.1"
+        "fideloper/proxy": "^3.1",
+        "piwik/piwik-php-tracker": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

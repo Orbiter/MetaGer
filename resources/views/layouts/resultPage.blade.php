@@ -34,6 +34,7 @@
 			</div>
 		</div>
 	</footer>
+	<img src="{{ action('ImageController@generateImage')}}?site={{ urlencode(url()->current()) }}" class="hidden" />
 	<script src="/js/jquery.js" type="text/javascript"></script>
 	<script src="/js/bootstrap.js" type="text/javascript"></script>
 	<script src="/js/masonry.js" type="text/javascript"></script>
