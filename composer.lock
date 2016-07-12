@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c69571109b6dd87f8d052141f0f526c",
-    "content-hash": "36e343030681180e2b652dc511a00c9b",
+    "hash": "4ef0f871df372735c70d3045d6d8e1e5",
+    "content-hash": "b7c1e8fa7a337e7f92bf6e4d2df47992",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1166,6 +1166,46 @@
                 "random"
             ],
             "time": "2016-03-18 20:34:03"
+        },
+        {
+            "name": "piwik/piwik-php-tracker",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/piwik/piwik-php-tracker.git",
+                "reference": "f026613f8137c014030c96a22491ede5f5f1676b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/f026613f8137c014030c96a22491ede5f5f1676b",
+                "reference": "f026613f8137c014030c96a22491ede5f5f1676b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "."
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "The Piwik Team",
+                    "email": "hello@piwik.org",
+                    "homepage": "http://piwik.org/the-piwik-team/"
+                }
+            ],
+            "description": "PHP Client for Piwik Analytics Tracking API",
+            "homepage": "http://piwik.org",
+            "keywords": [
+                "analytics",
+                "piwik",
+                "tracker"
+            ],
+            "time": "2016-01-12 21:44:22"
         },
         {
             "name": "psr/http-message",
