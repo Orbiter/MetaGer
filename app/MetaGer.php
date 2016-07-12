@@ -577,7 +577,7 @@ class MetaGer
         }
         if( $request->has('tab'))
         {
-            if($request->input('tab') === "1")
+            if($request->input('tab') === "off")
             {
                 $this->tab = "_blank";
             }else

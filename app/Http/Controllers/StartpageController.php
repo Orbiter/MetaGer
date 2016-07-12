@@ -47,7 +47,7 @@ class StartpageController extends Controller
             ->with('resultCount', $request->input('param_resultCount', '20'))
             ->with('time', $request->input('param_time', '1000'))
             ->with('sprueche', $request->input('param_sprueche', 'off'))
-            ->with('tab', $request->input('param_sprueche', 'off'))
+            ->with('tab', $request->input('param_tab', 'off'))
             ->with('focusPages', $focusPages)
             ->with('browser', $browser)
             ->with('navbarFocus', 'suche');
