@@ -183,14 +183,14 @@
             </fieldset>
             <ul class="list-inline">
               <li>
-                <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl" target="_blank" id="foerdershops">{{ trans('index.conveyor') }}
+                <a href="https://www.boost-project.com/de/shops?charity_id=1129&amp;tag=bl" target="_blank" id="foerdershops" class="btn btn-default" title="{{ trans('index.partnertitle') }}">{{ trans('index.conveyor') }}
                 </a>
               </li>
               <li class="hidden-xs seperator">|
               </li>
               <li id="plug" @unless ($browser === 'Firefox' || $browser === 'Mozilla' || $browser === 'Chrome' || $browser === 'Opera' || $browser === 'IE' || $browser === 'Edge')
                 class="hidden" @endunless >
-                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal">{{ trans('index.plugin') }}</a>
+                <a href="#" id="plugin" data-toggle="modal" data-target="#plugin-modal" class="btn btn-default" title="{{ trans('index.plugintitle') }}">{{ trans('index.plugin') }}</a>
               </li>
             </ul>
           </figure>
