@@ -27,25 +27,43 @@
 	<line x1="99%" y1="95%" x2="98%" y2="98%" style="stroke:rgb(0,0,0);stroke-width:3" />
 
 	<!-- Beschriftungen der X-Achse -->
-	@for( $x = (((99-1) / 24) + 1); $x < 98.9; $x = ($x + ((99-1) / 24)) )
-	<line x1="{{ $x }}%" y1="93%" x2="{{ $x }}%" y2="97%" style="stroke:rgb(0,0,0);stroke-width:1" />
-	<text x="{{ $x }}%" y="99%" fill="black" style="font-size:10px;">{{ (($x-1) / 98)*24 }}</text>
-	@endfor
+	<?php
+	$last = 0;
+	for( $x = (((99-1) / $time) + 1); $x < 98.9; $x = ($x + ((99-1) / $time)) )
+	{
+		echo '<line x1="'.$x.'%" y1="93%" x2="'.$x.'%" y2="97%" style="stroke:rgb(0,0,0);stroke-width:1" />';
+		if( ($x - $last) >= 3)
+		{
+			echo '<text x="'.($x-1).'%" y="99%" fill="black" style="font-size:8px;">'.date("H:i", mktime(date("H"),date("i")-($time -(($x-1) / 98)*$time), date("s"), date("m"), date("d"), date("Y"))).'</text>';
+			$last = $x;
+		}
+	}
+	?>
 	<text x="95%" y="90%" fill="red">Zeit (h): y</text>
 
 	<!-- Nun die Datenpunkte: -->
 	<?php
 		$count = 0;
-
+		$maximum = 0;
+		$maximumY = 0;
 		foreach($dataPoints as $key => $value)
 		{
 			if($count > 0)
 			{
-				$x1 = ($oldKey / 86400) * 98;
-				$x2 = ($key / 86400) * 98;
+				$start = strtotime(date(DATE_RFC822, mktime(date("H"),date("i")-$time, date("s"), date("m"), date("d"), date("Y")))) - strtotime(date(DATE_RFC822, mktime(0,0,0, date("m"), date("d"), date("Y"))));
+				$lastkey = $oldKey - $start;
+				$newkey = $key - $start ;
+
+				$x1 = (($lastkey / ($time*60)) * 98) + 1;
+				$x2 = (($newkey / ($time*60)) * 98) + 1;
 			
 				$y1 = 95 - (($oldVal / 100) * 95);
 				$y2 = 95 - (($value / 100) * 95);
+				if($value > $maximum)
+				{
+					$maximum = $value;
+					$maximumY = $y2;
+				}
 				echo '<line x1="'.$x1.'%" y1="'.$y1.'%" x2="'.$x2.'%" y2="'.$y2.'%" style="stroke:rgb(0,0,0);stroke-width:1" />';
 			}
 			$oldKey = $key;
@@ -53,6 +71,8 @@
 			$count++;
 		}
 	?>
+	<!-- Und noch eine Linie für das Maximum: -->
+	<line x1="1%" y1="{{ $maximumY }}%" x2="99%" y2="{{ $maximumY }}%" style="stroke:rgb(255,0,0);stroke-width:1" stroke-dasharray="5,5" d="M5 20 l215 0"/>
 </svg>
 </div>
 @endforeach
