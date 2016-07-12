@@ -85,17 +85,20 @@ class MetaGerSearch extends Controller
         $quicktips = [];
         $url = "http://de.wikipedia.org/w/api.php?action=query&titles=".urlencode(implode("_",array_diff(explode(" ",$q),array("wikipedia"))))."&prop=info|extracts|categories&inprop=url|displaytitle&exintro&exsentences=3&format=json";
         $decodedResponse = json_decode($this->get($url), true);
-        foreach($decodedResponse["query"]["pages"] as $result)
+        if( isset($decodedResponse["query"]["pages"]) )
         {
-            if( isset($result['displaytitle']) && isset($result['fullurl']) && isset($result['extract']) )
+            foreach($decodedResponse["query"]["pages"] as $result)
             {
-                $quicktip = [];
-                $quicktip["title"] = $result['displaytitle'];
-                $quicktip["URL"] = $result['fullurl'];
-                $quicktip["descr"] = strip_tags($result['extract']);
-                $quicktip['gefVon'] = "aus <a href=\"https://de.wikipedia.org\" target=\"_blank\">Wikipedia, der freien Enzyklopädie</a>";
+                if( isset($result['displaytitle']) && isset($result['fullurl']) && isset($result['extract']) )
+                {
+                    $quicktip = [];
+                    $quicktip["title"] = $result['displaytitle'];
+                    $quicktip["URL"] = $result['fullurl'];
+                    $quicktip["descr"] = strip_tags($result['extract']);
+                    $quicktip['gefVon'] = "aus <a href=\"https://de.wikipedia.org\" target=\"_blank\">Wikipedia, der freien Enzyklopädie</a>";
 
-                $quicktips[] = $quicktip;
+                    $quicktips[] = $quicktip;
+                }
             }
         }
         $mquicktips = array_merge($mquicktips, $quicktips);
