@@ -16,27 +16,33 @@ class Bing extends Searchengine
 	public function loadResults ($result)
 	{
 		
-		$crawler = new Crawler($result);
-		$crawler->filter('ol#b_results > li.b_algo')->each(function (Crawler $node, $i)
+		try
 		{
-			$title = $node->filter('li h2 > a')->text();
-			$link = $node->filter('li h2 > a')->attr('href');
-			$anzeigeLink = $link;
-			$descr = $node->filter('li div > p')->text();
+			$crawler = new Crawler($result);
+			$crawler->filter('ol#b_results > li.b_algo')->each(function (Crawler $node, $i)
+			{
+				$title = $node->filter('li h2 > a')->text();
+				$link = $node->filter('li h2 > a')->attr('href');
+				$anzeigeLink = $link;
+				$descr = $node->filter('li div > p')->text();
 
-			#die($result);
+				#die($result);
 
-			$this->counter++;
-			$this->results[] = new \App\Models\Result(
-				$this->engine,
-				$title,
-				$link,
-				$anzeigeLink,
-				$descr,
-				$this->gefVon,
-				$this->counter
-			);
-		} );
+				$this->counter++;
+				$this->results[] = new \App\Models\Result(
+					$this->engine,
+					$title,
+					$link,
+					$anzeigeLink,
+					$descr,
+					$this->gefVon,
+					$this->counter
+				);
+			} );
+		} catch ( \ErrorException $e)
+		{
+			return;
+		}
 
 
 		
