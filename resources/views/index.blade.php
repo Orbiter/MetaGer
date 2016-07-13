@@ -138,11 +138,7 @@
               <form id="searchForm" method="GET" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/meta/meta.ger3") }}" accept-charset="UTF-8">
                 <div class="input-group">
                   <div class="input-group-addon">
-                    <button type="button" data-toggle="popover" data-html="true" data-container="body" title="Pers&ouml;nliches Design ausw&auml;hlen" data-content='	&lt;ul id="color-chooser" class="list-inline list-unstyled"&gt;
-}
-}
-}
-}
+                    <button type="button" data-toggle="popover" data-html="true" data-container="body" title="Pers&ouml;nliches Design ausw&auml;hlen" data-content='&lt;ul id="color-chooser" class="list-inline list-unstyled"&gt;
 &lt;li &gt;&lt;a id="standard" data-rgba="255,194,107,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li &gt;&lt;a id="standardHard" data-rgba="255,128,0,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li &gt;&lt;a id="blue" data-rgba="164,192,230,1" href="javascript:void(0)"&gt;&lt;/a&gt;&lt;/li&gt;
