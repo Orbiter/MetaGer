@@ -41,10 +41,7 @@ class Search extends Job implements ShouldQueue
     {
         $this->fp = $this->getFreeSocket();
         
-        if(!$this->fp)
-        {
-            $this->disable($this->sumaFile, "Die Suchmaschine " . $this->name . " wurde für 1h deaktiviert, weil keine Verbindung aufgebaut werden konnte");
-        }else
+        if($this->fp)
         {
             if($this->writeRequest())
             {
