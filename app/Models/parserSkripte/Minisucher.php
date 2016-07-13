@@ -28,11 +28,13 @@ class Minisucher extends Searchengine
 		$string = "";
 		
 		$counter = 0;
+		$providerCounter = [];
 		foreach($results as $result)
 		{
 			try{
 				$counter++;
 				$result = simplexml_load_string($result->saveXML());
+
 				$title = $result->xpath('//doc/arr[@name="title"]/str')[0]->__toString();
 				$link = $result->xpath('//doc/str[@name="url"]')[0]->__toString();
 				$anzeigeLink = $link;
@@ -44,13 +46,31 @@ class Minisucher extends Searchengine
 				}
 				$descr = strip_tags($descr);
 				$provider = $result->xpath('//doc/str[@name="subcollection"]')[0]->__toString();
+
+				if( isset($providerCounter[$provider]) && $providerCounter[$provider] > 10 )
+					continue;
+				else
+				{
+					if( !isset($providerCounter[$provider]) )
+						$providerCounter[$provider] = 0;
+					$providerCounter[$provider] += 1;
+				}
+
+				if( isset($provider) )
+				{
+					$gefVon = "<a href=\"https://metager.de\" target=\"_blank\">Minisucher: $provider</a>";
+				}else
+				{
+					$gefVon = $this->gefVon;
+				}
+
 				$this->results[] = new \App\Models\Result(
 						$this->engine,
 						$title,
 						$link,
 						$link,
 						$descr,
-						$this->gefVon,
+						$gefVon,
 						$counter
 						);
 			}catch(\ErrorException $e)
