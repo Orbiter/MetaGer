@@ -297,7 +297,7 @@ class MetaGer
 
             foreach($sumas as $suma)
             {
-                if($request->has($suma["service"]) 
+                if($request->has($suma["name"]) 
                 	|| ( $this->fokus !== "bilder" 
                 		&& ($suma["name"]->__toString() === "qualigo" 
                 			|| $suma["name"]->__toString() === "similar_product_ads" 
@@ -343,7 +343,30 @@ class MetaGer
                 }
             }
         }
-        #die("test");
+
+        # Sonderregelung für alle Suchmaschinen, die zu den Minisuchern gehören. Diese können alle gemeinsam über einen Link abgefragt werden
+        $subcollections = [];
+        $tmp = [];
+        foreach($enabledSearchengines as $engine )
+        {
+            if( isset($engine['minismCollection']) )
+                $subcollections[] = $engine['minismCollection']->__toString();
+            else
+                $tmp[] = $engine;
+        }
+        $enabledSearchengines = $tmp;
+        if( sizeof($subcollections) > 0)
+        {
+            $count = sizeof($subcollections) * 10;
+            $minisucherEngine = $xml->xpath('suma[@name="minism"]')[0];  
+            $subcollections = urlencode("(" . implode(" OR ", $subcollections) . ")");
+            $minisucherEngine["formData"] = str_replace("<<SUBCOLLECTIONS>>", $subcollections, $minisucherEngine["formData"]);
+            $minisucherEngine["formData"] = str_replace("<<COUNT>>", $count, $minisucherEngine["formData"]);
+            $enabledSearchengines[] = $minisucherEngine;
+        }
+
+        #die(var_dump($enabledSearchengines));
+
         if( $countSumas <= 0 )
         {
             $this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";

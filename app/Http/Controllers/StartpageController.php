@@ -129,20 +129,18 @@ class StartpageController extends Controller
                     {
                         $displayName = $suma['displayName']->__toString();
                         $url = isset($suma['homepage']) ? $suma['homepage']->__toString() : "https://metager.de";
-                        $service = $suma['service']->__toString();
-                        $foki[$tmp][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url, 'service' => $service];
+                        $foki[$tmp][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url];
                     }
                 }else
                 {
                     $displayName = $suma['displayName']->__toString();
                     $url = isset($suma['homepage']) ? $suma['homepage']->__toString() : "https://metager.de";
-                    $service = $suma['service']->__toString();
-                    $foki["andere"][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url, 'service' => $service];
+                    $foki["andere"][$suma['name']->__toString()] = [ 'displayName' => $displayName, 'url' => $url];
                 }
             }
         }
 
-        return view('settings1')
+        return view('settings')
             ->with('foki', $foki)
             ->with('title', 'Einstellungen')
             ->with('css', 'settings.css')
