@@ -3,7 +3,7 @@
 @section('title', $title )
 
 @section('content')
-<h2>{{ date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) }}</h2>
+<h2>{{ exec("uptime") }}</h2>
 <h3>Heute haben wir bis jetzt => <span class="text-info">{{ $today }}</span> Abfragen</h3>
 <h3>Gestern zur gleichen Zeit <span class="text-info">{{ $oldLogs[1]['sameTime'] }}</span> - insgesamt <span class="text-danger">{{ $oldLogs[1]['insgesamt'] }}</span></h3>
 <h3>Vorgestern zur gleichen Zeit <span class="text-info">{{ $oldLogs[2]['sameTime'] }}</span> - insgesamt <span class="text-danger">{{ $oldLogs[2]['insgesamt'] }}</span></h3>
