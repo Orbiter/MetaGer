@@ -115,6 +115,8 @@
 		});
 		
         Route::get('admin', 'AdminInterface@index');
+        Route::get('admin/count', 'AdminInterface@count');
+        Route::get('admin/check', 'AdminInterface@check');
 
 		Route::get('settings', 'StartpageController@loadSettings');
 
