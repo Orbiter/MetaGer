@@ -45,7 +45,7 @@ class AdminInterface extends Controller
 
     public function count()
     {
-        $logToday = date("Y-m-d", mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "_mg3.log";
+        $logToday = "mg3.log";
         if(file_exists("/var/log/metager/".$logToday))
         {
             $logToday = file("/var/log/metager/".$logToday);
@@ -81,8 +81,11 @@ class AdminInterface extends Controller
         $count = 0;
         for($i = 1; $i <= 7; $i++)
         {
-            $count += $oldLogs[$i]['insgesamt'];
-            $size++;
+            if( isset($oldLogs[$i]) )
+            {
+                $count += $oldLogs[$i]['insgesamt'];
+                $size++;
+            }
         }
         $median[7] = ($count/$size);
 
@@ -91,8 +94,11 @@ class AdminInterface extends Controller
         $count = 0;
         for($i = 1; $i <= 14; $i++)
         {
-            $count += $oldLogs[$i]['insgesamt'];
-            $size++;
+            if( isset($oldLogs[$i]) )
+            {
+                $count += $oldLogs[$i]['insgesamt'];
+                $size++;
+            }
         }
         $median[14] = ($count/$size);
 
@@ -101,8 +107,11 @@ class AdminInterface extends Controller
         $count = 0;
         for($i = 1; $i <= 21; $i++)
         {
-            $count += $oldLogs[$i]['insgesamt'];
-            $size++;
+            if( isset($oldLogs[$i]) )
+            {
+                $count += $oldLogs[$i]['insgesamt'];
+                $size++;
+            }
         }
         $median[21] = ($count/$size);
 
@@ -111,8 +120,11 @@ class AdminInterface extends Controller
         $count = 0;
         for($i = 1; $i <= 28; $i++)
         {
-            $count += $oldLogs[$i]['insgesamt'];
-            $size++;
+            if( isset($oldLogs[$i]) )
+            {
+                $count += $oldLogs[$i]['insgesamt'];
+                $size++;
+            }
         }
         $median[28] = ($count/$size);
         return view('admin.count')
@@ -127,7 +139,7 @@ class AdminInterface extends Controller
     public function check ()
     {
         $q = "";
-        $logFile = "/var/log/metager/" . date("Y-m-d", mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "_mg3.log";
+        $logFile = "/var/log/metager/mg3.log";
         if( file_exists($logFile) )
         {
             $q = exec("tail -n 1 $logFile");
