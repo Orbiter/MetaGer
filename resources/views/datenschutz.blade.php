@@ -14,10 +14,6 @@
 	</li>
 	<li >
 		{{ trans('datenschutz.policy.5') }}
-		<ul class="bg-info text-info" style="text-align: left;">
-			<li>In der Zeit vom 07.07.2016 bis 15.07.2016 stellen wir unsere Serverkonfiguration auf ein verteiltes System um. Während dieser Umstellungszeit müssen wir hierfür einen Cookie setzen, der beschreibt, welcher Server welche Abfrage zu bearbeiten hat; in diesem Cookie werden keinerlei personenbeziehbaren Daten gespeichert, sondern lediglich eine Ziffer, welche den Antwort-Server referenziert (Sie können das in Ihrem Cookie nachprüfen). Spätestens nach oben genanntem Umstellungszeitraum verschwindet der Cookie wieder.
-</li>
-		</ul>
 	</li>
 	<li>{{ trans('datenschutz.policy.6') }}</li>
 	<li>{{ trans('datenschutz.policy.7') }} <a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43&amp;sid=c994b628153235dfef098ba6fea3d60e" target="_blank">{{ trans('datenschutz.policy.8') }}</a></li>
