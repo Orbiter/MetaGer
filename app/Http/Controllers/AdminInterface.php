@@ -59,7 +59,7 @@ class AdminInterface extends Controller
         $rekordTagDate = "";
         for($i = 1; $i <= 28; $i ++ )
         {
-            $logDate = "/var/log/metager/archive/" . date("Y-m-d", mktime(date("H"),date("i"), date("s"), date("m"), date("d")-$i, date("Y"))) . "_mg3.log";
+            $logDate = "/var/log/metager/archive/" . "mg3.log.$i";
             if( file_exists($logDate) )
             {
                 $sameTime = exec("grep -n '" . date('H') . ":" . date('i') . ":' $logDate | tail -1 | cut -f1 -d':'");
