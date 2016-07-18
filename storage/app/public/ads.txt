@@ -1,7 +1,7 @@
 [	
 	{
 		"title" : "MetaGer4You:",
-		"descr" : "Wenn in Ihrer Firma täglich viele verschiedene Datenbanken und Suchdienste abzufragen sind - warum machen Sie es nicht einfacher? WIR programmieren Ihnen IHRE Metasuche nach Ihren Anforderungen! Fragen Sie uns:  <a href=\"mailto:office@suma-ev.de\">office@suma-ev.de</a>",
+		"descr" : "Wenn in Ihrer Firma täglich viele verschiedene Datenbanken und Suchdienste abzufragen sind - warum machen Sie es nicht einfacher? WIR programmieren Ihnen IHRE Metasuche nach Ihren Anforderungen! Schauen Sie sich das Beispiel der <a href=\"http://suma-ev.de/presse/MetaGer-jetzt-Standardsuche-an-der-Uni-Mainz.html\" target=\"_blank\">Uni-Mainz</a> an - fragen Sie uns:  <a href=\"mailto:office@suma-ev.de\">office@suma-ev.de</a>",
 		"URL" : "mailto:office@suma-ev.de"
 
 	}
