@@ -17,6 +17,13 @@
 		</div>
 	@endif
 <div class="col-xs-12 col-md-8">
+	@if( !$metager->validated)
+		<div class="mg-panel container" style="margin-bottom:20px;max-height:90px;text-align:left; max-width:100%; padding:0px;margin-top:0px">
+			<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}" target="_blank">
+				<img src="/img/aufruf.png" style="max-width:100%;max-height:90px;">
+			</a>
+		</div>
+	@endif
 	{{-- 3-Mal Werbung --}}
 	@for($i = 0; $i <= 2; $i++)
 		@include('layouts.ad', ['ad' => $metager->popAd()])

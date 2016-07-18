@@ -8,7 +8,7 @@
 	@if( isset($mobile) && $mobile )
 		<link href="/css/styleResultPageMobile.css" rel="stylesheet" />
 	@endif
-	<link href="/css/theme.css.php" rel="stylesheet" />
+	<link id="theme" href="/css/theme.css.php" rel="stylesheet" />
 	<link href="/favicon.ico" rel="icon" type="image/x-icon" />
 	<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport" />
@@ -21,7 +21,7 @@
 		@include('layouts.researchandtabs')
 	@else
 		<div class="tab-content container-fluid">
-	@yield('results')
+		@yield('results')
 		</div>
 	@endif
 	<footer>

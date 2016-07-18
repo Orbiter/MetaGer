@@ -72,13 +72,20 @@
 		});
 		Route::get('spende', function()
 		{
-			return view('spende')
+			return view('spende.spende')
 				->with('title', trans('titles.spende'))
 				->with('css', 'donation.css')
 				->with('navbarFocus', 'foerdern');
 		});
-		
+		Route::get('spendenaufruf', function()
+		{
+			return view('spende.spendenaufruf')
+				->with('title', 'Spendenaufruf - MetaGer')
+				->with('navbarFocus', 'foerdern');
+		});
+
 		Route::post('spende', 'MailController@donation');
+
 
 		Route::get('datenschutz', function()
 		{
