@@ -152,7 +152,7 @@ class MetaGer
     private function createLogs()
     {
         $redis = Redis::connection('redisLogs');
-        if( $redis )
+        try
         {
             $logEntry = "";
             $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
@@ -176,6 +176,9 @@ class MetaGer
             $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
             $logEntry .= " search=" . $this->eingabe;
             $redis->rpush('logs.search', $logEntry);
+        }catch( \Exception $e)
+        {
+            return;
         }
     }
 
