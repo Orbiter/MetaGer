@@ -124,6 +124,26 @@ im Internet weiter entwickelt und betrieben werden kann:
 		</form>
 		<p>{{ trans('spenden.lastschrift.10') }}</p>
 	</div>
+	<div class="col-md-6">
+		<h2 id="mails">Aus den EMails vorheriger Spender:</h2>
+		<ul style="text-align:left; list-style-type: initial;">
+			<li>"Danke, dass es metager gibt."</li>
+			<li>"Ich (85J.) möchte für Ihre aufwändige Arbeit 200 Euro spenden. Bleibt stark gegen die Kraken."</li>
+  			<li>"Ihre Arbeit halte ich für sehr wertvoll"</li>
+  			<li>"Danke für Ihre gute Arbeit!"</li>
+  			<li>"Super das neue MetaGer!"</li>
+  			<li>"Suchmaschine wie von Ihnen entwickelt und betrieben ist sehr begrüßenswert.  Meine Spende dazu"</li>
+  			<li>"Als kleinen Beitrag für Ihre große und großartige Arbeit spende ich"</li>
+  			<li>"Bitte buchen Sie 100,-EUR für Ihre gute Arbeit ab."</li>
+  			<li>"Gerade in der heutigen Zeit braucht es eine Suchmaschine aus sicherer Hand und guten Absichten."</li>
+  			<li>"Ihre Arbeit ist Spitze. Deshalb möchte Ihr Projekt fördern."</li>
+  			<li>"Ich verwende schon seit Jahren Metager und danke mit einer Spende"</li>
+  			<li>"MetaGer ist Spitze! Ich spende"</li>
+  			<li>"Armer Rentner spendet gerne 5,00 Euro"</li>
+  			<li>"Ich verwende fast nur noch die MetaGer-Suche und bin damit sehr zufrieden"</li>
+  			<li>"Danke für euer Werk!"</li>
+		</ul>
+	</div>
 </div>
 <div id="left" class="col-lg-6 col-md-12 col-sm-12 others">
 		

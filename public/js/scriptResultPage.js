@@ -1,17 +1,6 @@
 $(document).ready(function(){
-	if( top != self ){
-        	postSize($(document).height());
-	}
 	getDocumentReadyForUse();
 });
-
-function postSize(height){
-	var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-
-    	if(typeof target != "undefined" && document.body.scrollHeight){
-        	target.postMessage(height, "*");
-        }
-}
 
 function tabs(){
 	//return;
@@ -54,7 +43,7 @@ function theme(){
 				localStorage.removeItem("theme");
 			}else{
 				theme = theme.split(",");
-				$($("head link")[2]).attr("href", "/css/theme.css.php?r=" + theme[0] + "&g=" + theme[1] + "&b=" + theme[2] + "&a=" + theme[3]);
+				$("#theme").attr("href", "/css/theme.css.php?r=" + theme[0] + "&g=" + theme[1] + "&b=" + theme[2] + "&a=" + theme[3]);
 			}
 		}
 	}
