@@ -57,9 +57,11 @@ class AdminInterface extends Controller
         $yesterday = 0;
         $rekordTag = 0;
         $rekordTagDate = "";
+        $size = 0;
+        $count = 0;
         for($i = 1; $i <= 28; $i ++ )
         {
-            $logDate = "/var/log/metager/archive/" . date("Y-m-d", mktime(date("H"),date("i"), date("s"), date("m"), date("d")-$i, date("Y"))) . "_mg3.log";
+            $logDate = "/var/log/metager/archive/mg3.log.$i";
             if( file_exists($logDate) )
             {
                 $sameTime = exec("grep -n '" . date('H') . ":" . date('i') . ":' $logDate | tail -1 | cut -f1 -d':'");
@@ -72,69 +74,22 @@ class AdminInterface extends Controller
                 }
                 $oldLogs[$i]['sameTime'] = $sameTime;
                 $oldLogs[$i]['insgesamt'] = $insgesamt;
+                # Nun noch den median:
+                $count += $insgesamt;
+                $size++;
+                if($size > 0)
+                    $oldLogs[$i]['median'] = ($count/$size);
             }
         }
 
-        $median = [];
-        # Median für 7 Tage:
-        $size = 0;
-        $count = 0;
-        for($i = 1; $i <= 7; $i++)
-        {
-            if( isset($oldLogs[$i]) )
-            {
-                $count += $oldLogs[$i]['insgesamt'];
-                $size++;
-            }
-        }
-        $median[7] = ($count/$size);
 
-        # Median für 14 Tage:
-        $size = 0;
-        $count = 0;
-        for($i = 1; $i <= 14; $i++)
-        {
-            if( isset($oldLogs[$i]) )
-            {
-                $count += $oldLogs[$i]['insgesamt'];
-                $size++;
-            }
-        }
-        $median[14] = ($count/$size);
-
-        # Median für 21 Tage:
-        $size = 0;
-        $count = 0;
-        for($i = 1; $i <= 21; $i++)
-        {
-            if( isset($oldLogs[$i]) )
-            {
-                $count += $oldLogs[$i]['insgesamt'];
-                $size++;
-            }
-        }
-        $median[21] = ($count/$size);
-
-        # Median für 28 Tage:
-        $size = 0;
-        $count = 0;
-        for($i = 1; $i <= 28; $i++)
-        {
-            if( isset($oldLogs[$i]) )
-            {
-                $count += $oldLogs[$i]['insgesamt'];
-                $size++;
-            }
-        }
-        $median[28] = ($count/$size);
         return view('admin.count')
             ->with('title', 'Suchanfragen - MetaGer')
             ->with('today', number_format(floatval(sizeof($logToday)), 0, ",", "."))
             ->with('oldLogs', $oldLogs)
             ->with('rekordCount', number_format(floatval($rekordTag), 0, ",", "."))
             ->with('rekordTagSameTime', number_format(floatval($rekordTagSameTime), 0, ",", "."))
-            ->with('rekordDate', $rekordTagDate)
-            ->with('median', $median);
+            ->with('rekordDate', $rekordTagDate);
     }
     public function check ()
     {
