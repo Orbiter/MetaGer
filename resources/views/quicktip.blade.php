@@ -9,7 +9,7 @@
 			<h1>MetaGer sagt <i>Danke</i></h1>
 			Vielen Dank für mehr als 20 Jahre Unterstützung.
 			<br>
-			<a href="https://metager.de/spende" class="btn btn-danger">Lesen Sie den Spendenaufruf</a>
+			<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}" class="btn btn-sm btn-danger" style="margin-top:5px;" target="_blank">Lesen Sie den Spendenaufruf</a>
 		</div>		
 
 		@if( $spruch !== "" )

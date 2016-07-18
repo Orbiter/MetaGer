@@ -80,7 +80,8 @@
 		Route::get('spendenaufruf', function()
 		{
 			return view('spende.spendenaufruf')
-				->with('title', 'Spendenaufruf - MetaGer');
+				->with('title', 'Spendenaufruf - MetaGer')
+				->with('navbarFocus', 'foerdern');
 		});
 
 		Route::post('spende', 'MailController@donation');

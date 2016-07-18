@@ -107,7 +107,7 @@ class MailController extends Controller
         }
 
 
-        return view('spende')
+        return view('spende.spende')
                 ->with('title', 'Kontakt')
                 ->with('css', 'donation.css')
                 ->with($messageType,$messageToUser);
