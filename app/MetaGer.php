@@ -270,6 +270,7 @@ class MetaGer
 
         $this->results = $paginatedSearchResults;
 
+        $this->validated = false;
         if( isset($this->password) )
         {
             # Wir bieten einen bezahlten API-Zugriff an, bei dem dementsprechend die Werbung ausgeblendet wurde:
@@ -280,6 +281,7 @@ class MetaGer
             if( $this->password === $password )
             {
                 $this->ads = [];
+                $this->validated = true;
             }
         }
 	}

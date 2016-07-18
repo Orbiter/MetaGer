@@ -19,13 +19,13 @@
 			</ul>
 		</div>
 	@endif
-	<div class="mg-panel container result ad row" style="text-align:center;">
-		<div class="col-xs-12 col-sm-8" style="margin:0 auto;">
-			<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}" target="_blank">
-				<img src="/img/aufruf.png" style="width:100%">
-			</a>
-		</div>
-	</div>
+	@if( !$metager->validated)
+	<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:20px;max-height:126px;max-width:100%;text-align:center;padding:0px;margin-top:0px">
+					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
+					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">
+					</a>
+			</div>
+	@endif
 	<div id="container">
 	@foreach($metager->getResults()->items() as $result)
 		<div class="item">
