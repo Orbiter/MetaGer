@@ -23,7 +23,7 @@
 	<body>
 		<header>
 			<nav class="navbar navbar-default">
-				<div class="container">
+				<div class="container-fluid">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
 							<span class="sr-only">{{ trans('staticPages.navigationToggle') }}</span>
@@ -31,10 +31,9 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-					</div>
-					<div>
 						@yield('homeIcon')
 					</div>
+					
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav navbar-right">
 							<li @if ( !isset($navbarFocus) || $navbarFocus === 'suche') class="active" @endif >
@@ -87,10 +86,10 @@
 			</nav>
 		</header>
 		<div class="wrapper">
-			<div class="mg-panel container" style="margin-bottom:20px;text-align:center;padding:0px;width:50%;margin-top:0px">
-				<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
-				<img src="/img/aufruf.png" style="width:100%;">
-				</a>
+			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:20px;max-height:126px;text-align:center;padding:0px;margin-top:0px">
+					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
+					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">
+					</a>
 			</div>
 			<main class="mg-panel container">
 				@if (isset($success))
