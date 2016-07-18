@@ -87,6 +87,9 @@
 			</nav>
 		</header>
 		<div class="wrapper">
+			<div class="mg-panel container" style="margin-bottom:20px;text-align:center;padding:0px;width:50%;margin-top:0px">
+				<img src="/img/aufruf.png" style="width:100%;">
+			</div>
 			<main class="mg-panel container">
 				@if (isset($success))
 					<div class="alert alert-success" role="alert">{{ $success }}</div>

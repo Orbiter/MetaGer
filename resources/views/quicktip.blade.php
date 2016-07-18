@@ -5,6 +5,13 @@
 		<link rel="stylesheet" type="text/css" href="/css/quicktips.css" />
 	</head>
 	<body>
+		<div class="quicktip aufruf bg-danger">
+			<h1>MetaGer sagt <i>Danke</i></h1>
+			Vielen Dank für mehr als 20 Jahre Unterstützung.
+			<br>
+			<a href="https://metager.de/spende" class="btn btn-danger">Lesen Sie den Spendenaufruf</a>
+		</div>		
+
 		@if( $spruch !== "" )
 			<blockquote id="spruch">{!! $spruch !!}</blockquote>
 		@endif
