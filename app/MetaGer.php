@@ -165,7 +165,8 @@ class MetaGer
             .$this->request->header('HTTP_LANGUAGE')
             .$this->request->header('User-Agent')
             .$this->request->header('Keep-Alive')
-            .$this->request->header('X-Forwarded-For'));
+            .$this->request->header('X-Forwarded-For')
+            .date("H")); # Wichtig!! Den Parameter um die aktuelle Stunde erweitern. Ansonsten wäre die anonId dauerhaft einem Nutzer zuzuordnen.
             $logEntry .= " anonId=$anonId";
             $logEntry .= " ref=" . $this->request->header('Referer');
             $useragent = $this->request->header('User-Agent');

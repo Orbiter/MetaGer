@@ -1,8 +1,0 @@
-[	
-	{
-		"title" : "MetaGer4You:",
-		"descr" : "Wenn in Ihrer Firma täglich viele verschiedene Datenbanken und Suchdienste abzufragen sind - warum machen Sie es nicht einfacher? WIR programmieren Ihnen IHRE Metasuche nach Ihren Anforderungen! Fragen Sie uns:  <a href=\"mailto:office@suma-ev.de\">office@suma-ev.de</a>",
-		"URL" : "mailto:office@suma-ev.de"
-
-	}
-]
