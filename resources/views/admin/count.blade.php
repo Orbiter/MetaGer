@@ -10,11 +10,11 @@
 		<th>Datum</th>
 		<th>Suchanfragen zur gleichen Zeit</th>
 		<th>Suchanfragen insgesamt</th>
-		<th>Mittelwert</th>
+		<th>Mittelwert (bis zum jeweiligen Tag zurück)</th>
 	</tr>
 	@if( isset($today) )
 	<tr>
-		<td>{{ date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) }}</td>
+		<td>{{ date("D, d M y", mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) }}</td>
 		<td>{{ $today }}</td>
 		<td>???</td>
 		<td>???</td>
@@ -22,7 +22,7 @@
 	@endif
 	@foreach($oldLogs as $key => $value)
 	<tr>
-		<td>{{ date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d")-$key, date("Y"))) }}</td>
+		<td>{{ date("D, d M y", mktime(date("H"),date("i"), date("s"), date("m"), date("d")-$key, date("Y"))) }}</td>
 		<td>{{ $value['sameTime'] }}</td>
 		<td>{{ $value['insgesamt'] }}</td>
 		<td>{{ $value['median'] }}</td>
