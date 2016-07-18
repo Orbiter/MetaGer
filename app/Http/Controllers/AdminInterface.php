@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Redis;
+use Response;
 
 class AdminInterface extends Controller
 {
@@ -36,9 +37,71 @@ class AdminInterface extends Controller
     	}
         #$data = [ 5 => "majm", 2 => "mngsn", 7 => "akljsd"];
         #arsort($data);
-    	return view('admin')
+    	return view('admin.admin')
     		->with('data', $data)
     		->with('title', "Admin-Interface-MetaGer")
             ->with('time', $time);
+    }
+
+    public function count()
+    {
+        $logToday = "mg3.log";
+        if(file_exists("/var/log/metager/".$logToday))
+        {
+            $logToday = file("/var/log/metager/".$logToday);
+        }else
+        {
+            return redirect('');
+        }
+        $oldLogs = [];
+        $yesterday = 0;
+        $rekordTag = 0;
+        $rekordTagDate = "";
+        $size = 0;
+        $count = 0;
+        for($i = 1; $i <= 28; $i ++ )
+        {
+            $logDate = "/var/log/metager/archive/mg3.log.$i";
+            if( file_exists($logDate) )
+            {
+                $sameTime = exec("grep -n '" . date('H') . ":" . date('i') . ":' $logDate | tail -1 | cut -f1 -d':'");
+                $insgesamt = exec("wc -l $logDate | cut -f1 -d' '");
+                if($insgesamt > $rekordTag)
+                {
+                    $rekordTag = $insgesamt;
+                    $rekordTagSameTime = $sameTime;
+                    $rekordTagDate = date("d.m.Y", mktime(date("H"),date("i"), date("s"), date("m"), date("d")-$i, date("Y")));
+                }
+                $oldLogs[$i]['sameTime'] = $sameTime;
+                $oldLogs[$i]['insgesamt'] = $insgesamt;
+                # Nun noch den median:
+                $count += $insgesamt;
+                $size++;
+                if($size > 0)
+                    $oldLogs[$i]['median'] = ($count/$size);
+            }
+        }
+
+
+        return view('admin.count')
+            ->with('title', 'Suchanfragen - MetaGer')
+            ->with('today', number_format(floatval(sizeof($logToday)), 0, ",", "."))
+            ->with('oldLogs', $oldLogs)
+            ->with('rekordCount', number_format(floatval($rekordTag), 0, ",", "."))
+            ->with('rekordTagSameTime', number_format(floatval($rekordTagSameTime), 0, ",", "."))
+            ->with('rekordDate', $rekordTagDate);
+    }
+    public function check ()
+    {
+        $q = "";
+        $logFile = "/var/log/metager/mg3.log";
+        if( file_exists($logFile) )
+        {
+            $q = exec("tail -n 1 $logFile");
+            $q = substr($q, strpos($q, "search=")+7);
+        }
+        return view('admin.check')
+            ->with('title', 'Wer sucht was? - MetaGer')
+            ->with('q', $q);
     }
 }

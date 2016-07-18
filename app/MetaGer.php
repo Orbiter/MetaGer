@@ -152,7 +152,7 @@ class MetaGer
     private function createLogs()
     {
         $redis = Redis::connection('redisLogs');
-        if( $redis )
+        try
         {
             $logEntry = "";
             $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
@@ -165,7 +165,8 @@ class MetaGer
             .$this->request->header('HTTP_LANGUAGE')
             .$this->request->header('User-Agent')
             .$this->request->header('Keep-Alive')
-            .$this->request->header('X-Forwarded-For'));
+            .$this->request->header('X-Forwarded-For')
+            .date("H")); # Wichtig!! Den Parameter um die aktuelle Stunde erweitern. Ansonsten wäre die anonId dauerhaft einem Nutzer zuzuordnen.
             $logEntry .= " anonId=$anonId";
             $logEntry .= " ref=" . $this->request->header('Referer');
             $useragent = $this->request->header('User-Agent');
@@ -176,6 +177,9 @@ class MetaGer
             $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
             $logEntry .= " search=" . $this->eingabe;
             $redis->rpush('logs.search', $logEntry);
+        }catch( \Exception $e)
+        {
+            return;
         }
     }
 
