@@ -76,11 +76,11 @@ class MailController extends Controller
             $messageToUser = "Sie haben eins der folgenden Felder nicht ausgefüllt: IBAN, BIC, Nachricht. Bitte korrigieren Sie Ihre Eingabe und versuchen es erneut.\n";
             $messageType = "error";
         }else{
-            $message = "\r\n Name:" . $request->input('Name', 'Keine Angabe');
-            $message .= "\r\n Telefon:" . $request->input('Telefon', 'Keine Angabe');
-            $message .= "\r\n Kontonummer:" . $request->input('Kontonummer');
-            $message .= "\r\n Bankleitzahl:" . $request->input('Bankleitzahl');
-            $message .= "\r\n Nachricht:" . $request->input('Nachricht');
+            $message = "\r\nName: " . $request->input('Name', 'Keine Angabe');
+            $message .= "\r\nTelefon: " . $request->input('Telefon', 'Keine Angabe');
+            $message .= "\r\nKontonummer: " . $request->input('Kontonummer');
+            $message .= "\r\nBankleitzahl: " . $request->input('Bankleitzahl');
+            $message .= "\r\nNachricht: " . $request->input('Nachricht');
 
             $replyTo = $request->input('email', 'anonymous-user@metager.de');
             if (!filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
