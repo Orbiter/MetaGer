@@ -392,7 +392,7 @@ class MetaGer
                 $siteSearchFailed = true;
             }else
             {
-                $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
+                $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: <a href=\"http://www." . $this->site . "\">\"" . $this->site . "\"</a> angezeigt.";
             }
 
         }            
@@ -628,7 +628,9 @@ class MetaGer
 	public function checkSpecialSearches (Request $request)
 	{
 		# Site Search:
-		if(preg_match("/(.*)\bsite:(\S+)(.*)/si", $this->q, $match))
+        # (.*)\bsite:(?:http:\/\/)?(?:www\.)?(\S+)(.*)
+        # gibt als Seite nur den Teil nach eventuellem "Http://" und "www." aus.
+		if(preg_match("/(.*)\bsite:(?:http:\/\/)?(?:www\.)?(\S+)(.*)/si", $this->q, $match))
 		{
 			$this->site = $match[2];
 			$this->q = $match[1] . $match[3];
