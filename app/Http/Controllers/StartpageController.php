@@ -110,7 +110,7 @@ class StartpageController extends Controller
     {
         $sumaFile = "";
         if(App::isLocale('en'))
-            $sumaFile = config_path() . "/sumasEn.xml";
+            $sumaFile = config_path() . "/sumas.xml";
         else
             $sumaFile = config_path() . "/sumas.xml";
 

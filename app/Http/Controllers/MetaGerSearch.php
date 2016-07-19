@@ -32,8 +32,7 @@ class MetaGerSearch extends Controller
 
         # Ergebnisse der Suchmaschinen kombinieren:
         $metager->combineResults();
-
-        $metager->removeInvalids();
+        
         # Die Ausgabe erstellen:
         return $metager->createView();
     }

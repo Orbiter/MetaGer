@@ -16,8 +16,9 @@
 		</div>
 		<label class="select-label">{{ trans('settings.allgemein.4') }}:</label>
 		<select class="form-control" name="param_lang">
-			<option value="all">{{ trans('settings.allgemein.5') }}</option>
-			<option value="de">{{ trans('settings.allgemein.6') }}</option></select>
+			<option value="all" @if(App::isLocale('de')) selected @endif >{{ trans('settings.allgemein.5') }}</option>
+			<option value="de">{{ trans('settings.allgemein.6') }}</option>
+			<option value="en" @if(App::isLocale('en')) selected @endif>{{ trans('settings.allgemein.6_1') }}</option></select>
 		<label class="select-label">{{ trans('settings.allgemein.7') }}:</label>
 		<select class="form-control" name="param_resultCount">
 			<option value="10">10</option>
@@ -56,8 +57,8 @@
 			</div>
 		@endforeach
 		<input id="unten" type="submit" class="btn btn-primary" value="{{ trans('settings.speichern.1') }}">
-		<input type="button" class="btn btn-primary hidden" id="save" value="{{ trans('settings.speichern.2') }}">
+		<input type="button" class="btn btn-primary hidden" id="save" data-href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}" value="{{ trans('settings.speichern.2') }}">
 		<input id="plugin" type="submit" class="btn btn-primary" value="{{ trans('settings.speichern.3') }}">
-		<input type="button" class="btn btn-danger hidden" id="reset" value="Einstellungen Zur&uuml;cksetzen">
+		<input type="button" class="btn btn-danger hidden" id="reset" value="{{ trans('settings.speichern.4') }}">
 	</form>
 @endsection
