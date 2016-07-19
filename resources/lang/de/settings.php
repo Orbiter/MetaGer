@@ -12,6 +12,7 @@ return [
 	'allgemein.4' => 'Sprache ausw&auml;hlen',
 	'allgemein.5' => 'Alle Sprachen',
 	'allgemein.6' => 'Deutsch',
+	'allgemein.6_1' => 'Englisch',
 	'allgemein.7' => 'Anzahl der Ergebnisse pro Seite',
 	'allgemein.8' => 'Alle',
 	'allgemein.9' => 'Maximale Suchzeit',
@@ -38,4 +39,5 @@ return [
 	'speichern.1'		=>	'Startseite für einmalige Nutzung generieren',
 	'speichern.2'		=>	'Einstellungen dauerhaft speichern',
 	'speichern.3'		=>	'Plugin mit diesen Einstellungen generieren',
+	'speichern.4'		=>	'Einstellungen zurücksetzen',
 ];

@@ -71,7 +71,7 @@
 									<li><a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}</a></li>
 								</ul>
 							</li>
-							<!--<li class="dropdown">
+							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationSprache">{{ trans('staticPages.nav19') }}
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
@@ -79,7 +79,7 @@
 										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
 									@endforeach
 								</ul>
-							</li>-->
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -106,7 +106,7 @@
 					<li><a href="https://www.suma-ev.de/" target="_blank">
 						<img src="/img/suma_ev_logo-m1-greyscale.png" alt="SUMA-EV Logo"></a></li>
 					<li id="info">
-						<a href="/kontakt/">{{ trans('staticPages.nav5') }}</a> - <a href="/impressum/">{{ trans('staticPages.nav8') }}</a>
+						<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "kontakt") }}">{{ trans('staticPages.nav5') }}</a> - <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "impressum") }}">{{ trans('staticPages.nav8') }}</a>
 						{{ trans('staticPages.sumaev.1') }}<a href="https://www.suma-ev.de/" target="_blank" >{{ trans('staticPages.sumaev.2') }}</a></li>
 					<li><a href="https://www.uni-hannover.de/" target="_blank">
 						<img src="/img/luh_metager.png" alt="LUH Logo"></a></li>

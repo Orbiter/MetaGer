@@ -157,20 +157,18 @@ class Result
 			return false;
 		}
 
-		$text = $this->titel . " " . $this->descr;
-
-		if($metager->getLang() !== "all")
+		# Nun der Eventuelle Sprachfilter
+		if( $metager->getLang() !== "all" )
 		{
-			$result = $metager->getLanguageDetect()->detect($text, 1);
-			$lang = "";
-			foreach($result as $key => $value)
-			{
-				$lang = $key;
-			}
+			$text = $this->titel . " " . $this->descr;
+			$path = app_path() . "/Models/lang.pl";
+			$lang = exec("echo '$text' | $path");
 
-			if($lang !== "" && $lang !== $metager->getLang())
+			if( $metager->getLang() !== $lang )
 				return false;
 		}
+
+		
 
 		# Wir wenden die Stoppwortsuche an und schmeißen entsprechende Ergebnisse raus:
 		foreach($metager->getStopWords() as $stopWord)

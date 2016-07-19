@@ -12,6 +12,7 @@ return [
 	'allgemein.4' => 'select language',
 	'allgemein.5' => 'all languages',
 	'allgemein.6' => 'german',
+	'allgemein.6_1' => 'english',
 	'allgemein.7' => 'number of results per page',
 	'allgemein.8' => 'all',
 	'allgemein.9' => 'maximum search time',
@@ -38,4 +39,5 @@ return [
 	'speichern.1'		=>	'Create a startpage for one-time use',
 	'speichern.2'		=>	'Save settings permanently',
 	'speichern.3'		=>	'Generate plugin with these settings',
+	'speichern.4'		=>	'Reset saved settings',
 ];
