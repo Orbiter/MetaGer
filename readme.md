@@ -2,11 +2,11 @@
 
 MetaGer ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
 
-## Live-Version
-Hinweis: Diese Open-Source Version von MetaGer ist noch nicht bereit, auf unserem Live-Server (https://metager.de) verwendet zu werden.
-Während wir daran arbeiten sie soweit fertig zu stellen, dass alles exakt so funktioniert, wie in der Live-Version auch, sorgt
-ein Mechanismus für den automatischen Deploy dafür, dass zu jedem beliebigen Zeitpunkt der Master-Branch in seiner aktuellen Version
-über die Adresse https://metager3.de ( Entwicklungsserver ) erreichbar ist.
+## Abhängigkeiten
+* composer (https://getcomposer.org/)
+* php7.0
+* sqlite3
+* Das Perl-Paket: Lingua::Identify (http://search.cpan.org/~ambs/Lingua-Identify-0.56/lib/Lingua/Identify.pm)
 
 ## MetaGer zu langsam?
 Damit MetaGer so schnell wird, wie auf unserem Live-Server, erfordert es ein wenig Konfigurationsarbeit. Der Grund, warum die Version nach dem Checkout langsamer als normal ist, ist der, dass die eingestellten Suchmaschinen im Standard synchron abgefragt werden.
