@@ -510,7 +510,7 @@ class MetaGer
 
         # SUMA-FILE
         if(App::isLocale("en")){
-            $this->sumaFile = config_path() . "/sumasEn.xml";
+            $this->sumaFile = config_path() . "/sumas.xml";
         }else{
             $this->sumaFile = config_path() . "/sumas.xml";
         }
