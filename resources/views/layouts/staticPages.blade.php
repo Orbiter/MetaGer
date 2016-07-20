@@ -76,7 +76,7 @@
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									@foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
+										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}} @if($properties['native'] !== "Deutsch") (Beta) @endif</a></li>
 									@endforeach
 								</ul>
 							</li>
