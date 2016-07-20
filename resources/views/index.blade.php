@@ -204,13 +204,13 @@
               <h2>{{ trans('index.sponsors.head.2') }}</h2>
               <ul>
                 <li>
-                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.woxikon') }}</a>
+                  {!! trans('index.sponsors.woxikon') !!}</a>
                 </li>
                 <li>
-                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.gutscheine') }}</a>
+                  {!! trans('index.sponsors.gutscheine') !!}
                 </li>
                 <li>
-                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.kredite') }}</a>
+                  {!! trans('index.sponsors.kredite') !!}
                 </li>
               </ul>
             </div>
