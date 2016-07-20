@@ -17,7 +17,7 @@ GLS Gemeinschaftsbank, Bochum',
 
 	'lastschrift.1' => 'Spenden mittels elektronischem Lastschriftverfahren:',
 	'lastschrift.2' => 'Tragen Sie hier Ihre Kontodaten sowie den gew&uuml;nschten Betrag ein. Wir buchen dann entsprechend von Ihrem Konto ab.',
-	'lastschrift.3' => 'Bitte geben Sie ihren Namen ein:',
+	'lastschrift.3' => 'Bitte geben Sie Ihren Namen ein:',
 	'lastschrift.3.placeholder' => 'Name',
 	'lastschrift.4' => 'Ihre E-Mail Adresse:',
 	'lastschrift.5' => 'Ihre Telefonnummer, um Ihre Spende ggf. durch einen R&uuml;ckruf zu verifizieren:',
