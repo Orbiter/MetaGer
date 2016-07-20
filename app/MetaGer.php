@@ -393,7 +393,7 @@ class MetaGer
             }
             if( $enginesWithSite === 0 )
             {
-                $this->errors[] = "Sie wollten eine Sitesearch auf " . $this->site . " durchführen. Leider unterstützen die eingestellten Suchmaschinen diese nicht. Sie können <a href=\"" . $this->generateSearchLink("web", false) . "\">hier</a> die Sitesearch im Web-FoKus durchführen. Es werden ihnen Ergebnisse ohne Sitesearch angezeigt.";
+                $this->errors[] = "Sie wollten eine Sitesearch auf " . $this->site . " durchführen. Leider unterstützen die eingestellten Suchmaschinen diese nicht. Sie können <a href=\"" . $this->generateSearchLink("web", false) . "\">hier</a> die Sitesearch im Web-Fokus durchführen. Es werden ihnen Ergebnisse ohne Sitesearch angezeigt.";
                 $siteSearchFailed = true;
             }else
             {
@@ -827,6 +827,8 @@ class MetaGer
         $requestData['focus'] = $fokus;
         if($results)
             $requestData['out'] = "results";
+        else
+            $requestData['out'] = "";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }
