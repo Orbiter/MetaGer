@@ -77,6 +77,19 @@
 				->with('css', 'donation.css')
 				->with('navbarFocus', 'foerdern');
 		});
+
+		Route::get('beitritt', function ()
+		{
+			return view('spende.beitritt')
+				->with('title', trans('titles.beitritt'))
+				->with('css', 'beitritt.css')
+				->with('navbarFocus', 'foerdern');
+		});
+
+		Route::get('bform1.htm', function()
+		{
+			return redirect('beitritt');
+		});
 		Route::get('spendenaufruf', function()
 		{
 			return view('spende.spendenaufruf')
