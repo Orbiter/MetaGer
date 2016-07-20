@@ -1,0 +1,29 @@
+.form-group{
+	text-align: left;
+}
+
+label.non-bold{
+	font-weight: normal;
+	font-size: 16px;
+}
+
+ul{
+	list-style-type: initial!important;
+	text-align: left!important;
+}
+
+hr{
+	margin: 10px 0!important;
+}
+
+@media print
+{
+	.noprint {display:none!important;}
+	#spendenaufruf{display:none!important;}
+	footer{display:none!important;}
+	.wrapper{padding-top:0!important;}
+	*{font-size:12px!important;}
+	input[type=text], input[type=email]{padding:0!important;height:initial!important;border:0;}
+	h1{margin-top: 0!important; padding-top:0!important;}
+	.form-group{margin-bottom:10px!important;}
+}
