@@ -15,6 +15,7 @@
 	<meta content="{{ getmypid() }}" name="p" />
 	<meta content="{{ $eingabe }}" name="q" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="referrer" content="no-referrer" />
 </head>
 <body id="resultBody">
 	@if( !isset($suspendheader) )
