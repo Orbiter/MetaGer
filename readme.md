@@ -28,7 +28,7 @@ Es steht dir jedoch frei, ein Ticket zu eröffnen.
 ## Sicherheitslücken
 
 Falls du eine Sicherheitslücke findest oder dir etwas unsicher vorkommt,
-zögere biite nicht ein Ticket zu schreiben oder eine Mail an [office@suma-ev.de](mailto:office@suma-ev.de) zu senden.
+zögere bitte nicht ein Ticket zu schreiben oder eine Mail an [office@suma-ev.de](mailto:office@suma-ev.de) zu senden.
 
 ## Lizenzen
 
