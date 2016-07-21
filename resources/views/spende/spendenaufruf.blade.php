@@ -65,7 +65,7 @@ im Internet weiter entwickelt und betrieben werden kann:
 	<div class="col-sm-6">
 		<div class="">
 		<div class="col-md-6">
-			<h2>{{ trans('spenden.logos.1') }}</h2>
+			<h2>{!! trans('spenden.logos.1') !!}</h2>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input name="cmd" value="_xclick" type="hidden">
 				<input name="business" value="wsb@suma-ev.de" type="hidden">
@@ -84,7 +84,7 @@ im Internet weiter entwickelt und betrieben werden kann:
 			</form>
 		</div>
 		<div class="col-md-6">
-			<h2>{{ trans('spenden.logos.2') }}</h2>
+			<h2>{!! trans('spenden.logos.2') !!}</h2>
 			<a href="bitcoin:174SDRNZqM2WNobHhCDqD1VXbnZYFXNf8V"><img src="/img/WeAcceptBitcoin.png" style="width:120px" alt="Bitcoin"></a>
 		</div>
 		</div>
