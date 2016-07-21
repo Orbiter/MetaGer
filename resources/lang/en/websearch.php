@@ -9,4 +9,7 @@ return [
 	'head.6' => 'en',
 	'head.7' => 'Code',
 	'head.8' => 'Search',
+	'head.copy' => 'Copy',
+	'alert.success' => 'Copied!',
+        'alert.failure' => 'Something went wrong!'
 ];
