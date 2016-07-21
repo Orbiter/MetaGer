@@ -12,7 +12,7 @@ BIC: GENODEM1GLS
 GLS Gemeinschaftsbank, Bochum',
 	'bankinfo.3' => 'Falls Sie eine Spendenbescheinigung w&uuml;nschen, geben Sie auf dem &Uuml;berweisungsformular bitte Ihre vollst&auml;ndige Adresse, und (sofern vorhanden) auch Ihre E-Mail Adresse an.',
 
-	'logos.1' => 'Bequem mit Paypal',
+	'logos.1' => 'Bequem mit Paypal<br>(auch per Kreditkarte ohne Registrierung)',
 	'logos.2' => 'oder Bitcoins',
 
 	'lastschrift.1' => 'Spenden mittels elektronischem Lastschriftverfahren:',
