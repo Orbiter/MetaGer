@@ -14,7 +14,7 @@
 		<p class="text-muted">{{ trans('spenden.bankinfo.3') }}</p>
 		<hr>
 		<div class="col-lg-6 col-md-12 col-sm-12 others ppbc">
-			<h2>{{ trans('spenden.logos.1') }}</h2>
+			<h2>{!! trans('spenden.logos.1') !!}</h2>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input name="cmd" value="_xclick" type="hidden">
 				<input name="business" value="wsb@suma-ev.de" type="hidden">
