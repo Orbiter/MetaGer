@@ -5,6 +5,8 @@ MetaGer ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
 ## Abhängigkeiten
 * composer (https://getcomposer.org/)
 * php7.0
+  * php7.0-mbstring
+  * php7.0-dom
 * sqlite3
 * Das Perl-Paket: Lingua::Identify (http://search.cpan.org/~ambs/Lingua-Identify-0.56/lib/Lingua/Identify.pm)
 
