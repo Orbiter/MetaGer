@@ -173,6 +173,7 @@ class Result
 		# Wir wenden die Stoppwortsuche an und schmeißen entsprechende Ergebnisse raus:
 		foreach($metager->getStopWords() as $stopWord)
 		{
+			$text = $this->titel . " " . $this->descr;
 			if(stripos($text, $stopWord) !== false)
 			{
 				return false;
