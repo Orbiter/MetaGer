@@ -34,6 +34,43 @@ update(144.76.113.134):
     - php ~/MetaGer/artisan queue:restart
     - php ~/MetaGer/artisan migrate --force
     - php ~/MetaGer/artisan up
+   
+update(metager2):
+  tags:
+  - metager2
+  only:
+    - master
+  before_script:
+    # Abhängigkeiten überprüfen
+    - which composer
+    - which git
+    - which php7.0
+    - which sqlite3
+  script:
+    # Pfad zum neu geklonten Repo
+    - path=`pwd`
+    - cd ~/
+    - if [ -d MetaGer_neu ]; then rm -rf MetaGer_neu;fi
+    - git clone "$path" MetaGer_neu
+    - cd MetaGer_neu
+    - composer install
+    - scp metager@metager3.de:~/.env .
+    - scp metager@metager3.de:~/sumas.xml config/
+    - scp metager@metager3.de:~/sumasEn.xml config/
+    - scp metager@metager3.de:~/blacklistUrl.txt config/
+    - scp metager@metager3.de:~/blacklistDomains.txt config/
+    - touch storage/logs/laravel.log
+    - touch storage/logs/worker.log
+    - chmod 777 config/sumas.xml config/sumasEn.xml database/metager.sqlite
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
+    - if [ -f ~/MetaGer/artisan ]; then php ~/MetaGer/artisan down;fi
+    - cd ~/
+    - rm -rf MetaGer
+    - mv MetaGer_neu MetaGer
+    - php ~/MetaGer/artisan queue:restart
+    - php ~/MetaGer/artisan migrate --force
+    - php ~/MetaGer/artisan up
     
 update(metager3.de):
   tags:

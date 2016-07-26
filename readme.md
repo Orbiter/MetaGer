@@ -8,6 +8,7 @@ MetaGer ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
   * php7.0-mbstring
   * php7.0-dom
 * sqlite3
+* redis-server
 * Das Perl-Paket: Lingua::Identify (http://search.cpan.org/~ambs/Lingua-Identify-0.56/lib/Lingua/Identify.pm)
 
 ## MetaGer zu langsam?

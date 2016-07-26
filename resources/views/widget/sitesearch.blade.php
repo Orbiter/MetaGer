@@ -3,6 +3,20 @@
 @section('title', $title )
 
 @section('content')
+<script type="text/javascript">
+        function copyCode() {
+            $("#codesnippet").select();
+            try {
+                var successful = document.execCommand('copy');
+                if( successful )
+                    alert('{{ trans('websearch.alert.success') }}');
+                else
+                    alert('{{ trans('websearch.alert.failure') }}');
+            } catch (err) {
+                alert('{{ trans('websearch.alert.failure') }}');
+            }
+        }
+</script>
 <h1>{{ trans('sitesearch.head.1') }}</h1>
 <p>{{ trans('sitesearch.head.2') }}</p>
 <h2>{{ trans('sitesearch.head.3') }}</h2>
@@ -19,8 +33,8 @@
   <input type="hidden" name="encoding" value="utf8">
   <input type="hidden" name="site" value="{{ $site }}">
 </form>
-<h2>{{ trans('sitesearch.generated.5') }}</h2>
-<code>&lt;form class="metager-searchform" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}/meta/meta.ger3" method="get" accept-charset="UTF-8" &gt;
+<h2>{{ trans('sitesearch.generated.5') }} <button class="btn btn-default" type="submit" onclick="copyCode()"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> {{ trans('websearch.head.copy') }}</button></h2>
+<textarea id="codesnippet" readonly style="width:100%;height:500px">&lt;form class="metager-searchform" action="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}/meta/meta.ger3" method="get" accept-charset="UTF-8" &gt;
   &lt;style type="text/css" scoped&gt;
   .metager-searchinput {
   height: 30px;
@@ -63,6 +77,6 @@
   }
   &lt;/style&gt;
   &lt;a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") }}"&gt;&lt;img class="metager-logo" title="{{ trans('sitesearch.generated.2') }}" alt="MetaGer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN8AAABGAgMAAAAx/qk0AAAADFBMVEX/wmn/3KL/6Mj+/vtPnQnhAAAC10lEQVRIx+2XMa7TQBCG1zaJkYwUGp5E5RbR+AJI9g2gQLQ0vDpHsMUJKB49DRIKBRdAco6wN8AFB7CQkfzEZod/Zu3ENgSkbRBStnDkt/uNZ/6ZnX2r6KvyGFujyIdTkVG9F6g+q9YPfKL2fuA9VfmBd1XhB95Rl3EZl/Evxur62dm5gAg7uqSxA613pw2+JqI358CQCD2EqBneEzr1ohLg4WyfJKwMT+CGqonNP4NaxfwYwaOrm7+DGzo6mJ5AeLojcw6M2ctMwNU13jM+GYIXzxUHrtWawQc3TsdXUzAhCJqzQkFNnbjXc3AavljMPxJxNdTvtrOvY2UH2wBhwgrYxUzjfThdMn4L6Rv1c/BTF9AXRMbiVykeLUyIjWbMNN5C+oEvzMCXfURbknnS2QgSPrQfVUCRROzKFEzpqUlsTgipj6l9THb3bnODzxf5oC++nNKewdn5ltHGpCZnz3QIm7Xhc4WzUg4nLwwkpGO4e38K5pQc8g5gCn1Yp36sg9qy+50qLbzRydxRgDa2dVseYEHNQVGE/2Ic2CxBrh04CMOgAjG8ZTlQbZhqA5iKqNnQ4iAuD5itANYsHjLTSlFA1QGUUic9KX43ahPyIqNkvgsZLEcw/EhN5MBJDY9ggBVwx4ERQMmoVVxx0QRcFDkjEpnMt1iJ1bcqhzHi5GsH7rPfgW14lDOS3akROoIuuB9ETs6cli0HOdccmQMZ4u6BoEv8TEC7bDmtKiuOjEtmXQxgCDCXXVaJXA/Z919A0YCrc1UDtB+Qa95SGTcAqli7qwP7vugc7eBgLjnAVjCSxs5lE3Hy04hDc7CRNqBda+KUY5eRBegyr8SiUcvmE0t7YzkiSZ6SIqDv7AjX0q1rdr2ixT+biYBSiLW07Yz3A70eKs8W0l7xs9wc08wcD4qV62rq6r2U2eptcTlGL+O/HN4XFu8rkvelzPsa6H3x9L7q+l6ufwK7PWV5kEbECQAAAABJRU5ErkJggg=="&gt;&lt;/a&gt;&lt;input class="metager-searchinput" name="eingabe" placeholder="{{ trans('sitesearch.generated.3') }}" required&gt;&lt;/input&gt;&lt;button class="metager-searchbutton" type="submit"&gt;{{ trans('sitesearch.generated.4') }}&lt;/button&gt;&lt;input type="hidden" name="encoding" value="utf8"&gt;&lt;/input&gt;&lt;input type="hidden" name="site" value="{{ $site }}"&gt;&lt;/input&gt;&lt;input type="hidden" name="lang" value="{{ trans('sitesearch.generated.6') }}"&gt;&lt;/input&gt;&lt;input type="hidden" name="wdgt-version" value="1"&gt;&lt;/input&gt;&lt;/form&gt;
-</code>
+</textarea>
 @endif
 @endsection
