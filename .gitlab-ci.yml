@@ -31,8 +31,8 @@ update(144.76.113.134):
     - cd ~/
     - while [ -d ~/MetaGer ]; do rm -rf ~/MetaGer;done
     - mv MetaGer_neu MetaGer
-    - php ~/MetaGer/artisan queue:restart
     - php ~/MetaGer/artisan migrate --force
+    - sudo pkill --signal SIGHUP supervisord
     - php ~/MetaGer/artisan up
    
 update(metager2):
@@ -68,8 +68,8 @@ update(metager2):
     - cd ~/
     - while [ -d ~/MetaGer ]; do rm -rf ~/MetaGer;done
     - mv MetaGer_neu MetaGer
-    - php ~/MetaGer/artisan queue:restart
     - php ~/MetaGer/artisan migrate --force
+    - sudo pkill --signal SIGHUP supervisord
     - php ~/MetaGer/artisan up
     
 update(metager3.de):
@@ -105,6 +105,6 @@ update(metager3.de):
     - cd ~/
     - while [ -d ~/MetaGer ]; do rm -rf ~/MetaGer;done
     - mv MetaGer_neu MetaGer
-    - php ~/MetaGer/artisan queue:restart
     - php ~/MetaGer/artisan migrate --force
+    - sudo pkill --signal SIGHUP supervisord
     - php ~/MetaGer/artisan up
