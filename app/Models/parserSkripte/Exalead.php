@@ -45,24 +45,29 @@ class Exalead extends Searchengine
 		}
 		foreach($results as $result)
 		{
-			$result->registerXPathNamespace($prefix,$namespace);
-			$title = $result->xpath("a:metas/a:Meta[@name='title']/a:MetaString[@name='value']")[0]->__toString();
-			$link = $result->xpath("a:metas/a:Meta[@name='url']/a:MetaString[@name='value']")[0]->__toString();
-			$anzeigeLink = $link;
-			if(sizeOf($result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")) === 0)
-				$descr = "";
-			else
-				$descr = $result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")[0]->__toString();
-			$this->counter++;
-			$this->results[] = new \App\Models\Result(
-				$this->engine,
-				$title,
-				$link,
-				$anzeigeLink,
-				$descr,
-				$this->gefVon,
-				$this->counter
-			);
+			try{
+				$result->registerXPathNamespace($prefix,$namespace);
+				$title = $result->xpath("a:metas/a:Meta[@name='title']/a:MetaString[@name='value']")[0]->__toString();
+				$link = $result->xpath("a:metas/a:Meta[@name='url']/a:MetaString[@name='value']")[0]->__toString();
+				$anzeigeLink = $link;
+				if(sizeOf($result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")) === 0)
+					$descr = "";
+				else
+					$descr = $result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")[0]->__toString();
+				$this->counter++;
+				$this->results[] = new \App\Models\Result(
+					$this->engine,
+					$title,
+					$link,
+					$anzeigeLink,
+					$descr,
+					$this->gefVon,
+					$this->counter
+				);
+			}catch(\ErrorException $e)
+			{
+				continue;
+			}
 		}
 	}
 }
