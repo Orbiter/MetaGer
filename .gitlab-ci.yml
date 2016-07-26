@@ -39,7 +39,7 @@ update(metager2):
   tags:
   - metager2
   only:
-    - development
+    - master
   before_script:
     # Abhängigkeiten überprüfen
     - which composer
