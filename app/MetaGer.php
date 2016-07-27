@@ -400,7 +400,10 @@ class MetaGer
                 $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
             }
 
-        }            
+        }
+
+        $typeslist = [];
+        $counter = 0;
 
 		foreach($enabledSearchengines as $engine){
 
@@ -425,7 +428,46 @@ class MetaGer
                 $engines[] = $tmp;
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
+
+            # Hier wird direkt eine Liste der Fokustypen erstellt, die bei der Suche verwendet werden: [0] => [web, nachrichten]
+            if($engine["name"] !== "overtureAds") {
+                $type = explode(",", $engine["type"]);
+                if(!$type[0] == "") {
+                    $typeslist[$counter++] = $type;
+                }
+            }
+
 		}
+
+        # Jetzt wird geguckt, ob diese Liste überhaupt Typen enthält und für jeden Typen des ersten Eintrags (oder späteren falls dieser "" ist) wird geguckt, ob sich dieser Typ in allen folgenden Einträgen finden lässt. Diese Einträge sind nie "web", da diese Suche meist eh auch möglich ist und ohnehin wie die angepasste Suche funktioniert. Am Ende wird geguckt ob es einen Typen gab, der in allen Elementen enthalten ist. Dieser wird als Fokus gesetzt.
+        if(!empty($typeslist)) {
+            foreach($typeslist as $matchTypeSearch) {
+                if(!empty($matchTypeSearch) && $matchTypeSearch[0] !== "") {
+                    $toMatch = $matchTypeSearch;
+                    break;
+                }
+            }
+            $toMatch = $typeslist[0];
+            array_shift($typeslist);
+            $matchedType = "";
+            foreach($toMatch as $matchType) {
+                if($matchType !== "web" && $matchType !== "") {
+                    $matched = true;
+                    foreach($typeslist as $otherTypes) {
+                        if(!in_array($matchType, $otherTypes)) {
+                            $matched = false;
+                        }
+                    }
+                    if($matched) {
+                        $matchedType = $matchType;
+                        break;
+                    }
+                }
+            }
+            if($matchedType !== "") {
+                $this->fokus = $matchedType;
+            }
+        }
 
         # Nun passiert ein elementarer Schritt.
         # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
