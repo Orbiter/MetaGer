@@ -83,7 +83,7 @@ class Search extends Job implements ShouldQueue
                 break;
             }
             if( sizeof(($tmp = explode(": ", $data))) === 2 )
-                $headers[trim($tmp[0])] = trim($tmp[1]);
+                $headers[strtolower(trim($tmp[0]))] = trim($tmp[1]);
             $c++;
         }
         while (true);
@@ -91,13 +91,13 @@ class Search extends Job implements ShouldQueue
         // end of headers
         if(sizeof($headers) > 1){
             $bodySize = 0;
-            if( isset($headers["Transfer-Encoding"]) && $headers["Transfer-Encoding"] === "chunked" )
+            if( isset($headers["transfer-encoding"]) && $headers["transfer-encoding"] === "chunked" )
             {
                 $body = $this->readChunked();
                 
-            }elseif( isset($headers['Content-Length']) )
+            }elseif( isset($headers['content-length']) )
             {
-                $length = trim($headers['Content-Length']);
+                $length = trim($headers['content-length']);
                 if(is_numeric($length) && $length >= 1)
                     $body = $this->readBody($length);
                 $bodySize = strlen($body);
@@ -111,7 +111,7 @@ class Search extends Job implements ShouldQueue
         }
 
         Redis::del($this->host . "." . $this->socketNumber);
-        if( isset($headers["Content-Encoding"]) && $headers['Content-Encoding'] === "gzip")
+        if( isset($headers["content-encoding"]) && $headers['content-encoding'] === "gzip")
         {
             $body = $this->gunzip($body);
         }
