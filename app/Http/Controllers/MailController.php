@@ -32,12 +32,12 @@ class MailController extends Controller
         }else{
             # Wir versenden die Mail des Benutzers an uns:
             $message = $request->input('message');
-
-            if( Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo){
+            $subject = "[Ticket " . date("Y") . date("d") . date("m") . date("H") . date("i") . date("s") . "] MetaGer - Kontaktanfrage";
+            if( Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo, $subject){
                 $message->to("office@suma-ev.de", $name = null);
                 $message->from($replyTo, $name = null);
                 $message->replyTo($replyTo, $name = null);
-                $message->subject("MetaGer - Kontaktanfrage");
+                $message->subject($subject);
             }) ){
                 # Mail erfolgreich gesendet
                 $messageType = "success";
