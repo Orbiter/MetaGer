@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /klassik/meta/
 Disallow: /meta/
+Disallow: /en/meta/
 Disallow: /domains/
 Disallow: /metager3/
 Disallow: /alpha/

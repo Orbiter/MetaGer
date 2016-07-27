@@ -4,8 +4,9 @@
 		<title>@yield('title')</title>
 		<!-- TradeDoubler site verification 2866738 -->
 		<meta charset="utf-8" />
-		<meta name="description" content="Sicher suchen und finden unter Wahrung der Privatsph&auml;re. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben." />
-		<meta name="keywords" content="Internetsuche, privatsph&auml;re, privacy, Suchmaschine, Datenschutz, Anonproxy, anonym suchen, Bildersuche, Suchmaschine, anonym, MetaGer, metager, metager.de" />
+		<meta name="description" content="{!! trans('staticPages.meta.Description') !!}" />
+		<meta name="keywords" content="{!! trans('staticPages.meta.Keywords') !!}" />
+		<meta http-equiv=”language” content="{!! trans('staticPages.meta.language') !!}" />
 		<meta name="page-topic" content="Dienstleistung" />
 		<meta name="robots" content="index,follow" />
 		<meta name="revisit-after" content="7 days" />
