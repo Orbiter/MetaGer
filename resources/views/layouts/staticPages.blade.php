@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>@yield('title')</title>
-		<!-- TradeDoubler site verification 2866738 -->
+		<!-- TradeDoubler site verification 2867053 -->
 		<meta charset="utf-8" />
 		<meta name="description" content="Sicher suchen und finden unter Wahrung der Privatsph&auml;re. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben." />
 		<meta name="keywords" content="Internetsuche, privatsph&auml;re, privacy, Suchmaschine, Datenschutz, Anonproxy, anonym suchen, Bildersuche, Suchmaschine, anonym, MetaGer, metager, metager.de" />
