@@ -19,7 +19,7 @@
 			</ul>
 		</div>
 	@endif
-	@if( !$metager->validated)
+	@if( !$metager->validated && App::isLocale('de') )
 	<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:20px;max-height:126px;max-width:100%;text-align:center;padding:0px;margin-top:0px">
 					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
 					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">

@@ -4,8 +4,9 @@
 		<title>@yield('title')</title>
 		<!-- TradeDoubler site verification 2866738 -->
 		<meta charset="utf-8" />
-		<meta name="description" content="Sicher suchen und finden unter Wahrung der Privatsph&auml;re. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben." />
-		<meta name="keywords" content="Internetsuche, privatsph&auml;re, privacy, Suchmaschine, Datenschutz, Anonproxy, anonym suchen, Bildersuche, Suchmaschine, anonym, MetaGer, metager, metager.de" />
+		<meta name="description" content="{!! trans('staticPages.meta.Description') !!}" />
+		<meta name="keywords" content="{!! trans('staticPages.meta.Keywords') !!}" />
+		<meta http-equiv=”language” content="{!! trans('staticPages.meta.language') !!}" />
 		<meta name="page-topic" content="Dienstleistung" />
 		<meta name="robots" content="index,follow" />
 		<meta name="revisit-after" content="7 days" />
@@ -87,11 +88,13 @@
 			</nav>
 		</header>
 		<div class="wrapper">
-			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:20px;max-height:126px;text-align:center;padding:0px;margin-top:0px">
+			@if( App::isLocale('de') )
+			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:-6%;max-height:126px;text-align:center;padding:0px;margin-top:0px">
 					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
 					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">
 					</a>
 			</div>
+			@endif
 			<main class="mg-panel container">
 				@if (isset($success))
 					<div class="alert alert-success" role="alert">{{ $success }}</div>
