@@ -343,6 +343,7 @@ header ul li{
 .mg-panel {
 	
     margin: 0 auto;
+    margin-top:7%;
     padding: 10px 20px;
     margin-bottom: 0;
     background-color: white;

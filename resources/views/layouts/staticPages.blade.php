@@ -88,11 +88,13 @@
 			</nav>
 		</header>
 		<div class="wrapper">
-			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:20px;max-height:126px;text-align:center;padding:0px;margin-top:0px">
+			@if( App::isLocale('de') )
+			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:-6%;max-height:126px;text-align:center;padding:0px;margin-top:0px">
 					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
 					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">
 					</a>
 			</div>
+			@endif
 			<main class="mg-panel container">
 				@if (isset($success))
 					<div class="alert alert-success" role="alert">{{ $success }}</div>
