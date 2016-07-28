@@ -34,7 +34,8 @@
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12 others ppbc">
 			<h2>{!! trans('spenden.logos.2') !!}</h2>
-			<a href="bitcoin:174SDRNZqM2WNobHhCDqD1VXbnZYFXNf8V"><img src="/img/WeAcceptBitcoin.png" style="width:120px" alt="Bitcoin"></a>
+			Unsere Bitcoin-Adresse:<br/>
+			<a href="bitcoin:174SDRNZqM2WNobHhCDqD1VXbnZYFXNf8V">174SDRNZqM2WNobHhCDqD1VXbnZYFXNf8V</a>
 		</div>
 		<div class="clearfix"></div>
 		<hr>
