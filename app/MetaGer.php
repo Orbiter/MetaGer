@@ -29,6 +29,7 @@ class MetaGer
 	protected $hostBlacklist = [];
 	protected $domainBlacklist = [];
 	protected $stopWords = [];
+    protected $phrases = [];
 	protected $engines = [];
 	protected $results = [];
     protected $ads = [];
@@ -696,9 +697,19 @@ class MetaGer
 		}
 
 		# Meldung über eine Phrasensuche
-		if(preg_match("/\"(.+)\"/si", $this->q, $match)){
-			$this->warnings[] = "Sie führen eine Phrasensuche durch: \"" . $match[1] . "\"";
+        $p = "";
+        $tmp = $this->q;
+		while(preg_match("/(.*)\"(.+)\"(.*)/si", $tmp, $match)){
+            $tmp = $match[1] . $match[3];
+            $this->phrases[] = strtolower($match[2]);
 		}
+        foreach($this->phrases as $phrase)
+        {
+            $p .= "\"$phrase\", ";
+        }
+        $p = rtrim($p, ", ");
+        if(sizeof($this->phrases) > 0)
+            $this->warnings[] = "Sie führen eine Phrasensuche durch: $p";
 	}
 
     public function getFokus ()
@@ -748,6 +759,11 @@ class MetaGer
     public function getCategory ()
     {
         return $this->category;
+    }
+
+    public function getPhrases ()
+    {
+        return $this->phrases;
     }
 
     public function getSumaFile ()
