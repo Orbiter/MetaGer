@@ -29,6 +29,7 @@ class MetaGer
 	protected $hostBlacklist = [];
 	protected $domainBlacklist = [];
 	protected $stopWords = [];
+    protected $phrases = [];
 	protected $engines = [];
 	protected $results = [];
     protected $ads = [];
