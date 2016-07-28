@@ -28,6 +28,7 @@
 		<div class="item">
 			<div class="img">
 				<a href="{{ $result->link }}" target="{{ $metager->getTab() }}"><img src="{{ $metager->getImageProxyLink($result->image) }}" width="150px" alt="Bild nicht gefunden"/></a>
+				<span class="label label-default">{{ strip_tags($result->gefVon) }}</span>
 			</div>
 		</div>
 	@endforeach
