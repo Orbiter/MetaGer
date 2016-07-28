@@ -180,6 +180,14 @@ class Result
 			}
 		}
 
+		# Die Strinsuche:
+		$text = strtolower($this->titel) . " " . strtolower($this->descr);
+		foreach($metager->getPhrases() as $phrase)
+		{
+			if(strpos($text, $phrase) === FALSE)
+				return false;
+		}
+
 		# Abschließend noch 2 Überprüfungen. Einmal den Host filter, der Sicherstellt, dass von jedem Host maximal 3 Links angezeigt werden
 		# und dann noch den Dublettefilter, der sicher stellt, dass wir nach Möglichkeit keinen Link doppelt in der Ergebnisliste haben
 		# Diese Überprüfung führen wir unter bestimmten Bedingungen nicht durch:
