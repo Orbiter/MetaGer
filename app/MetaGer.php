@@ -298,10 +298,9 @@ class MetaGer
         $enabledSearchengines = [];
         $overtureEnabled = FALSE;
         $countSumas = 0;
+        $sumas = $xml->xpath("suma");
         if($this->fokus === "angepasst")
         {
-            $sumas = $xml->xpath("suma");
-
             foreach($sumas as $suma)
             {
                 if($request->has($suma["name"]) 
@@ -326,7 +325,6 @@ class MetaGer
                 }
             }
         }else{
-            $sumas = $xml->xpath("suma");
             foreach($sumas as $suma){
                 $types = explode(",",$suma["type"]);
                 if(in_array($this->fokus, $types) 
@@ -401,7 +399,10 @@ class MetaGer
                 $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
             }
 
-        }            
+        }
+
+        $typeslist = [];
+        $counter = 0;
 
 		foreach($enabledSearchengines as $engine){
 
@@ -426,7 +427,100 @@ class MetaGer
                 $engines[] = $tmp;
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
+
+            # Alternativ
+            # Hier wird direkt eine Liste der Fokustypen erstellt, die bei der Suche verwendet werden: [0] => [web, nachrichten]
+            /*if($engine["name"] !== "overtureAds") {
+                $type = explode(",", $engine["type"]);
+                if(!$type[0] == "") {
+                    $typeslist[$counter++] = $type;
+                }
+            }*/
+
 		}
+
+        # Alternativ
+        # Jetzt wird geguckt, ob diese Liste überhaupt Typen enthält und für jeden Typen des ersten Eintrags (oder späteren falls dieser "" ist) wird geguckt, ob sich dieser Typ in allen folgenden Einträgen finden lässt. Diese Einträge sind nie "web", da diese Suche meist eh auch möglich ist und ohnehin wie die angepasste Suche funktioniert. Am Ende wird geguckt ob es einen Typen gab, der in allen Elementen enthalten ist. Dieser wird als Fokus gesetzt.
+        /*if(!empty($typeslist)) {
+            foreach($typeslist as $matchTypeSearch) {
+                if(!empty($matchTypeSearch) && $matchTypeSearch[0] !== "") {
+                    $toMatch = $matchTypeSearch;
+                    break;
+                }
+            }
+            $toMatch = $typeslist[0];
+            array_shift($typeslist);
+            $matchedType = "";
+            foreach($toMatch as $matchType) {
+                if($matchType !== "web" && $matchType !== "") {
+                    $matched = true;
+                    foreach($typeslist as $otherTypes) {
+                        if(!in_array($matchType, $otherTypes)) {
+                            $matched = false;
+                        }
+                    }
+                    if($matched) {
+                        $matchedType = $matchType;
+                        break;
+                    }
+                }
+            }
+            if($matchedType !== "") {
+                $this->fokus = $matchedType;
+            }
+        }*/
+
+        # Jetzt werden noch alle Kategorien der Settings durchgegangen und die jeweils enthaltenen namen der Suchmaschinen gespeichert.
+        $foki = [];
+        foreach($sumas as $suma)
+        {
+            if( (!isset($suma['disabled']) || $suma['disabled'] === "") && ( !isset($suma['userSelectable']) || $suma['userSelectable']->__toString() === "1") )
+            {
+                if( isset($suma['type']) )
+                {
+                    $f = explode(",", $suma['type']->__toString());
+                    foreach($f as $tmp)
+                    {
+                        $name = $suma['name']->__toString();
+                        $foki[$tmp][$suma['name']->__toString()] = $name;
+                    }
+                }else
+                {
+                    $name = $suma['name']->__toString();
+                    $foki["andere"][$suma['name']->__toString()] = $name;
+                }
+            }
+        }
+
+        # Es werden auch die Namen der aktuell aktiven Suchmaschinen abgespeichert.
+        $realEngNames = [];
+        foreach($enabledSearchengines as $realEng) {
+            $nam = $realEng["name"]->__toString();
+            if($nam !== "qualigo" && $nam !== "overtureAds") {
+                $realEngNames[] = $nam;
+            }
+        }
+        # Anschließend werden diese beiden Listen verglichen (jeweils eine der Fokuslisten für jeden Fokus), um herauszufinden ob sie vielleicht identisch sind. Ist dies der Fall, so hat der Nutzer anscheinend Suchmaschinen eines kompletten Fokus eingestellt. Der Fokus wird dementsprechend angepasst.
+        foreach($foki as $fok => $engs) {
+            $isFokus = true;
+            $fokiEngNames = [];
+            foreach($engs as $eng) {
+                $fokiEngNames[] = $eng;
+            }
+            foreach($fokiEngNames as $fen) {
+                if(!in_array($fen, $realEngNames)) {
+                    $isFokus = false;
+                }
+            }
+            foreach($realEngNames as $ren) {
+                if(!in_array($ren, $fokiEngNames)) {
+                    $isFokus = false;
+                }
+            }
+            if($isFokus) {
+                $this->fokus = $fok;
+            }
+        }
 
         # Nun passiert ein elementarer Schritt.
         # Wir warten auf die Antwort der Suchmaschinen, da wir vorher nicht weiter machen können.
