@@ -39,6 +39,10 @@ class Yandex extends Searchengine
 			$link = $result->{"doc"}->{"url"}->__toString();
 			$anzeigeLink = $link;
 			$descr = strip_tags($result->{"doc"}->{"headline"}->asXML());
+			if( !$descr )
+			{
+				$descr = strip_tags($result->{"doc"}->{"passages"}->asXML());
+			}
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
