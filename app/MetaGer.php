@@ -259,6 +259,9 @@ class MetaGer
         //Slice the collection to get the items to display in current page
         $currentPageSearchResults = $collection->slice($offset * $perPage, $perPage)->all();
 
+        # Für diese 20 Links folgt nun unsere Adgoal Implementation.
+        $currentPageSearchResults = $this->parseAdgoal($currentPageSearchResults);
+
         //Create our paginator and pass it to the view
         $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
         $paginatedSearchResults->setPath('/meta/meta.ger3');
@@ -286,6 +289,70 @@ class MetaGer
             }
         }
 	}
+
+    public function parseAdgoal($results)
+    {
+        $publicKey = getenv('adgoal_public');
+        $privateKey = getenv('adgoal_private');
+        if( $publicKey === FALSE )
+        {
+            return $results;
+        }
+        $tldList = "";
+        try{
+            foreach($results as $result)
+            {
+                $link = $result->anzeigeLink;
+                if(strpos($link, "http") !== 0)
+                {
+                    $link = "http://" . $link;
+                }
+                $tldList .= parse_url($link, PHP_URL_HOST) . ",";
+                $result->tld = parse_url($link, PHP_URL_HOST);
+            }
+            $tldList = rtrim($tldList, ",");
+
+            # Hashwert
+            $hash = md5("meta" . $publicKey . $tldList . "GER");
+
+            # Query 
+            $query = urlencode($this->q);
+
+            $link = "https://api.smartredirect.de/api_v2/CheckForAffiliateUniversalsearchMetager.php?p=" . $publicKey . "&k=" . $hash . "&tld=" . $tldList . "&q=" . $query; 
+            $answer = json_decode(file_get_contents($link));
+            
+
+            # Nun müssen wir nur noch die Links für die Advertiser ändern:
+            foreach($answer as $el)
+            {
+                $hoster = $el[0];
+                $hash = $el[1];
+
+                foreach($results as $result)
+                {
+                    if( $hoster === $result->tld )
+                    {
+                        # Hier ist ein Advertiser:
+                        # Das Logo hinzufügen:
+                        $result->image = "https://img.smartredirect.de/logos_v2/120x60/" . $hash . ".gif";
+                        # Den Link hinzufügen:
+                        $publicKey = $publicKey;
+                        $targetUrl = $result->link;
+                        if(strpos($targetUrl, "http") !== 0)
+                            $targetUrl = "http://" . $targetUrl;
+                        $hash = md5($targetUrl . $privateKey);
+                        $newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $hash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
+                        $result->link = $newLink;
+                    }
+                }
+            }
+        }catch(\ErrorException $e)
+        {
+            return $results;
+        }
+
+        return $results;
+    }
 
 	public function createSearchEngines (Request $request)
 	{

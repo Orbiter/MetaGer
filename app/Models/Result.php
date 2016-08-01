@@ -28,7 +28,7 @@ class Result
 		$this->sourceRank = 20 - $this->sourceRank;
 		if(isset($provider["engineBoost"]))
 		{
-			$this->engineBoost = $provider["engineBoost"];
+			$this->engineBoost = floatval($provider["engineBoost"]->__toString());
 		}else
 		{
 			$this->engineBoost = 1;
