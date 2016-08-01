@@ -2,9 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>@yield('title')</title>
+		<!-- TradeDoubler site verification 2866738 -->
 		<meta charset="utf-8" />
-		<meta name="description" content="Sicher suchen und finden unter Wahrung der Privatsph&auml;re. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zug&auml;nglich sein und bleiben." />
-		<meta name="keywords" content="Internetsuche, privatsph&auml;re, privacy, Suchmaschine, Datenschutz, Anonproxy, anonym suchen, Bildersuche, Suchmaschine, anonym, MetaGer, metager, metager.de" />
+		<meta name="description" content="{!! trans('staticPages.meta.Description') !!}" />
+		<meta name="keywords" content="{!! trans('staticPages.meta.Keywords') !!}" />
+		<meta http-equiv=”language” content="{!! trans('staticPages.meta.language') !!}" />
 		<meta name="page-topic" content="Dienstleistung" />
 		<meta name="robots" content="index,follow" />
 		<meta name="revisit-after" content="7 days" />
@@ -23,7 +25,7 @@
 	<body>
 		<header>
 			<nav class="navbar navbar-default">
-				<div class="container">
+				<div class="container-fluid">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
 							<span class="sr-only">{{ trans('staticPages.navigationToggle') }}</span>
@@ -31,10 +33,9 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-					</div>
-					<div>
 						@yield('homeIcon')
 					</div>
+					
 					<div class="collapse navbar-collapse" id="navbar-collapse">
 						<ul class="nav navbar-nav navbar-right">
 							<li @if ( !isset($navbarFocus) || $navbarFocus === 'suche') class="active" @endif >
@@ -72,21 +73,28 @@
 									<li><a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}</a></li>
 								</ul>
 							</li>
-							<!--<li class="dropdown">
+							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="navigationSprache">{{ trans('staticPages.nav19') }}
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									@foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}}</a></li>
+										<li><a rel="alternate" hreflang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">{{{ $properties['native'] }}} @if($properties['native'] !== "Deutsch") (Beta) @endif</a></li>
 									@endforeach
 								</ul>
-							</li>-->
+							</li>
 						</ul>
 					</div>
 				</div>
 			</nav>
 		</header>
 		<div class="wrapper">
+			@if( App::isLocale('de') )
+			<div class="mg-panel container" id="spendenaufruf" style="margin-bottom:-6%;max-height:126px;text-align:center;padding:0px;margin-top:0px">
+					<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spendenaufruf") }}">
+					<img src="/img/aufruf.png" style="max-width:100%;max-height:126px;">
+					</a>
+			</div>
+			@endif
 			<main class="mg-panel container">
 				@if (isset($success))
 					<div class="alert alert-success" role="alert">{{ $success }}</div>
@@ -102,7 +110,7 @@
 					<li><a href="https://www.suma-ev.de/" target="_blank">
 						<img src="/img/suma_ev_logo-m1-greyscale.png" alt="SUMA-EV Logo"></a></li>
 					<li id="info">
-						<a href="/kontakt/">{{ trans('staticPages.nav5') }}</a> - <a href="/impressum/">{{ trans('staticPages.nav8') }}</a>
+						<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "kontakt") }}">{{ trans('staticPages.nav5') }}</a> - <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "impressum") }}">{{ trans('staticPages.nav8') }}</a>
 						{{ trans('staticPages.sumaev.1') }}<a href="https://www.suma-ev.de/" target="_blank" >{{ trans('staticPages.sumaev.2') }}</a></li>
 					<li><a href="https://www.uni-hannover.de/" target="_blank">
 						<img src="/img/luh_metager.png" alt="LUH Logo"></a></li>

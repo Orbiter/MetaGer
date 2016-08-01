@@ -1,1 +1,1 @@
-{{ $messageText }}
+{!! $messageText !!}

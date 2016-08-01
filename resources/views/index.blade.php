@@ -166,7 +166,10 @@
                     @foreach ($focusPages as $fp)
                       <input type="hidden" name={{ $fp }} value="on">
                     @endforeach
-                  @else <input type="hidden" name="lang" value="all">
+                  @elseif( !App::isLocale('de') )
+                  <input type="hidden" name="lang" value="{{ App::getLocale() }}">
+                  @else
+                  <input type="hidden" name="lang" value="all">
                   @endif
                   <div class="input-group-addon">
                     <button type="submit">
@@ -201,25 +204,25 @@
               <h2>{{ trans('index.sponsors.head.2') }}</h2>
               <ul>
                 <li>
-                  <a href="http://www.woxikon.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.woxikon') }}</a>
+                  {!! trans('index.sponsors.woxikon') !!}</a>
                 </li>
                 <li>
-                  <a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.gutscheine') }}</a>
+                  {!! trans('index.sponsors.gutscheine') !!}
                 </li>
                 <li>
-                  <a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">{{ trans('index.sponsors.kredite') }}</a>
+                  {!! trans('index.sponsors.kredite') !!}
                 </li>
               </ul>
             </div>
             <div class="col-md-6 col-sm-12">
               <h2>
-                <a href="/about/">{{ trans('index.about.title') }}</a>
+                <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "about") }}">{{ trans('index.about.title') }}</a>
               </h2>
               <ul>
                 <li>
-                  <a href="/datenschutz/">{{ trans('index.about.1.1') }}</a>{{ trans('index.about.1.2') }}
+                  <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "datenschutz") }}">{{ trans('index.about.1.1') }}</a>{{ trans('index.about.1.2') }}
                 </li>
-                <li>{{ trans('index.about.2.1') }}<a href="/spende/">{{ trans('index.about.2.2') }}</a>
+                <li>{{ trans('index.about.2.1') }}<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "spende") }}">{{ trans('index.about.2.2') }}</a>
                 </li>
               </ul>
             </div>

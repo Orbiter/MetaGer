@@ -29,6 +29,7 @@ class MetaGer
 	protected $hostBlacklist = [];
 	protected $domainBlacklist = [];
 	protected $stopWords = [];
+    protected $phrases = [];
 	protected $engines = [];
 	protected $results = [];
     protected $ads = [];
@@ -152,7 +153,7 @@ class MetaGer
     private function createLogs()
     {
         $redis = Redis::connection('redisLogs');
-        if( $redis )
+        try
         {
             $logEntry = "";
             $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
@@ -177,6 +178,9 @@ class MetaGer
             $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
             $logEntry .= " search=" . $this->eingabe;
             $redis->rpush('logs.search', $logEntry);
+        }catch( \Exception $e)
+        {
+            return;
         }
     }
 
@@ -267,6 +271,7 @@ class MetaGer
 
         $this->results = $paginatedSearchResults;
 
+        $this->validated = false;
         if( isset($this->password) )
         {
             # Wir bieten einen bezahlten API-Zugriff an, bei dem dementsprechend die Werbung ausgeblendet wurde:
@@ -277,6 +282,7 @@ class MetaGer
             if( $this->password === $password )
             {
                 $this->ads = [];
+                $this->validated = true;
             }
         }
 	}
@@ -388,7 +394,7 @@ class MetaGer
             }
             if( $enginesWithSite === 0 )
             {
-                $this->errors[] = "Sie wollten eine Sitesearch auf " . $this->site . " durchführen. Leider unterstützen die eingestellten Suchmaschinen diese nicht. Sie können <a href=\"" . $this->generateSearchLink("web", false) . "\">hier</a> die Sitesearch im Web-FoKus durchführen. Es werden ihnen Ergebnisse ohne Sitesearch angezeigt.";
+                $this->errors[] = "Sie wollten eine Sitesearch auf " . $this->site . " durchführen. Leider unterstützen die eingestellten Suchmaschinen diese nicht. Sie können <a href=\"" . $this->generateSearchLink("web", false) . "\">hier</a> die Sitesearch im Web-Fokus durchführen. Es werden ihnen Ergebnisse ohne Sitesearch angezeigt.";
                 $siteSearchFailed = true;
             }else
             {
@@ -505,7 +511,7 @@ class MetaGer
 
         # SUMA-FILE
         if(App::isLocale("en")){
-            $this->sumaFile = config_path() . "/sumasEn.xml";
+            $this->sumaFile = config_path() . "/sumas.xml";
         }else{
             $this->sumaFile = config_path() . "/sumas.xml";
         }
@@ -693,9 +699,19 @@ class MetaGer
 		}
 
 		# Meldung über eine Phrasensuche
-		if(preg_match("/\"(.+)\"/si", $this->q, $match)){
-			$this->warnings[] = "Sie führen eine Phrasensuche durch: \"" . $match[1] . "\"";
+        $p = "";
+        $tmp = $this->q;
+		while(preg_match("/(.*)\"(.+)\"(.*)/si", $tmp, $match)){
+            $tmp = $match[1] . $match[3];
+            $this->phrases[] = strtolower($match[2]);
 		}
+        foreach($this->phrases as $phrase)
+        {
+            $p .= "\"$phrase\", ";
+        }
+        $p = rtrim($p, ", ");
+        if(sizeof($this->phrases) > 0)
+            $this->warnings[] = "Sie führen eine Phrasensuche durch: $p";
 	}
 
     public function getFokus ()
@@ -745,6 +761,11 @@ class MetaGer
     public function getCategory ()
     {
         return $this->category;
+    }
+
+    public function getPhrases ()
+    {
+        return $this->phrases;
     }
 
     public function getSumaFile ()
@@ -824,6 +845,8 @@ class MetaGer
         $requestData['focus'] = $fokus;
         if($results)
             $requestData['out'] = "results";
+        else
+            $requestData['out'] = "";
         $link = action('MetaGerSearch@search', $requestData);
         return $link;
     }

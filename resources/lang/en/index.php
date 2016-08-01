@@ -13,12 +13,12 @@ return [
 	'plugin'				=>	'Add the MetaGer-Plugin',
 
 	'sponsors.head.1'		=>	'Further Information',
-	'sponsors.head.2'		=>	'',
-	'sponsors.woxikon'		=>	'',
-	'sponsors.gutscheine'	=>	'',
-	'sponsors.kredite'		=>	'',
+	'sponsors.head.2'		=>	'Sponsored Links',
+	'sponsors.woxikon'		=>	'<a href="/en/kontakt" class="mutelink" >This could be your link</a>',
+	'sponsors.gutscheine'	=>	'<a href="/en/kontakt" class="mutelink" >Please contact us</a>',
+	'sponsors.kredite'		=>	'<a href="/en/kontakt" class="mutelink">https://metager.de/kontakt</a>',
 
-	'about.title'			=>	'About us',
+	'about.title'			=>	'About Us',
 	'about.1.1'				=>	'Data protection & privacy',
 	'about.1.2'				=>	'  are simple and natural for us.',
 	'about.2.1'				=>	'We do not work for profit. We are a ',

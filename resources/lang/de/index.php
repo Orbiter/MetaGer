@@ -16,9 +16,9 @@ return [
 
 	'sponsors.head.1'		=>	'Weitere Informationen',
 	'sponsors.head.2'		=>	'Sponsoren',
-	'sponsors.woxikon'		=>	'Woxikon: Nach Wörtern & Synonymen suchen',
-	'sponsors.gutscheine'	=>	'Aktuelle Gutscheine auf Gutschein-Magazin.de',
-	'sponsors.kredite'		=>	'Günstige Kredite auf FINANZCHECK.de vergleichen ',
+	'sponsors.woxikon'		=>	'<a href="http://www.woxikon.de/" class="mutelink" target="_blank">Woxikon: Nach Wörtern & Synonymen suchen</a>',
+	'sponsors.gutscheine'	=>	'<a href="http://www.gutschein-magazin.de/" class="mutelink" target="_blank">Aktuelle Gutscheine auf Gutschein-Magazin.de</a>',
+	'sponsors.kredite'		=>	'<a href="https://www.finanzcheck.de/" class="mutelink" target="_blank">Günstige Kredite auf FINANZCHECK.de vergleichen ',
 
 	'about.title'			=>	'Über uns',
 	'about.1.1'				=>	'Datenschutz & Privatsphäre',

@@ -32,12 +32,12 @@ class MailController extends Controller
         }else{
             # Wir versenden die Mail des Benutzers an uns:
             $message = $request->input('message');
-
-            if( Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo){
+            $subject = "[Ticket " . date("Y") . date("d") . date("m") . date("H") . date("i") . date("s") . "] MetaGer - Kontaktanfrage";
+            if( Mail::send(['text' => 'kontakt.mail'], ['messageText'=>$message], function($message) use($replyTo, $subject){
                 $message->to("office@suma-ev.de", $name = null);
                 $message->from($replyTo, $name = null);
                 $message->replyTo($replyTo, $name = null);
-                $message->subject("MetaGer - Kontaktanfrage");
+                $message->subject($subject);
             }) ){
                 # Mail erfolgreich gesendet
                 $messageType = "success";
@@ -76,11 +76,11 @@ class MailController extends Controller
             $messageToUser = "Sie haben eins der folgenden Felder nicht ausgefüllt: IBAN, BIC, Nachricht. Bitte korrigieren Sie Ihre Eingabe und versuchen es erneut.\n";
             $messageType = "error";
         }else{
-            $message = "\r\n Name:" . $request->input('Name', 'Keine Angabe');
-            $message .= "\r\n Telefon:" . $request->input('Telefon', 'Keine Angabe');
-            $message .= "\r\n Kontonummer:" . $request->input('Kontonummer');
-            $message .= "\r\n Bankleitzahl:" . $request->input('Bankleitzahl');
-            $message .= "\r\n Nachricht:" . $request->input('Nachricht');
+            $message = "\r\nName: " . $request->input('Name', 'Keine Angabe');
+            $message .= "\r\nTelefon: " . $request->input('Telefon', 'Keine Angabe');
+            $message .= "\r\nKontonummer: " . $request->input('Kontonummer');
+            $message .= "\r\nBankleitzahl: " . $request->input('Bankleitzahl');
+            $message .= "\r\nNachricht: " . $request->input('Nachricht');
 
             $replyTo = $request->input('email', 'anonymous-user@metager.de');
             if (!filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
@@ -107,7 +107,7 @@ class MailController extends Controller
         }
 
 
-        return view('spende')
+        return view('spende.spende')
                 ->with('title', 'Kontakt')
                 ->with('css', 'donation.css')
                 ->with($messageType,$messageToUser);

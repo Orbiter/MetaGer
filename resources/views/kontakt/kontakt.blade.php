@@ -5,7 +5,7 @@
 @section('content')
 <h1>{{ trans('kontakt.headline.1') }}</h1>
 <h2>{{ trans('kontakt.headline.2') }}</h2>
-<p><span class="bold">{{ trans('kontakt.headline.3') }} <a href="http://forum.suma-ev.de/" target="_blank">Forum.</a></span>
+<p><span class="bold">{!! trans('kontakt.headline.3') !!}</span>
 <span>{{ trans('kontakt.headline.4') }}</span></p>
 <h2>{{ trans('kontakt.form.1') }}</h2>
 <p>{{ trans('kontakt.form.2') }} <a href="mailto:office@suma-ev.de">email</a> {{ trans('kontakt.form.3') }}</p>

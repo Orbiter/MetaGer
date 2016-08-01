@@ -88,7 +88,7 @@ section#moreInformation {
 
 body > div {
     background-color: transparent;
-    padding-top: 10%;
+    padding-top: 70px;
 }
 
 #color-chooser li {
@@ -343,9 +343,15 @@ header ul li{
 .mg-panel {
 	
     margin: 0 auto;
+    margin-top:7%;
     padding: 10px 20px;
     margin-bottom: 0;
     background-color: white;
 	
     -webkit-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3); -moz-box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3); box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
 }
+
+
+
+
+

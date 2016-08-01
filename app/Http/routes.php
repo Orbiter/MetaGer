@@ -72,13 +72,33 @@
 		});
 		Route::get('spende', function()
 		{
-			return view('spende')
+			return view('spende.spende')
 				->with('title', trans('titles.spende'))
 				->with('css', 'donation.css')
 				->with('navbarFocus', 'foerdern');
 		});
-		
+
+		Route::get('beitritt', function ()
+		{
+			return view('spende.beitritt')
+				->with('title', trans('titles.beitritt'))
+				->with('css', 'beitritt.css')
+				->with('navbarFocus', 'foerdern');
+		});
+
+		Route::get('bform1.htm', function()
+		{
+			return redirect('beitritt');
+		});
+		Route::get('spendenaufruf', function()
+		{
+			return view('spende.spendenaufruf')
+				->with('title', 'Spendenaufruf - MetaGer')
+				->with('navbarFocus', 'foerdern');
+		});
+
 		Route::post('spende', 'MailController@donation');
+
 
 		Route::get('datenschutz', function()
 		{
@@ -128,4 +148,8 @@
 		Route::get('qt', 'MetaGerSearch@quicktips');
 		Route::get('tips', 'MetaGerSearch@tips');
 		Route::get('opensearch.xml', 'StartpageController@loadPlugin');
+		Route::get('owi', function()
+		{
+			return redirect('https://metager.de/klassik/en/owi/');
+		});
 	});

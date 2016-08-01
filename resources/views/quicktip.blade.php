@@ -4,7 +4,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="/css/quicktips.css" />
 	</head>
-	<body>
+	<body>	
 		@if( $spruch !== "" )
 			<blockquote id="spruch">{!! $spruch !!}</blockquote>
 		@endif

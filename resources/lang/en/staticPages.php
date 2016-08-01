@@ -8,7 +8,7 @@ return [
 	'nav5' => 'Contact',
 	'nav6' => 'Team',
 	'nav7' => 'About us',
-	'nav8' => 'Site Notice',
+	'nav8' => 'Imprint',
 	'nav9' => 'Help',
 	'nav10' => 'Widget',
 	'nav11' => 'Associator',
@@ -24,5 +24,8 @@ return [
 	'navigationToggle'	=> 'show navigation',
 
 	'sumaev.1'			=>	'MetaGer is developed and run by ',
-	'sumaev.2'			=>	'SUMA-EV - Association for Free Access to Knowledge.'
+	'sumaev.2'			=>	'SUMA-EV - Association for Free Access to Knowledge.',
+	'meta.Description'	=>	'Search safely while having your privacy respected. The digital knowledge of the world must be freely accessible without paternalism and abide by states or corporations.',
+	'meta.Keywords'		=>	'Internet Search, privacy, searchengine, data protection, Anonproxy, anonymous proxy, search anonymous, image search, anonymous, MetaGer, metager, metager.de, metager.net',
+	'meta.language'		=>	'en'
 ];
