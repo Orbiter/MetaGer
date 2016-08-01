@@ -463,7 +463,7 @@ class MetaGer
                 $siteSearchFailed = true;
             }else
             {
-                $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: \"" . $this->site . "\" angezeigt.";
+                $this->warnings[] = "Sie führen eine Sitesearch durch. Es werden nur Ergebnisse von der Seite: <a href=\"http://" . $this->site . "\" target=\"_blank\">\"" . $this->site . "\"</a> angezeigt.";
             }
 
         }
