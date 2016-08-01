@@ -343,6 +343,7 @@ class MetaGer
                         $hash = md5($targetUrl . $privateKey);
                         $newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $hash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
                         $result->link = $newLink;
+                        $result->partnershop = true;
                     }
                 }
             }
