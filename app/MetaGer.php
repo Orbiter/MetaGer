@@ -320,7 +320,7 @@ class MetaGer
 
             $link = "https://api.smartredirect.de/api_v2/CheckForAffiliateUniversalsearchMetager.php?p=" . $publicKey . "&k=" . $hash . "&tld=" . $tldList . "&q=" . $query; 
             $answer = json_decode(file_get_contents($link));
-            
+
 
             # Nun müssen wir nur noch die Links für die Advertiser ändern:
             foreach($answer as $el)
@@ -337,7 +337,7 @@ class MetaGer
                         $result->image = "https://img.smartredirect.de/logos_v2/120x60/" . $hash . ".gif";
                         # Den Link hinzufügen:
                         $publicKey = $publicKey;
-                        $targetUrl = $result->link;
+                        $targetUrl = $result->anzeigeLink;
                         if(strpos($targetUrl, "http") !== 0)
                             $targetUrl = "http://" . $targetUrl;
                         $hash = md5($targetUrl . $privateKey);
