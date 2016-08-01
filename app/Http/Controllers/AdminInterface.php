@@ -94,10 +94,10 @@ class AdminInterface extends Controller
     public function check ()
     {
         $q = "";
-        $logFile = "/var/log/metager/mg3.log";
-        if( file_exists($logFile) )
+        $redis = Redis::connection('redisLogs');
+        if($redis)
         {
-            $q = exec("tail -n 1 $logFile");
+            $q = $redis->lrange("logs.search", -1, -1)[0];
             $q = substr($q, strpos($q, "search=")+7);
         }
         return view('admin.check')
