@@ -2,14 +2,7 @@
 		<div class="number col-sm-1 hidden-xs" style="color:{{ $result->color }}">
 			{{ $result->number }})
 		</div>
-		@if( $result->image !== "" )
-			<div class="image col-xs-2 col-sm-1">
-				<img src="{{ $metager->getImageProxyLink($result->image) }}" alt="" />
-			</div>
-			<div class="resultInformation col-xs-10 col-sm-10">
-		@else
-			<div class="resultInformation col-xs-12 col-sm-11">
-		@endif
+		<div class="resultInformation col-xs-12 col-sm-11">
 			<p class="title">
 				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 				{{ $result->titel }}
@@ -65,6 +58,13 @@
 					anonym öffnen
 				</a>
 			</div>
+			@if( $result->image !== "" )
+			<div class="description">
+				<img src="{{ $metager->getImageProxyLink($result->image) }}" align="left" width="120px" height="60px" alt="" />
+				{{ $result->descr }}
+			</div>
+			@else
 			<div class="description">{{ $result->descr }}</div>
+			@endif
 		</div>
 </div>

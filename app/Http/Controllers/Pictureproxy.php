@@ -17,8 +17,14 @@ class Pictureproxy extends Controller
     function get(Request $request) {
         if( $request->has('url') )
         {
-            try{
-                $file = file_get_contents($request->input('url'));
+           try{
+                $arrContextOptions=array(
+                    "ssl"=>array(
+                        "verify_peer"=>false,
+                        "verify_peer_name"=>false,
+                    ),
+                ); 
+                $file = file_get_contents($request->input('url'), false, stream_context_create($arrContextOptions));
                 $responseCode = explode(" ", $http_response_header[0])[1];
                 $contentType = "";
                 foreach($http_response_header as $header)
