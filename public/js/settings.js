@@ -29,6 +29,9 @@ $(document).ready(function(){
 			$(selector+" input").prop("checked", true);
 		}
 	});
+	$(".allUnchecker").click(function(){
+		$(".focusCheckbox").prop("checked", false);
+	});
 	$("#unten").click(function(){
 		alert("Auf der folgenden Startseite sind Ihre Einstellungen nun einmalig gespeichert. Nach Ihrer ersten Suche sind diese wieder verloren. Wenn Sie diese speichern möchten, können Sie sich allerdings ein Lesezeichnen einrichten.");
 	});
