@@ -24,7 +24,7 @@
 <h2>{{ trans('kontakt.mail.1') }}</h2>
 <p>{{ trans('kontakt.mail.2') }} <a href="mailto:office@suma-ev.de">office@suma-ev.de</a>
 {{ trans('kontakt.mail.3') }}</p>
-<code id="pubkey">-----BEGIN PGP PUBLIC KEY BLOCK-----
+<textarea id="pubkey" style="width:50%" rows="8" readonly>-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1
 
 mQINBFV/1W0BEACsd2knka1L5f5iN7KRbjT/hsWCL6LRmS2lMCIkM2QPnjFHj6pB
@@ -86,7 +86,7 @@ GIChSW2rAq1R+p3SIfbDvoM26SH/aNZQxTHEWQ3qlKnMc+tFRw+YK4iFB1IF43NF
 geiG3j1J/CaDBZqPBaBflK0UWR5nxCsoOk7i5f3isUeXSVLTnA+K9HkQ6D/Gt5vx
 2soXShIyIak9DeUifcuf1w/ZpL8MXCMDZ2LN2jYVJB8c4g==
 =LZAA
------END PGP PUBLIC KEY BLOCK-----</code>
+-----END PGP PUBLIC KEY BLOCK-----</textarea>
 <h2>{{ trans('kontakt.letter.1') }}</h2>
 <p>{{ trans('kontakt.letter.2') }}</p>
 <adress>SUMA-EV
