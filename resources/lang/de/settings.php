@@ -35,6 +35,7 @@ return [
 	'suchmaschinen.14' => 'B&ouml;rse &amp; Finanzen',
 	'suchmaschinen.15' => 'mit Archiv',
 	'suchmaschinen.16' => 'Deutschland, mit Archiv',
+	'suchmaschinen.17' => '(alle abwählen)',
 
 	'speichern.1'		=>	'Startseite für einmalige Nutzung generieren',
 	'speichern.2'		=>	'Einstellungen dauerhaft speichern',

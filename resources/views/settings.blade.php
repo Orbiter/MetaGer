@@ -33,7 +33,7 @@
 			<option value="5000">5 {{ trans('settings.allgemein.11') }}</option>
 			<option value="10000">10 {{ trans('settings.allgemein.11') }}</option>
 			<option value="20000">20 {{ trans('settings.allgemein.11') }}</option></select>
-		<h2>{{ trans('settings.suchmaschinen.1') }}</h2>
+		<h2>{{ trans('settings.suchmaschinen.1') }} <small><a class="allUnchecker">{{ trans('settings.suchmaschinen.17') }}</a></small></h2>
 		@foreach( $foki as $fokus => $sumas )
 			<div class="headingGroup {{ $fokus }}">
 				<h3>
@@ -47,7 +47,7 @@
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="checkbox">
 								<label>
-									<input name="param_{{ $name }}" type="checkbox" />{{ $data['displayName'] }}
+									<input name="param_{{ $name }}" class="focusCheckbox" type="checkbox" />{{ $data['displayName'] }}
 								</label>
 								<a class="glyphicon glyphicon-link" target="_blank" href="{{ $data['url'] }}"></a>
 							</div>

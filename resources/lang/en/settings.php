@@ -35,6 +35,7 @@ return [
 	'suchmaschinen.14' => 'stocks &amp; finances',
 	'suchmaschinen.15' => 'with archive',
 	'suchmaschinen.16' => 'germany, with archive',
+	'suchmaschinen.17' => '(deselect all)',
 
 	'speichern.1'		=>	'Create a startpage for one-time use',
 	'speichern.2'		=>	'Save settings permanently',
