@@ -90,7 +90,7 @@ class Result
 			}
 			if(strlen($this->descr) > 80 && strlen($link) > 0)
 			{
-				$rank += $count /((strlen($link)) * 60);
+				#$rank += $count /((strlen($link)) * 60);
 			}
 		}
 
