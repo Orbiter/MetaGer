@@ -14,4 +14,5 @@ return [
 	'websearch' => 'Websuche-Widget - MetaGer',
 	'sitesearch' => 'Sitesearch-Widget - MetaGer',
 	'beitritt'	=>	'SUMA-EV Beitrittsformular',
+	'partnershops'	=>	'Partnershops - MetaGer',
 ];
