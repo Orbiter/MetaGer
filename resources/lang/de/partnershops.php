@@ -3,7 +3,7 @@
 return [
 	'heading1'	=>	'MetaGer-Partnershop',
 	'absatz1'	=>	'Wenn in der MetaGer-Ergebnisliste Links erscheinen, bei denen das Wort
-"Partnershop" erscheint, dann sind das zunächst normale Ergebnisse einer
+"Partnershop" steht, dann sind das zunächst normale Ergebnisse einer
 MetaGer-Suche.  Sie werden im Ranking nicht bevorzugt oder höher eingestuft,
 sondern wie alle anderen Suchergebnisse auch behandelt.  Bei der Anzeige
 dieser Links werden - ebenso wie bei ALLEN MetaGer-Ergebnissen - auch keine
