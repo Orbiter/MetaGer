@@ -60,7 +60,9 @@
 			</div>
 			@if( $result->image !== "" )
 			<div class="description">
-				<img src="{{ $metager->getImageProxyLink($result->image) }}" align="left" width="120px" height="60px" alt="" />
+			    <a href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
+				    <img src="{{ $metager->getImageProxyLink($result->image) }}" align="left" width="120px" height="60px" alt="" />
+				</a>
 				{{ $result->descr }}
 			</div>
 			@else
