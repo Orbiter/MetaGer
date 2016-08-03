@@ -482,7 +482,7 @@ class MetaGer
             # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
 
-            if( !file_exists($path . ".php"))
+            if( !file_exists(app_path() . "/Models/parserSkripte/" . ucfirst($engine["package"]->__toString()) . ".php"))
             {
                 Log::error("Konnte " . $engine["name"] . " nicht abfragen, da kein Parser existiert");
                 continue;
