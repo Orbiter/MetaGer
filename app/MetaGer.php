@@ -987,6 +987,13 @@ class MetaGer
     }
     public function addLink($link)
     {
+        if(strpos($link, "http://") === 0)
+            $link = substr($link, 7);
+        if(strpos($link, "https://") === 0)
+            $link = substr($link, 8);
+        if(strpos($link, "www.") === 0)
+            $link = substr($link, 4);
+        $link = trim($link, "/");
         $hash = md5($link);
         if(isset($this->addedLinks[$hash]))
         {
