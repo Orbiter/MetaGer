@@ -482,8 +482,22 @@ class MetaGer
             # Wenn diese Suchmaschine gar nicht eingeschaltet sein soll
             $path = "App\Models\parserSkripte\\" . ucfirst($engine["package"]->__toString());
 
+            if( !file_exists($path . ".php"))
+            {
+                Log::error("Konnte " . $engine["name"] . " nicht abfragen, da kein Parser existiert");
+                continue;
+            }
+
             $time = microtime();
-            $tmp = new $path($engine, $this);
+
+            try
+            {
+                $tmp = new $path($engine, $this);
+            } catch( \ErrorException $e)
+            {
+                Log::error("Konnte " . $engine["name"] . " nicht abfragen." . var_dump($e));
+                continue;
+            }
 
             if($tmp->enabled && isset($this->debug))
             {
@@ -496,47 +510,7 @@ class MetaGer
                 $this->sockets[$tmp->name] = $tmp->fp;
             }
 
-            # Alternativ
-            # Hier wird direkt eine Liste der Fokustypen erstellt, die bei der Suche verwendet werden: [0] => [web, nachrichten]
-            /*if($engine["name"] !== "overtureAds") {
-                $type = explode(",", $engine["type"]);
-                if(!$type[0] == "") {
-                    $typeslist[$counter++] = $type;
-                }
-            }*/
-
 		}
-
-        # Alternativ
-        # Jetzt wird geguckt, ob diese Liste überhaupt Typen enthält und für jeden Typen des ersten Eintrags (oder späteren falls dieser "" ist) wird geguckt, ob sich dieser Typ in allen folgenden Einträgen finden lässt. Diese Einträge sind nie "web", da diese Suche meist eh auch möglich ist und ohnehin wie die angepasste Suche funktioniert. Am Ende wird geguckt ob es einen Typen gab, der in allen Elementen enthalten ist. Dieser wird als Fokus gesetzt.
-        /*if(!empty($typeslist)) {
-            foreach($typeslist as $matchTypeSearch) {
-                if(!empty($matchTypeSearch) && $matchTypeSearch[0] !== "") {
-                    $toMatch = $matchTypeSearch;
-                    break;
-                }
-            }
-            $toMatch = $typeslist[0];
-            array_shift($typeslist);
-            $matchedType = "";
-            foreach($toMatch as $matchType) {
-                if($matchType !== "web" && $matchType !== "") {
-                    $matched = true;
-                    foreach($typeslist as $otherTypes) {
-                        if(!in_array($matchType, $otherTypes)) {
-                            $matched = false;
-                        }
-                    }
-                    if($matched) {
-                        $matchedType = $matchType;
-                        break;
-                    }
-                }
-            }
-            if($matchedType !== "") {
-                $this->fokus = $matchedType;
-            }
-        }*/
 
         # Jetzt werden noch alle Kategorien der Settings durchgegangen und die jeweils enthaltenen namen der Suchmaschinen gespeichert.
         $foki = [];
