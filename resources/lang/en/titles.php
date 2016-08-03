@@ -13,4 +13,5 @@ return [
 	'settings' => 'Settings',
 	'websearch' => 'Websearch-Widget - MetaGer',
 	'sitesearch' => 'Sitesearch-Widget - MetaGer',
+	'partnershops'	=>	'Partnershops - MetaGer',
 ];

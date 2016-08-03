@@ -77,6 +77,13 @@
 				->with('css', 'donation.css')
 				->with('navbarFocus', 'foerdern');
 		});
+		Route::get('partnershops', function()
+		{
+			return view('spende.partnershops')
+				->with('title', trans('titles.partnershops'))
+				->with('navbarFocus', 'foerdern')
+				->with('css', 'partnershops.css');
+		});
 
 		Route::get('beitritt', function ()
 		{
