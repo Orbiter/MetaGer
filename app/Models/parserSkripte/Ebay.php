@@ -33,7 +33,13 @@ class Ebay extends Searchengine
 			$title = $result->{"title"}->__toString();
 			$link = $result->{"link"}->__toString();
 			$anzeigeLink = $link;
-			$descr = strip_tags($result->{"description"}->__toString());
+			if(preg_match("/.*?href=\"(.+?)\".*src=\"(.+?)\".*<strong><b>EUR<\/b> (.+?)<\/strong>.*?<span>(.+?)<\/span>.*/si", $result->{"description"}->__toString(), $matches) === 1);
+			$descr = "Ebay-Auktion: l&auml;uft bis " . $matches[4] . " | " . $matches[3] . " &euro;";
+			$image = $matches[2];
+			# die($result->{"description"}->__toString());
+			# $descr = strip_tags($result->{"description"}->__toString());
+			# $descr = $result->{"description"}->__toString();
+			# .*?href="(.+?)".*src="(.+?)".*<strong><b>EUR<\/b> (.+?)<\/strong>.*?<div>(.+?)<\/div>.*
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -42,7 +48,9 @@ class Ebay extends Searchengine
 				$anzeigeLink,
 				$descr,
 				$this->gefVon,
-				$this->counter
+				$this->counter,
+				false,
+				$image
 			);
 			$count++;
 
