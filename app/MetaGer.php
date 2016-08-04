@@ -259,7 +259,10 @@ class MetaGer
         //Slice the collection to get the items to display in current page
         $currentPageSearchResults = $collection->slice($offset * $perPage, $perPage)->all();
 
-        # Für diese 20 Links folgt nun unsere Adgoal Implementation.
+        # Für diese 20 Links folgt nun unsere Boost-Implementation.
+        $currentPageSearchResults = $this->parseBoost($currentPageSearchResults);
+
+        # Für diese 20 Links folgt nun unsere Adgoal- Implementation.
         $currentPageSearchResults = $this->parseAdgoal($currentPageSearchResults);
 
         //Create our paginator and pass it to the view
@@ -290,6 +293,25 @@ class MetaGer
         }
 	}
 
+    public function parseBoost($results)
+    {
+	foreach($results as $result)
+        {
+		if(preg_match('/^(http[s]?\:\/\/)?(www.)?amazon\.de/',$result->anzeigeLink))
+		{
+			if(preg_match('/\?/',$result->anzeigeLink))
+	                {
+				$result->link .= '&tag=boostmg01-21';
+        	        } else
+			{
+				$result->link .= '?tag=boostmg01-21';
+			}
+			$result->partnershop = true;
+
+		}
+	}	
+	return $results;
+    }
     public function parseAdgoal($results)
     {
         $publicKey = getenv('adgoal_public');
