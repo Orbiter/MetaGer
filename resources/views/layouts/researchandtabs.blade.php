@@ -31,7 +31,7 @@
                 </ul>
             </nav>
         </header>
-        @if( strpos(rtrim(Request::header('REFERER'), '/'), LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") )  === 0 && ( Agent::browser() === 'Firefox' || Agent::browser() === 'Mozilla' || Agent::browser() === 'Chrome' || Agent::browser() === 'IE' || $Agent::browser() === 'Edge') )
+        @if( strpos(rtrim(Request::header('REFERER'), '/'), LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/") )  === 0 && ( $browser === 'Firefox' || $browser === 'Mozilla' || $browser === 'Chrome' || $browser === 'IE' || $browser === 'Edge') )
         <div id="searchplugin" class="alert alert-warning alert-dismissible" role="alert" style="">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 Wussten Sie, dass Ihr {{ $browser }} MetaGer als Standardsuchmaschine verwenden kann?
