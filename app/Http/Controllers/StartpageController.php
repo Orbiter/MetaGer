@@ -75,9 +75,10 @@ class StartpageController extends Controller
         return loadPage($subpage);
     }
 
-    public function loadPlugin(Request $request, $locale = "de")
+    public function loadPlugin($params, $locale = "de")
     {
-        $requests = $request->all();
+        $params = unserialize(base64_decode($params));
+        $requests = $params;
         $params = [];
         foreach($requests as $key => $value)
         {
@@ -94,9 +95,9 @@ class StartpageController extends Controller
             $params['encoding'] = 'utf8';
         if(!isset($params['lang']))
             $params['lang'] = 'all';
-        $params["eingabe"] = "";
-
-
+        array_forget($params, 'eingabe');
+        array_forget($params, 'out');
+        array_forget($params, 'page');
         $link = action('MetaGerSearch@search', $params);
 
         $response = Response::make(

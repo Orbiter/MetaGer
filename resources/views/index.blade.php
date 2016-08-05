@@ -30,6 +30,7 @@
                 $(".seperator").addClass("hidden");
               @endif
             </h4>
+            <p class="text-muted">{{ trans('index.plugin.head.info') }}</p>
           </div>
           <div class="modal-body">
             @if ($browser === 'Firefox' || $browser === 'Mozilla')
@@ -40,15 +41,9 @@
               </ol>
             @elseif ($browser === 'Chrome')
               <ol>
-                <li>{{ trans('index.plugin.chrome.1') }}<a href="javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))" onclick="$('#more').removeClass('hidden');">{{ trans('index.plugin.chrome.2') }}</a>{{ trans('index.plugin.chrome.3') }}
-                <ul id=\"more\" class=\"hidden list-unstyled\">
-                  <li>{{ trans('index.plugin.chrome.4') }}</li>
-                  <li><small>{{ trans('index.plugin.chrome.5') }}</small></li>
-                </ul></li>
-                <li>{{ trans('index.plugin.chrome.6') }}<span class=\"glyphicon glyphicon-menu-hamburger\"></span></li>
-                <li>{{ trans('index.plugin.chrome.7') }}</li>
-                <li>{{ trans('index.plugin.chrome.8') }}</li>
-                <li>{{ trans('index.plugin.chrome.9') }}</li>
+                <li>{!! trans('index.plugin.chrome.1') !!}</li>
+                <li>{!! trans('index.plugin.chrome.2') !!}</li>
+                <li>{{ trans('index.plugin.chrome.3') }}</li>
               </ol>
             @elseif ($browser === 'Opera')
               <ol>
