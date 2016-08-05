@@ -26,4 +26,22 @@ class LogController extends Controller
         return '';
     } 
 
+    function pluginClose()
+    {
+        $redis = Redis::connection('redisLogs');
+        if( $redis )
+        {
+            $redis->incr('logs.plugin.close');
+        }
+    }
+
+    function pluginInstall()
+    {
+        $redis = Redis::connection('redisLogs');
+        if( $redis )
+        {
+            $redis->incr('logs.plugin.install');
+        }
+    }
+
 }

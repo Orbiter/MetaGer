@@ -36,7 +36,7 @@ nav-tabs > li.active {
 	{
 		
 	}
-	.alert{
+	.tab-pane .alert{
 	
     margin: 10px 0;
     padding: 5px 15px;
@@ -461,4 +461,27 @@ footer a{
 
 .pager{
 	text-align:center;
+}
+
+#searchplugin{
+	display:none;
+	position: fixed;
+	top: 50px;
+	right: 10px;
+	z-index: 501;
+	width: 25%;
+}
+
+#searchplugin > div{
+	text-align: center; 
+	padding-top: 5px;
+}
+#searchplugin > div > a{
+	color: white;
+}
+
+@media(min-width: 768px){
+	#searchplugin{
+		display: initial;
+	}
 }
