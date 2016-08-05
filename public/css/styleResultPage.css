@@ -330,6 +330,10 @@ a:hover
 .result .description img {
 	margin:5px;
 	margin-left:0;
+	height:auto;
+	width:auto;
+	max-width: 120px;
+	max-height:200px
 }
 
 .result.ad .description {
