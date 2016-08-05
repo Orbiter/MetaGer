@@ -33,6 +33,7 @@ return [
 	'plugin.head.3'			=>	'MetaGer zum Opera hinzufügen',
 	'plugin.head.4'			=>	'MetaGer zum Internet Explorer hinzufügen',
 	'plugin.head.5'			=>	'MetaGer zum Microsoft Edge hinzufügen',
+	'plugin.head.info'		=>	'(aktuelle Sucheinstellungen werden übernommen)',
 
 	'plugin.firefox.1'		=>	'Klicken Sie ',
 	'plugin.firefox.2'		=>	'hier',
@@ -40,15 +41,9 @@ return [
 	'plugin.firefox.4'		=>	'Setzen Sie einen Haken bei "Diese als aktuelle Suchmaschine setzen"',
 	'plugin.firefox.5'		=>	'Klicken Sie auf "Hinzufügen"',
 
-	'plugin.chrome.1'		=>	'Klicken Sie ',
-	'plugin.chrome.2'		=>	'hier',
-	'plugin.chrome.3'		=>	', um MetaGer als Suchmaschine hinzuzufügen',
-	'plugin.chrome.4'		=>	'Klicken Sie im Popup auf OK',
-	'plugin.chrome.5'		=>	'(Sollte der OK-Knopf deaktiviert sein, ist MetaGer bereits in Ihren Suchmaschinen. Klicken Sie dann auf Abbrechen und fahren mit Schritt 2 fort.)',
-	'plugin.chrome.6'		=>	'Klicken in Ihrem Browser oben rechts auf ',
-	'plugin.chrome.7'		=>	'Wählen Sie "Einstellungen"',
-	'plugin.chrome.8'		=>	'Im Bereich Suchen, klicken Sie auf "Suchmaschinen verwalten"',
-	'plugin.chrome.9'		=>	'In der nun angezeigten Liste, finden Sie MetaGer. Fahren Sie mit der Maus über den Eintrag und klicken auf "Als Standard festlegen"',
+	'plugin.chrome.1'		=>	'Klicken Sie in Ihrem Chrome oben rechts auf <span class="glyphicon glyphicon-option-vertical"></span> und im folgenden Menü auf "Einstellungen", um die Einstellungen Ihres Chromes zu öffnen.',
+	'plugin.chrome.2'		=>	'Im Bereich "Suchen" klicken Sie auf Suchmaschinen verwalten...',
+	'plugin.chrome.3'		=>	'In der nun angezeigten Liste, finden Sie den Eintrag "MetaGer". Fahren Sie mit der Maus über den Eintrag und klicken auf "Als Standard festlegen"',
 
 	'plugin.opera.1'		=>	'Klicken Sie ',
 	'plugin.opera.2'		=>	'hier',

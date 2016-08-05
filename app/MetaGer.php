@@ -109,6 +109,7 @@ class MetaGer
 						->with('warnings', $this->warnings)
 						->with('errors', $this->errors)
 						->with('metager', $this);
+                        ->with('browser', (new Agent())->browser());
 					break;
 				default:
 					return view('metager3bilder')
@@ -118,6 +119,7 @@ class MetaGer
 						->with('warnings', $this->warnings)
 						->with('errors', $this->errors)
 						->with('metager', $this);
+                        ->with('browser', (new Agent())->browser());
 					break;
 			}
 		# Falls der Suchfokus nicht Bilder ist.
@@ -132,6 +134,7 @@ class MetaGer
 						->with('warnings', $this->warnings)
 						->with('errors', $this->errors)
 						->with('metager', $this);
+                    ->with('browser', (new Agent())->browser());
 					break;
 				case 'results-with-style':
 					return view('metager3')
@@ -142,6 +145,7 @@ class MetaGer
 						->with('errors', $this->errors)
 						->with('metager', $this)
 						->with('suspendheader', "yes");
+                    ->with('browser', (new Agent())->browser());
 					break;
 				default:
 					return view('metager3')
@@ -150,6 +154,7 @@ class MetaGer
 						->with('warnings', $this->warnings)
 						->with('errors', $this->errors)
 						->with('metager', $this);
+                    ->with('browser', (new Agent())->browser());
 					break;
 			}
 		}
@@ -377,8 +382,8 @@ class MetaGer
 						$targetUrl = $result->anzeigeLink;
 						if(strpos($targetUrl, "http") !== 0)
 							$targetUrl = "http://" . $targetUrl;
-						$hash = md5($targetUrl . $privateKey);
-						$newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $hash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
+                        $gateHash = md5($targetUrl . $privateKey);
+                        $newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $gateHash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
 						$result->link = $newLink;
 						$result->partnershop = true;
 					}
