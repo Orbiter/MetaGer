@@ -19,41 +19,49 @@ use Illuminate\Support\Collection;
 */
 class MetaGer
 {
+	/* Noch nicht hier oben: (unter anderem)
+	*  url 				-	???
+	*  language			-	???
+	*  category			-	???
+	*  tab				-	gewählter Ergebnistab
+	*  password			-	???
+	*  quicktips		-	Quicktips ein-/ausgeschaltet
+	*  out				-	???
+	*  request			-	Sicherung der Anfrage
+	*/
 	# Einstellungen für die Suche
 	protected $fokus;						# Der gewählte Suchfokus
-	protected $eingabe;						# 
-	protected $q;							#
-	protected $category;					#
-	protected $time;						#
-	protected $page;						#
-	protected $lang;						#
-	protected $cache = "";					#
-	protected $site;						#
-	protected $hostBlacklist = [];			#
-	protected $domainBlacklist = [];		#
-	protected $stopWords = [];				#
-	protected $phrases = [];				#
-	protected $engines = [];				#
-	protected $results = [];				#
-	protected $ads = [];					#
-	protected $warnings = [];				#
-	protected $errors = [];					#
-	protected $addedHosts = [];				#
-	# Daten über die Abfrage				#
-	protected $ip;							#
-	protected $language;					#
-	protected $agent;						#
-	# Konfigurationseinstellungen:			#
-	protected $sumaFile;					#
-	protected $mobile;						#
-	protected $resultCount;					#
-	protected $sprueche;					#
+	protected $eingabe;						# Die eingegebenen Suchbegriffe
+	protected $q;							# Die eingegebenen Suchbegriffe ???
+	protected $category;					# 
+	protected $time;						# Die maximale Suchzeit
+	protected $page;						# Die ausgewählte Ergebnisseite
+	protected $lang;						# Die gewählte Sprache der Suchergebnisse
+	protected $cache = "";					# 
+	protected $site;						# Erkannte Sitesearches
+	protected $hostBlacklist = [];			# Die Blacklist der Hosts
+	protected $domainBlacklist = [];		# Die Blacklist der Domains
+	protected $stopWords = [];				# Erkannte Stopworte
+	protected $phrases = [];				# Erkannte Phrasensuchen
+	protected $engines = [];				# 
+	protected $results = [];				# Die gesammelten Ergebnisse
+	protected $ads = [];					# Die gesammelten Werbungen
+	protected $warnings = [];				# Die entstandenen Warnmeldungen
+	protected $errors = [];					# Die entstandenen Fehlermeldungen
+	protected $addedHosts = [];				# 
+	# Daten über die Abfrage
+	protected $ip;							# Die IP des Nutzers
+	protected $language;					# 
+	protected $agent;						# Ein Agent - unter anderem zur Browser-, Sprach- und Mobilgeräteerkennung
+	# Konfigurationseinstellungen:
+	protected $sumaFile;					# Die Suma-Datei je nach Sprache
+	protected $mobile;						# Nutzer auf Mobilgerät
+	protected $resultCount;					# Gewünschte Anzahl Ergebnisse pro Seite
+	protected $sprueche;					# Sprüche ein-/ausgeschaltet
 	protected $domainsBlacklisted = [];		#
 	protected $urlsBlacklisted = [];		#
 	protected $url;							#
 	protected $languageDetect;				#
-
-	# validated ???
 
 	# Erstellt einen noch leeren MetaGer. Dabei werden erst einmal nur die Blacklists für Domains und URLs geladen und die Spracherkennung festgelegt.
 	function __construct()
@@ -305,7 +313,7 @@ class MetaGer
 		}
 	}
 
-	# ???
+	# Fügt beim Boost-Partnershop Amazon dem Link unser boost-tag an
 	public function parseBoost($results)
 	{
 	foreach($results as $result)
@@ -406,7 +414,7 @@ class MetaGer
 		$countSumas = 0;
 		$sumas = $xml->xpath("suma");
 		
-		# Die beiden if-Teile überschneiden sich stark. ???
+		# Die beiden if-Teile überschneiden sich stark. ??? zusammenführen ???
 		# Überprüfe, welche Sumas eingeschaltet sind
 		if($this->fokus === "angepasst")
 		{
@@ -518,8 +526,6 @@ class MetaGer
 			$this->errors[] = "Achtung: Sie haben in ihren Einstellungen keine Suchmaschine ausgewählt.";
 		}
 
-		$engines = []; # Kommt erst viel später ???
-
 		# Wenn eine Sitesearch durchgeführt werden soll, überprüfen wir ob eine der Suchmaschinen überhaupt eine Sitesearch unterstützt:
 		$siteSearchFailed = false;
 		if( strlen($this->site) > 0 )
@@ -547,7 +553,8 @@ class MetaGer
 		$counter = 0;
 
 		# Erstellung der Suchengines
-
+		
+		$engines = [];
 		foreach($enabledSearchengines as $engine){
 			# Überspringt die Suchengine, falls eine Sitesearch aktiv ist, aber die Engine keine Sitesearch unterstützt.
 			if( !$siteSearchFailed && strlen($this->site) > 0 && ( !isset($engine['hasSiteSearch']) || $engine['hasSiteSearch']->__toString() === "0")  )
@@ -727,10 +734,10 @@ class MetaGer
 	*  
 	*  url 				-	???
 	*  fokus			-	Der gewählte Suchfokus
-	*  sumaFile			-	Die gewählten Suchmaschinen
+	*  sumaFile			-	Die Suma-Datei je nach Sprache
 	*  eingabe			-	Die eingegebenen Suchbegriffe
 	*  q				-	Erst einmal gleich wie eingabe
-	*  ip				-	Die IP des Nutzers
+	*  ip				-	Die IP des Nutzers ??? anonymisiert ???
 	*  language			-	???
 	*  category			-	???
 	*  time				-	Die maximale Suchzeit
@@ -871,7 +878,7 @@ class MetaGer
 			$this->sprueche = "off";
 		}
 
-		# Falsche Anzahl maximale Ergebnisse - ???
+		# Falsche Anzahl maximale Ergebnisse - Standartwert 1000
 		if($this->resultCount <= 0 || $this->resultCount > 200 )
 		{
 			$this->resultCount = 1000;
@@ -884,7 +891,7 @@ class MetaGer
 			$this->cache = "cache";
 		}
 
-		# Fälschlicherweise Tab eingestellt - Auf leeren Tab gesetzt ???
+		# Den richtigen Tab einstellen
 		if( $request->has('tab'))
 		{
 			if($request->input('tab') === "off")
@@ -918,9 +925,12 @@ class MetaGer
 		$this->request = $request;
 	}
 
+	# Liest aus der Sucheingabe bestimmte Spezialsuchen aus
+	# Arbeitet auf der Variable q
 	public function checkSpecialSearches (Request $request)
 	{
 		# Site Search:
+		# Wenn die Suchanfrage um das Schlüsselwort "site:*" ergänzt ist, sollen Ergebnisse nur von einer bestimmten Seite stammen.
 		if(preg_match("/(.*)\bsite:(\S+)(.*)/si", $this->q, $match))
 		{
 			$this->site = $match[2];
@@ -930,8 +940,9 @@ class MetaGer
 		{
 			$this->site = $request->input('site');
 		}
-		# Wenn die Suchanfrage um das Schlüsselwort "-host:*" ergänzt ist, sollen bestimmte Hosts nicht eingeblendet werden
-		# Wir prüfen, ob das hier der Fall ist:
+
+		# Host-Blacklisting:
+		# Wenn die Suchanfrage um das Schlüsselwort "-host:*" ergänzt ist, sollen bestimmte Hosts nicht eingeblendet werden.
 		while(preg_match("/(.*)(^|\s)-host:(\S+)(.*)/si", $this->q, $match))
 		{
 			$this->hostBlacklist[] = $match[3];
@@ -947,8 +958,9 @@ class MetaGer
 			$hostString = rtrim($hostString, ", ");
 			$this->warnings[] = "Ergebnisse von folgenden Hosts werden nicht angezeigt: \"" . $hostString . "\"";
 		}
-		# Wenn die Suchanfrage um das Schlüsselwort "-domain:*" ergänzt ist, sollen bestimmte Domains nicht eingeblendet werden
-		# Wir prüfen, ob das hier der Fall ist:
+
+		# Domain-Blacklisting:
+		# Wenn die Suchanfrage um das Schlüsselwort "-domain:*" ergänzt ist, sollen bestimmte Domains nicht eingeblendet werden.
 		while(preg_match("/(.*)(^|\s)-domain:(\S+)(.*)/si", $this->q, $match))
 		{
 			$this->domainBlacklist[] = $match[3];
@@ -965,8 +977,8 @@ class MetaGer
 			$this->warnings[] = "Ergebnisse von folgenden Domains werden nicht angezeigt: \"" . $domainString . "\"";
 		}
 		
+		# Stopwords:
 		# Alle mit "-" gepräfixten Worte sollen aus der Suche ausgeschlossen werden.
-		# Wir prüfen, ob das hier der Fall ist:
 		while(preg_match("/(.*)(^|\s)-(\S+)(.*)/si", $this->q, $match))
 		{
 			$this->stopWords[] = $match[3];
@@ -983,7 +995,8 @@ class MetaGer
 			$this->warnings[] = "Sie machen eine Ausschlusssuche. Ergebnisse mit folgenden Wörtern werden nicht angezeigt: \"" . $stopwordsString . "\"";
 		}
 
-		# Meldung über eine Phrasensuche
+		# Phrasensuche:
+		# Alle mit " umschlossenen Worte gelten als Phrasensuche und sollen in genau dieser Reihenfolge im Suchergebnis vorkommen.
 		$p = "";
 		$tmp = $this->q;
 		while(preg_match("/(.*)\"(.+)\"(.*)/si", $tmp, $match)){
