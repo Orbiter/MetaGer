@@ -151,10 +151,12 @@
 		Route::get('meta/meta.ger3', 'MetaGerSearch@search');
 		Route::get('meta/picture', 'Pictureproxy@get');
 		Route::get('clickstats', 'LogController@clicklog');
+		Route::get('pluginClose', 'LogController@pluginClose');
+		Route::get('pluginInstall', 'LogController@pluginInstall');
 
 		Route::get('qt', 'MetaGerSearch@quicktips');
 		Route::get('tips', 'MetaGerSearch@tips');
-		Route::get('opensearch.xml', 'StartpageController@loadPlugin');
+		Route::get('/plugins/{params}/opensearch.xml', 'StartpageController@loadPlugin');
 		Route::get('owi', function()
 		{
 			return redirect('https://metager.de/klassik/en/owi/');

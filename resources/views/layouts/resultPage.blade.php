@@ -16,6 +16,8 @@
 	<meta content="{{ $eingabe }}" name="q" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="referrer" content="no-referrer" />
+	<link rel="search" type="application/opensearchdescription+xml" title="MetaGer: Sicher suchen &amp; finden, Privatsph&auml;re sch&uuml;tzen" href="{{  LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), action('StartpageController@loadPlugin', ['params' => base64_encode(serialize(Request::all()))])) }}">
+
 </head>
 <body id="resultBody">
 	@if( !isset($suspendheader) )

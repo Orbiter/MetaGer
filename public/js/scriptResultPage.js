@@ -33,6 +33,23 @@ function getDocumentReadyForUse(){
 	tabs();
 	theme();
 	fokiChanger();
+	pluginInfo();
+}
+
+function pluginInfo()
+{
+	if(localStorage)
+	{
+		if(localStorage.getItem('pluginInfo') == "off")
+			$("#searchplugin").css("display", "none");
+		$("#searchplugin").on('close.bs.alert', function() {
+			$.get('/pluginClose');
+			localStorage.setItem('pluginInfo', 'off');
+		});
+		$("#searchplugin a.btn").click( function() {
+			$.get('/pluginInstall');
+		});
+	}
 }
 
 function theme(){

@@ -107,7 +107,8 @@ class MetaGer
                         ->with('mobile', $this->mobile)
                         ->with('warnings', $this->warnings)
                         ->with('errors', $this->errors)
-                        ->with('metager', $this);
+                        ->with('metager', $this)
+                        ->with('browser', (new Agent())->browser());
                 default:
                     return view('metager3bilder')
                         ->with('results', $viewResults)
@@ -115,7 +116,8 @@ class MetaGer
                         ->with('mobile', $this->mobile)
                         ->with('warnings', $this->warnings)
                         ->with('errors', $this->errors)
-                        ->with('metager', $this);
+                        ->with('metager', $this)
+                        ->with('browser', (new Agent())->browser());
             }
         }
 
@@ -127,7 +129,8 @@ class MetaGer
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
-                    ->with('metager', $this);
+                    ->with('metager', $this)
+                    ->with('browser', (new Agent())->browser());
                 break;
             case 'results-with-style':
                 return view('metager3')
@@ -137,7 +140,8 @@ class MetaGer
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
                     ->with('metager', $this)
-                    ->with('suspendheader', "yes");
+                    ->with('suspendheader', "yes")
+                    ->with('browser', (new Agent())->browser());
                 break;
             default:
                 return view('metager3')
@@ -145,7 +149,8 @@ class MetaGer
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
-                    ->with('metager', $this);
+                    ->with('metager', $this)
+                    ->with('browser', (new Agent())->browser());
                 break;
         }
 	}
