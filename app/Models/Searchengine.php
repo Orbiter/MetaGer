@@ -6,6 +6,7 @@ use Log;
 use Redis;
 use App\Jobs\Search;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Cache;
 
 
 abstract class Searchengine 
@@ -24,6 +25,7 @@ abstract class Searchengine
 	public $write_time = 0;
 	public $connection_time = 0;
 	public $loaded = false;
+	public $cached = false;
 
 	function __construct(\SimpleXMLElement $engine, MetaGer $metager)
 	{
@@ -33,6 +35,9 @@ abstract class Searchengine
 		if( !isset($this->homepage) )
 			$this->homepage = "https://metager.de";
 		$this->engine = $engine;
+
+		if( !isset($this->cacheDuration) )
+			$this->cacheDuration = 60;
 
 		# Wir registrieren die Benutzung dieser Suchmaschine
 		$this->uses = intval(Redis::hget($this->name, "uses")) + 1;
@@ -73,14 +78,21 @@ abstract class Searchengine
 			$q = $metager->getQ();
 		}
 		$this->getString = $this->generateGetString($q, $metager->getUrl(), $metager->getLanguage(), $metager->getCategory());
-		$this->hash = $metager->getHashCode();
-
-		# Die Anfragen an die Suchmaschinen werden nun von der Laravel-Queue bearbeitet:
-		# Hinweis: solange in der .env der QUEUE_DRIVER auf "sync" gestellt ist, werden die Abfragen
-		# nacheinander abgeschickt.
-		# Sollen diese Parallel verarbeitet werden, muss ein anderer QUEUE_DRIVER verwendet werden.
-		# siehe auch: https://laravel.com/docs/5.2/queues
-		$this->dispatch(new Search($this->hash, $this->host, $this->port, $this->name, $this->getString, $this->useragent, $metager->getSumaFile()));
+		$this->hash = md5($this->host . $this->getString . $this->port . $this->name);
+		$this->resultHash = $metager->getHashCode();
+		if( Cache::has($this->hash) )
+		{
+			$this->cached = true;
+			$this->retrieveResults();
+		}else
+		{
+			# Die Anfragen an die Suchmaschinen werden nun von der Laravel-Queue bearbeitet:
+			# Hinweis: solange in der .env der QUEUE_DRIVER auf "sync" gestellt ist, werden die Abfragen
+			# nacheinander abgeschickt.
+			# Sollen diese Parallel verarbeitet werden, muss ein anderer QUEUE_DRIVER verwendet werden.
+			# siehe auch: https://laravel.com/docs/5.2/queues
+			$this->dispatch(new Search($this->resultHash, $this->host, $this->port, $this->name, $this->getString, $this->useragent, $metager->getSumaFile()));
+		}
 	}
 
 	public abstract function loadResults($result);
@@ -136,16 +148,28 @@ abstract class Searchengine
 
 	public function retrieveResults()
 	{
-		if( Redis::hexists('search.' . $this->hash, $this->name))
+		if( $this->loaded )
+			return true;
+		$body = "";
+		if( $this->cacheDuration > 0 && Cache::has($this->hash) )
 		{
-			$body = Redis::hget('search.' . $this->hash, $this->name);
+			$body = Cache::get($this->hash);
+		}elseif ( Redis::hexists('search.' . $this->resultHash, $this->name) ) {
+			$body = Redis::hget('search.' . $this->resultHash, $this->name);
+			if( $this->cacheDuration > 0 )
+				Cache::put($this->hash, $body, $this->cacheDuration);
+		}
+
+		if( $body !== "" )
+		{
 			$this->loadResults($body);
 			$this->loaded = true;
 			Redis::hdel('search.' . $this->hash, $this->name);
 			return true;
-		}
-		return false;
-		
+		}else
+		{
+			return false;
+		}		
 	}
 
 	public function shutdown()

@@ -596,18 +596,28 @@ class MetaGer
         # aber natürlich nicht ewig.
         # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
         # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
-        $enginesToLoad = count($engines);
+
+        # Wir zählen die Suchmaschinen, die durch den Cache beantwortet wurden:
+        $enginesToLoad = 0;
+        $canBreak = false;
+        foreach($engines as $engine)
+        {
+            if( $engine->cached )
+            {
+                $enginesToLoad--;
+                if( $overtureEnabled && ( $engine->name === "overture" || $engine->name === "overtureAds" ) )
+                    $canBreak = true;
+            }
+        }
+        $enginesToLoad += count($engines);
         $loadedEngines = 0;
         $timeStart = microtime(true);
-
         while( true )
         {
             $time = (microtime(true) - $timeStart) * 1000;
             $loadedEngines = intval(Redis::hlen('search.' . $this->getHashCode()));
-            $canBreak = true;
-            if( $overtureEnabled && !Redis::hexists('search.' . $this->getHashCode(), 'overture') && !Redis::hexists('search.' . $this->getHashCode(), 'overtureAds'))
-                $canBreak = false;
-
+            if( $overtureEnabled && (Redis::hexists('search.' . $this->getHashCode(), 'overture') || Redis::hexists('search.' . $this->getHashCode(), 'overtureAds')))
+                $canBreak = true;
 
             # Abbruchbedingung
             if($time < 500)
@@ -625,7 +635,7 @@ class MetaGer
             usleep(50000);
         }
 
-        
+        #exit;
         foreach($engines as $engine)
         {
             if(!$engine->loaded)
