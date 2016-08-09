@@ -162,25 +162,13 @@ class MetaGer
         {
             $logEntry = "";
             $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
-            $logEntry .= " From=" . $this->ip;
             $logEntry .= " pid=" . getmypid();
-            $anonId= md5("MySeCrEtSeEdFoRmd5"
-            .$this->request->header('Accept')
-            .$this->request->header('Accept-Charset')
-            .$this->request->header('Accept-Encoding')
-            .$this->request->header('HTTP_LANGUAGE')
-            .$this->request->header('User-Agent')
-            .$this->request->header('Keep-Alive')
-            .$this->request->header('X-Forwarded-For')
-            .date("H")); # Wichtig!! Den Parameter um die aktuelle Stunde erweitern. Ansonsten wäre die anonId dauerhaft einem Nutzer zuzuordnen.
-            $logEntry .= " anonId=$anonId";
             $logEntry .= " ref=" . $this->request->header('Referer');
             $useragent = $this->request->header('User-Agent');
             $useragent = str_replace("(", " ", $useragent);
             $useragent = str_replace(")", " ", $useragent);
             $useragent = str_replace(" ", "", $useragent);
-            $logEntry .= " ua=" . $useragent;
-            $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
+            $logEntry .= " time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus;
             $logEntry .= " search=" . $this->eingabe;
             $redis->rpush('logs.search', $logEntry);
         }catch( \Exception $e)

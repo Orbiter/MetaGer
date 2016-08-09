@@ -55,13 +55,7 @@ abstract class Searchengine
         }
 
 		# User-Agent definieren:
-		if( isset($_SERVER['HTTP_USER_AGENT']))
-		{
-			$this->useragent = $_SERVER['HTTP_USER_AGENT'];
-		}else
-		{
-			$this->useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
-		}
+		$this->useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
 		$this->ip = $metager->getIp();
 		$this->gefVon = "<a href=\"" . $this->homepage . "\" target=\"_blank\">" . $this->displayName . "</a>";
 		$this->startTime = microtime();
