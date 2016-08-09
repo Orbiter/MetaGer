@@ -15,6 +15,7 @@ class Exalead extends Searchengine
 
 	public function loadResults ($result)
 	{
+#		die($result);
 		$result = preg_replace("/\r\n/si", "", $result);
 		try {
 			$content = simplexml_load_string($result);
@@ -50,9 +51,15 @@ class Exalead extends Searchengine
 				$title = $result->xpath("a:metas/a:Meta[@name='title']/a:MetaString[@name='value']")[0]->__toString();
 				$link = $result->xpath("a:metas/a:Meta[@name='url']/a:MetaString[@name='value']")[0]->__toString();
 				$anzeigeLink = $link;
-				if(sizeOf($result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")) === 0)
-					$descr = "";
-				else
+				$descr = "";
+				if(sizeOf($result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")) === 0 && sizeOf($result->xpath("a:metas/a:Meta[@name='summary']/a:MetaText[@name='value']")) !== 0)
+				{
+					$tmp = $result->xpath("a:metas/a:Meta[@name='summary']/a:MetaText[@name='value']");
+					foreach($tmp as $el)
+					{
+						$descr .= strip_tags($el->asXML());
+					}
+				}else
 					$descr = $result->xpath("a:metas/a:Meta[@name='metadesc']/a:MetaString[@name='value']")[0]->__toString();
 				$this->counter++;
 				$this->results[] = new \App\Models\Result(
