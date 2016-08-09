@@ -107,7 +107,8 @@ class MetaGer
                         ->with('mobile', $this->mobile)
                         ->with('warnings', $this->warnings)
                         ->with('errors', $this->errors)
-                        ->with('metager', $this);
+                        ->with('metager', $this)
+                        ->with('browser', (new Agent())->browser());
                 default:
                     return view('metager3bilder')
                         ->with('results', $viewResults)
@@ -115,7 +116,8 @@ class MetaGer
                         ->with('mobile', $this->mobile)
                         ->with('warnings', $this->warnings)
                         ->with('errors', $this->errors)
-                        ->with('metager', $this);
+                        ->with('metager', $this)
+                        ->with('browser', (new Agent())->browser());
             }
         }
 
@@ -127,7 +129,8 @@ class MetaGer
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
-                    ->with('metager', $this);
+                    ->with('metager', $this)
+                    ->with('browser', (new Agent())->browser());
                 break;
             case 'results-with-style':
                 return view('metager3')
@@ -137,7 +140,8 @@ class MetaGer
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
                     ->with('metager', $this)
-                    ->with('suspendheader', "yes");
+                    ->with('suspendheader', "yes")
+                    ->with('browser', (new Agent())->browser());
                 break;
             default:
                 return view('metager3')
@@ -145,7 +149,8 @@ class MetaGer
                     ->with('mobile', $this->mobile)
                     ->with('warnings', $this->warnings)
                     ->with('errors', $this->errors)
-                    ->with('metager', $this);
+                    ->with('metager', $this)
+                    ->with('browser', (new Agent())->browser());
                 break;
         }
 	}
@@ -157,25 +162,13 @@ class MetaGer
         {
             $logEntry = "";
             $logEntry .= "[" . date(DATE_RFC822, mktime(date("H"),date("i"), date("s"), date("m"), date("d"), date("Y"))) . "]";
-            $logEntry .= " From=" . $this->ip;
             $logEntry .= " pid=" . getmypid();
-            $anonId= md5("MySeCrEtSeEdFoRmd5"
-            .$this->request->header('Accept')
-            .$this->request->header('Accept-Charset')
-            .$this->request->header('Accept-Encoding')
-            .$this->request->header('HTTP_LANGUAGE')
-            .$this->request->header('User-Agent')
-            .$this->request->header('Keep-Alive')
-            .$this->request->header('X-Forwarded-For')
-            .date("H")); # Wichtig!! Den Parameter um die aktuelle Stunde erweitern. Ansonsten wäre die anonId dauerhaft einem Nutzer zuzuordnen.
-            $logEntry .= " anonId=$anonId";
             $logEntry .= " ref=" . $this->request->header('Referer');
             $useragent = $this->request->header('User-Agent');
             $useragent = str_replace("(", " ", $useragent);
             $useragent = str_replace(")", " ", $useragent);
             $useragent = str_replace(" ", "", $useragent);
-            $logEntry .= " ua=" . $useragent;
-            $logEntry .= " iter= mm= time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus . " which= hits= stringSearch= QuickTips= SSS= check=";
+            $logEntry .= " time=" . round((microtime(true)-$this->starttime), 2) . " serv=" . $this->fokus;
             $logEntry .= " search=" . $this->eingabe;
             $redis->rpush('logs.search', $logEntry);
         }catch( \Exception $e)
@@ -259,7 +252,10 @@ class MetaGer
         //Slice the collection to get the items to display in current page
         $currentPageSearchResults = $collection->slice($offset * $perPage, $perPage)->all();
 
-        # Für diese 20 Links folgt nun unsere Adgoal Implementation.
+        # Für diese 20 Links folgt nun unsere Boost-Implementation.
+        $currentPageSearchResults = $this->parseBoost($currentPageSearchResults);
+
+        # Für diese 20 Links folgt nun unsere Adgoal- Implementation.
         $currentPageSearchResults = $this->parseAdgoal($currentPageSearchResults);
 
         //Create our paginator and pass it to the view
@@ -290,6 +286,25 @@ class MetaGer
         }
 	}
 
+    public function parseBoost($results)
+    {
+	foreach($results as $result)
+        {
+		if(preg_match('/^(http[s]?\:\/\/)?(www.)?amazon\.de/',$result->anzeigeLink))
+		{
+			if(preg_match('/\?/',$result->anzeigeLink))
+	                {
+				$result->link .= '&tag=boostmg01-21';
+        	        } else
+			{
+				$result->link .= '?tag=boostmg01-21';
+			}
+			$result->partnershop = true;
+
+		}
+	}	
+	return $results;
+    }
     public function parseAdgoal($results)
     {
         $publicKey = getenv('adgoal_public');
@@ -340,8 +355,8 @@ class MetaGer
                         $targetUrl = $result->anzeigeLink;
                         if(strpos($targetUrl, "http") !== 0)
                             $targetUrl = "http://" . $targetUrl;
-                        $hash = md5($targetUrl . $privateKey);
-                        $newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $hash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
+                        $gateHash = md5($targetUrl . $privateKey);
+                        $newLink = "https://api.smartredirect.de/api_v2/ClickGate.php?p=" . $publicKey . "&k=" . $gateHash . "&url=" . urlencode($targetUrl) . "&q=" . $query;
                         $result->link = $newLink;
                         $result->partnershop = true;
                     }
@@ -569,18 +584,28 @@ class MetaGer
         # aber natürlich nicht ewig.
         # Die Verbindung steht zu diesem Zeitpunkt und auch unsere Request wurde schon gesendet.
         # Wir geben der Suchmaschine nun bis zu 500ms Zeit zu antworten.
-        $enginesToLoad = count($engines);
+
+        # Wir zählen die Suchmaschinen, die durch den Cache beantwortet wurden:
+        $enginesToLoad = 0;
+        $canBreak = false;
+        foreach($engines as $engine)
+        {
+            if( $engine->cached )
+            {
+                $enginesToLoad--;
+                if( $overtureEnabled && ( $engine->name === "overture" || $engine->name === "overtureAds" ) )
+                    $canBreak = true;
+            }
+        }
+        $enginesToLoad += count($engines);
         $loadedEngines = 0;
         $timeStart = microtime(true);
-
         while( true )
         {
             $time = (microtime(true) - $timeStart) * 1000;
             $loadedEngines = intval(Redis::hlen('search.' . $this->getHashCode()));
-            $canBreak = true;
-            if( $overtureEnabled && !Redis::hexists('search.' . $this->getHashCode(), 'overture') && !Redis::hexists('search.' . $this->getHashCode(), 'overtureAds'))
-                $canBreak = false;
-
+            if( $overtureEnabled && (Redis::hexists('search.' . $this->getHashCode(), 'overture') || Redis::hexists('search.' . $this->getHashCode(), 'overtureAds')))
+                $canBreak = true;
 
             # Abbruchbedingung
             if($time < 500)
@@ -598,7 +623,7 @@ class MetaGer
             usleep(50000);
         }
 
-        
+        #exit;
         foreach($engines as $engine)
         {
             if(!$engine->loaded)

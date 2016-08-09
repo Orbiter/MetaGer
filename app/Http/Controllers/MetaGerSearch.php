@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-#use App\MetaGer\Forwarder;
-#use App\MetaGer\Results;
-#use App\MetaGer\Search;
 use App;
 use App\MetaGer;
 
