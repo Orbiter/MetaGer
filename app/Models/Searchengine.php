@@ -83,6 +83,7 @@ abstract class Searchengine
 		if( Cache::has($this->hash) )
 		{
 			$this->cached = true;
+			$this->retrieveResults();
 		}else
 		{
 			# Die Anfragen an die Suchmaschinen werden nun von der Laravel-Queue bearbeitet:
@@ -147,6 +148,8 @@ abstract class Searchengine
 
 	public function retrieveResults()
 	{
+		if( $this->loaded )
+			return true;
 		$body = "";
 		if( $this->cacheDuration > 0 && Cache::has($this->hash) )
 		{
