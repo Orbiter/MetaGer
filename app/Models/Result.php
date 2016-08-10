@@ -7,12 +7,12 @@ namespace App\Models;
 class Result
 {
 	
-	function __construct ( \SimpleXMLElement $provider, $titel, $link, $anzeigeLink , $descr, $gefVon, $sourceRank, $partnershop = false, $image = "" )
+	function __construct ( \SimpleXMLElement $provider, $titel, $link, $anzeigeLink , $descr, $gefVon, $sourceRank, $partnershop = false, $image = "", $price = 0 )
 	{
 		$this->titel = strip_tags(trim($titel));
 		$this->link = trim($link);
 		$this->anzeigeLink = trim($anzeigeLink);
-		$this->descr = strip_tags(trim($descr));
+		$this->descr = strip_tags(trim($descr), '<p>');
 		$this->descr = preg_replace("/\n+/si", " ", $this->descr);
 		if( strlen($this->descr) > 250 )
 		{

@@ -3,6 +3,7 @@
 			{{ $result->number }})
 		</div>
 		<div class="resultInformation col-xs-12 col-sm-11">
+			<div class="col-xs-10 col-sm-11" style="padding:0; ">
 			<p class="title">
 				<a class="title" href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 				{{ $result->titel }}
@@ -58,12 +59,20 @@
 					anonym öffnen
 				</a>
 			</div>
+			</div>
+			@if( isset($result->logo) )
+			<div class="col-xs-2 col-sm-1" style="padding: 0;">
+				<a href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
+				    <img src="{{ $metager->getImageProxyLink($result->logo) }}" alt="" />
+				</a>
+			</div>
+			@endif
 			@if( $result->image !== "" )
 			<div class="description">
 			    <a href="{{ $result->link }}" target="{{ $metager->getTab() }}" data-hoster="{{ strip_tags($result->gefVon) }}" data-count="{{ $result->number }}">
 				    <img src="{{ $metager->getImageProxyLink($result->image) }}" align="left" width="120px" height="60px" alt="" />
 				</a>
-				{{ $result->descr }}
+				{!! $result->descr !!}
 			</div>
 			@else
 			<div class="description">{{ $result->descr }}</div>
