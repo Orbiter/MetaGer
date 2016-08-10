@@ -72,6 +72,7 @@
 									<li><a href="http://code.metager.de/" target="_blank">{{ trans('staticPages.nav12') }}</a></li>
 									<li><a href="https://metager.to/" target="_blank">{{ trans('staticPages.nav13') }}</a></li>
 									<li><a href="http://forum.suma-ev.de/viewtopic.php?f=3&amp;t=43" target="_blank">{{ trans('staticPages.nav14') }}</a></li>
+									<li><a href="https://metager.de/klassik/zitat-suche/" target="_blank">{{ trans('staticPages.nav20') }}</a></li>
 								</ul>
 							</li>
 							<li class="dropdown">
