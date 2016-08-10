@@ -15,7 +15,6 @@ class Exalead extends Searchengine
 
 	public function loadResults ($result)
 	{
-#		die($result);
 		$result = preg_replace("/\r\n/si", "", $result);
 		try {
 			$content = simplexml_load_string($result);
@@ -44,7 +43,6 @@ class Exalead extends Searchengine
 		{
 			return;
 		}
-		die(var_dump($results));
 		foreach($results as $result)
 		{
 			try{

@@ -26,8 +26,6 @@ class Bing extends Searchengine
 				$anzeigeLink = $link;
 				$descr = $node->filter('li div > p')->text();
 
-				#die($result);
-
 				$this->counter++;
 				$this->results[] = new \App\Models\Result(
 					$this->engine,
