@@ -2,6 +2,8 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use DateTimeZone;
+use DateTime;
 
 class Ebay extends Searchengine 
 {
@@ -24,16 +26,26 @@ class Ebay extends Searchengine
 		{
 			return;
 		}
-		$results = $content->xpath('//rss/channel/item');
+		$results = $content;
+		
+		$results = $results->{"searchResult"};
 		$count = 0;
-		foreach($results as $result)
+		foreach($results->{"item"} as $result)
 		{
-			if($count > 10)
-				break;
 			$title = $result->{"title"}->__toString();
-			$link = $result->{"link"}->__toString();
+			$link = $result->{"viewItemURL"}->__toString();
 			$anzeigeLink = $link;
-			$descr = strip_tags($result->{"description"}->__toString());
+			$time = $result->{"listingInfo"}->{"endTime"}->__toString();
+			$time = date(DATE_RFC2822, strtotime($time));
+			$price = intval($result->{"sellingStatus"}->{"convertedCurrentPrice"}->__toString()) * 100;
+			$descr = "<p>Preis: " . $result->{"sellingStatus"}->{"convertedCurrentPrice"}->__toString() . " €</p>";
+			$descr .= "<p>Versandkosten: " . $result->{"shippingInfo"}->{"shippingServiceCost"}->__toString() . " €</p>";
+			if( isset($result->{"listingInfo"}->{"listingType"}))
+				$descr .= "<p>Auktionsart: " . $result->{"listingInfo"}->{"listingType"}->__toString() . "</p>";
+			$descr .= "<p>Auktionsende: " . $time . "</p>";
+			if( isset($result->{"primaryCategory"}->{"categoryName"}))
+				$descr .= "<p class=\"text-muted\">Kategorie: " . $result->{"primaryCategory"}->{"categoryName"}->__toString() . "</p>";
+			$image = $result->{"galleryURL"}->__toString();
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -42,7 +54,10 @@ class Ebay extends Searchengine
 				$anzeigeLink,
 				$descr,
 				$this->gefVon,
-				$this->counter
+				$this->counter,
+				false,
+				$image,
+				$price
 			);
 			$count++;
 

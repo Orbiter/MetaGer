@@ -23,10 +23,12 @@ class Fairmondo extends Searchengine
 			$title = $result["title"];
 			$link = "https://www.fairmondo.de/articles/" . $result["id"];
 			$anzeigeLink = $link;
-			$descr = $result["slug"];
+			$price = 0;
+			$descr = "";
 			if( isset($result['price_cents']))
 			{
-				$descr .= " | Preis: " . (intval($result['price_cents']) / 100.0) . " €";
+				$price = intval($result['price_cents']);
+				$descr .= "<p>Preis: " . (intval($result['price_cents']) / 100.0) . " €</p>";
 			}
 			if( isset($result['title_image_url']) )
 			{
@@ -43,7 +45,8 @@ class Fairmondo extends Searchengine
 				$this->gefVon,
 				$this->counter,
 				false,
-				$image
+				$image,
+				$price
 			);		
 		}
 	}

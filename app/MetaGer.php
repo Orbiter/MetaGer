@@ -349,7 +349,7 @@ class MetaGer
                     {
                         # Hier ist ein Advertiser:
                         # Das Logo hinzufügen:
-                        $result->image = "https://img.smartredirect.de/logos_v2/120x60/" . $hash . ".gif";
+                        $result->logo = "https://img.smartredirect.de/logos_v2/60x30/" . $hash . ".gif";
                         # Den Link hinzufügen:
                         $publicKey = $publicKey;
                         $targetUrl = $result->anzeigeLink;
@@ -747,11 +747,6 @@ class MetaGer
         		}
         	}
         	$request->replace($newInput);
-        }
-        if( $request->has('ebay') )
-        {
-        	$this->time = 2000;
-        	$this->warnings[] = "Hinweis: Sie haben Ebay aktiviert. Die Suche kann deshalb länger dauern und die maximale Suchzeit wurde auf 2 Sekunden hochgesetzt.";
         }
         if( App::isLocale("en") )
         {
