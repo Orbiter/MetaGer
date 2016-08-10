@@ -23,7 +23,6 @@ class Bing_bilder extends Searchengine
 			$anzeigeLink = $link;
 			$descr = $node->filter('div.meta > div.des')->text();
 			$image = $node->filter('a.thumb img')->attr("src");
-			#die($result);
 
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
@@ -38,8 +37,6 @@ class Bing_bilder extends Searchengine
 				$image
 			);
 		} );
-
-		#die(var_dump($this->results));
 		
 	}
 }

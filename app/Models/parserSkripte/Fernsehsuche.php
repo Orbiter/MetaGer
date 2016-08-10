@@ -31,7 +31,7 @@ class Fernsehsuche extends Searchengine
 		{
 			$title = $result->show . " : " . $result->title;
 			$link = urldecode($result->url);
-			$anzeigeLink = $link; #$result->stream_url_q1;die("hu");
+			$anzeigeLink = $link;
 			$descr = $result->description;
 			$image = "http://api-resources.fernsehsuche.de" . $result->thumbnail;
 			$this->counter++;

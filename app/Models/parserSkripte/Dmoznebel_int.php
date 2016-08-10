@@ -20,8 +20,6 @@ class Dmoznebel_int extends Searchengine
 		$anzeigeLink = $link;
 		$descr = "";
 
-		die($result);
-
 		$this->counter++;
 		$this->results[] = new \App\Models\Result(
 			$this->engine,

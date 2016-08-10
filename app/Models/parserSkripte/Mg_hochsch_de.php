@@ -14,7 +14,6 @@ class Mg_hochsch_de extends Searchengine
 
 	public function loadResults ($result)
 	{
-		die($result);
 		$results = trim($result);
 		
 		foreach( explode("\n", $results) as $result )

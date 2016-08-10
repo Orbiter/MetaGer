@@ -20,8 +20,6 @@ class BASE extends Searchengine
 		$anzeigeLink = $link;
 		$descr = "";
 
-		#die($result);
-
 		/*$this->counter++;
 		$this->results[] = new \App\Models\Result(
 			$title,

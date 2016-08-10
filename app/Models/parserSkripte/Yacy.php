@@ -15,7 +15,6 @@ class Yacy extends Searchengine
     public function loadResults ($result)
     {
         
-       # die($result);
         try {
             $content = simplexml_load_string($result);
         } catch (\Exception $e) {

@@ -17,7 +17,6 @@ class Wikipedia extends Searchengine
 		$result = utf8_decode($result);
 		$counter = 0;
 		
-		#die($crawler);
 		$this->results[] = new \App\Models\Result(
 			$this->engine,
 			trim(strip_tags($result[1])),
