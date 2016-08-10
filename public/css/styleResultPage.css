@@ -327,6 +327,11 @@ a:hover
 	clear: both;
 }
 
+.result .description p {
+    margin: 0;
+    margin-bottom: 4px;
+}
+
 .result .description img {
 	margin:5px;
 	margin-left:0;

@@ -39,11 +39,12 @@ class Exalead extends Searchengine
 		}
 		$results->registerXPathNamespace($prefix,$namespace);
 		try{
-			$results = $results->xpath("//a:hits/a:Hit");
+			$results = $results->xpath("//a:searchResult/a:item");
 		} catch(\ErrorException $e)
 		{
 			return;
 		}
+		die(var_dump($results));
 		foreach($results as $result)
 		{
 			try{

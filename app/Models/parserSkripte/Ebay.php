@@ -2,6 +2,8 @@
 
 namespace app\Models\parserSkripte;
 use App\Models\Searchengine;
+use DateTimeZone;
+use DateTime;
 
 class Ebay extends Searchengine 
 {
@@ -24,22 +26,26 @@ class Ebay extends Searchengine
 		{
 			return;
 		}
-		$results = $content->xpath('//rss/channel/item');
+		$results = $content;
+		
+		$results = $results->{"searchResult"};
 		$count = 0;
-		foreach($results as $result)
+		foreach($results->{"item"} as $result)
 		{
-			if($count > 10)
-				break;
 			$title = $result->{"title"}->__toString();
-			$link = $result->{"link"}->__toString();
+			$link = $result->{"viewItemURL"}->__toString();
 			$anzeigeLink = $link;
-			if(preg_match("/.*?href=\"(.+?)\".*src=\"(.+?)\".*<strong><b>EUR<\/b> (.+?)<\/strong>.*?<span>(.+?)<\/span>.*/si", $result->{"description"}->__toString(), $matches) === 1);
-			$descr = "Ebay-Auktion: l&auml;uft bis " . $matches[4] . " | " . $matches[3] . " &euro;";
-			$image = $matches[2];
-			# die($result->{"description"}->__toString());
-			# $descr = strip_tags($result->{"description"}->__toString());
-			# $descr = $result->{"description"}->__toString();
-			# .*?href="(.+?)".*src="(.+?)".*<strong><b>EUR<\/b> (.+?)<\/strong>.*?<div>(.+?)<\/div>.*
+			$time = $result->{"listingInfo"}->{"endTime"}->__toString();
+			$time = date(DATE_RFC2822, strtotime($time));
+			$price = intval($result->{"sellingStatus"}->{"convertedCurrentPrice"}->__toString()) * 100;
+			$descr = "<p>Preis: " . $result->{"sellingStatus"}->{"convertedCurrentPrice"}->__toString() . " €</p>";
+			$descr .= "<p>Versandkosten: " . $result->{"shippingInfo"}->{"shippingServiceCost"}->__toString() . " €</p>";
+			if( isset($result->{"listingInfo"}->{"listingType"}))
+				$descr .= "<p>Auktionsart: " . $result->{"listingInfo"}->{"listingType"}->__toString() . "</p>";
+			$descr .= "<p>Auktionsende: " . $time . "</p>";
+			if( isset($result->{"primaryCategory"}->{"categoryName"}))
+				$descr .= "<p class=\"text-muted\">Kategorie: " . $result->{"primaryCategory"}->{"categoryName"}->__toString() . "</p>";
+			$image = $result->{"galleryURL"}->__toString();
 			$this->counter++;
 			$this->results[] = new \App\Models\Result(
 				$this->engine,
@@ -50,7 +56,8 @@ class Ebay extends Searchengine
 				$this->gefVon,
 				$this->counter,
 				false,
-				$image
+				$image,
+				$price
 			);
 			$count++;
 
