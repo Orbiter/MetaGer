@@ -20,6 +20,7 @@ return [
 	'nav17' 			=> 'Einkaufen bei MetaGer-Fördershops',
 	'nav18' 			=> 'Kontakt',
 	'nav19'				=> 'Sprache',
+	'nav20'				=>	'Zitatsuche',
 
 	'navigationToggle'	=> 'Navigation anzeigen',
 	
