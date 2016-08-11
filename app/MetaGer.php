@@ -349,7 +349,10 @@ class MetaGer
                     {
                         # Hier ist ein Advertiser:
                         # Das Logo hinzufügen:
-                        $result->logo = "https://img.smartredirect.de/logos_v2/60x30/" . $hash . ".gif";
+                        if( $result->image !== "" )
+                            $result->logo = "https://img.smartredirect.de/logos_v2/60x30/" . $hash . ".gif";
+                        else
+                            $result->image = "https://img.smartredirect.de/logos_v2/120x60/" . $hash . ".gif";
                         # Den Link hinzufügen:
                         $publicKey = $publicKey;
                         $targetUrl = $result->anzeigeLink;
