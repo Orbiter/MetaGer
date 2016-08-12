@@ -31,6 +31,10 @@
 				->with('css', 'impressum.css')
 				->with('navbarFocus', 'kontakt');
 		});
+		Route::get('impressum.html', function()
+		{
+			return redirect(url('impressum'));
+		});
 
 		Route::get('about', function()
 		{
