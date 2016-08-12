@@ -270,6 +270,11 @@ class MetaGer
 
         $this->results = $paginatedSearchResults;
 
+        if( LaravelLocalization::getCurrentLocale() === "en" )
+        {
+            $this->ads = [];
+        }
+
         $this->validated = false;
         if( isset($this->password) )
         {
