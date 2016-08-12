@@ -12,7 +12,7 @@ use App\lib\TextLanguageDetect\TextLanguageDetect;
 use App\lib\TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-#use \Illuminate\Pagination\Paginator;
+use LaravelLocalization;
 
 class MetaGer
 {
