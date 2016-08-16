@@ -9,7 +9,7 @@ showing these links we do not transfer any of your data to third parties -
 in the same way we do not transfer such data for ANY search.',
 	'absatz2'	=>	'Behind such links are companies which will pay us with a small amount of
 money if you click on that link.  The result shows the company logo as well.
-By that you additionally recognize our partnershops.  If you click on such  
+By that you additionally recognize our partnershops (except links to Amazon via the Boost-Project).  If you click on such  
 link (and ONLY then) the user data will be given to the click address - in  
 the same way as done by clicking the result links of all search engines.  If
 you do not want that, then MetaGer optionally gives the possibility to click
