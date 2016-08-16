@@ -1,6 +1,6 @@
 # MetaGer
 
-MetaGer ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
+[MetaGer](https://metager.de) ist eine datenschutzfreundliche und freie Meta-Suchmaschine.
 
 ## Abhängigkeiten
 * composer (https://getcomposer.org/)
