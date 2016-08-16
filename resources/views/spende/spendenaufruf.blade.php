@@ -55,6 +55,9 @@ im Internet weiter entwickelt und betrieben werden kann:
 <br />
 <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}">{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}</a>
 </p>
+<p>
+Den Quellcode von MetaGer erreichen Sie ab sofort unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
+</p>
 <h3>Helfen Sie mit, dass freie Suchmaschinen im Internet frei bleiben. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zugänglich sein und bleiben.</h3>
 <div class="">
 	<div class="col-sm-6">
