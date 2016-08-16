@@ -30,11 +30,8 @@ return [
 	'plugin.head.4'			=>	'Add MetaGer to your Internet Explorer',
 	'plugin.head.5'			=>	'Add MetaGer to your Microsoft Edge',
 
-	'plugin.firefox.1'		=>	'Click ',
-	'plugin.firefox.2'		=>	'here',
-	'plugin.firefox.3'		=>	', to add MetaGer as a search engine.',
-	'plugin.firefox.4'		=>	'Please tick the box "Make this the current search engine"',
-	'plugin.firefox.5'		=>	'Click on "Add"',
+	'plugin.firefox.1'		=>	'Click on the magnifying glass with the small green "+" and then on "Add MetaGer.." (picture 1)',
+	'plugin.firefox.2'		=>	'Now right click on the new MetaGer Logo in the List and select "Make MetaGer the default search engine" (picture2)',
 
 	'plugin.chrome.1'		=>	'Click ',
 	'plugin.chrome.2'		=>	'here',
