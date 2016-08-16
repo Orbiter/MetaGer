@@ -6,8 +6,9 @@
 
 @section('content')
 <h1>Mit Ihnen zusammen: Für die unabhängige, nicht-kommerzielle Internet-Suche</a></h1>
-<p><a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}">{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}</a></p>
-<p>Mit Ihnen zusammen haben wir in den vergangenen Monaten eine neue
+<p>
+Den Quellcode von MetaGer erreichen Sie ab sofort unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
+</p>Mit Ihnen zusammen haben wir in den vergangenen Monaten eine neue
 Erfolgsstory geschrieben: die Zahl der MetaGer-Nutzer steigt weiter und
 stetig.  Es ist kein Strohfeuer kurzfristigen Erfolges, sondern es ist die
 Stetigkeit dieser Steigerung, die unseren Erfolg begründet.  In drei Jahren
@@ -54,9 +55,6 @@ Bitte unterstützen Sie uns, damit die unabhängige, nicht-kommerzielle Suche
 im Internet weiter entwickelt und betrieben werden kann:
 <br />
 <a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}">{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}</a>
-</p>
-<p>
-Den Quellcode von MetaGer erreichen Sie ab sofort unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
 </p>
 <h3>Helfen Sie mit, dass freie Suchmaschinen im Internet frei bleiben. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zugänglich sein und bleiben.</h3>
 <div class="">
