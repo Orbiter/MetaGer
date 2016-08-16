@@ -35,9 +35,8 @@
           <div class="modal-body">
             @if ($browser === 'Firefox' || $browser === 'Mozilla')
               <ol>
-                <li>{{ trans('index.plugin.firefox.1') }}<a href="javascript:window.external.AddSearchProvider($('link[rel=search]').attr('href'))">{{ trans('index.plugin.firefox.2') }}</a>{{ trans('index.plugin.firefox.3') }}</li>
-                <li>{{ trans('index.plugin.firefox.4') }}</li>
-                <li>{{ trans('index.plugin.firefox.5') }}</li>
+                <li>{{ trans('index.plugin.firefox.1') }}<img src="/img/Firefox.png" width="100%" /></li>
+                <li>{{ trans('index.plugin.firefox.2') }}<img src="/img/Firefox_Standard.png" width="100%" /></li>
               </ol>
               <h4>MetaGer als Startseite im {{ $browser }} einrichten</h4>
               <hr />

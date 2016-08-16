@@ -35,11 +35,8 @@ return [
 	'plugin.head.5'			=>	'MetaGer zum Microsoft Edge hinzufügen',
 	'plugin.head.info'		=>	'(aktuelle Sucheinstellungen werden übernommen)',
 
-	'plugin.firefox.1'		=>	'Klicken Sie ',
-	'plugin.firefox.2'		=>	'hier',
-	'plugin.firefox.3'		=>	', um MetaGer als Suchmaschine hinzuzufügen.',
-	'plugin.firefox.4'		=>	'Setzen Sie einen Haken bei "Diese als aktuelle Suchmaschine setzen"',
-	'plugin.firefox.5'		=>	'Klicken Sie auf "Hinzufügen"',
+	'plugin.firefox.1'		=>	'Klicken Sie in Ihrem Browser oben rechts im Suchfeld auf die Lupe mit dem kleinen "+" und dann auf "MetaGer hinzufügen" (siehe Bild)',
+	'plugin.firefox.2'		=>	'Klicken Sie nun mit der rechten Maustaste auf das neue MetaGer Logo in der Liste und auf "als Standard Suchmaschine verwenden" (siehe Bild)',
 
 	'plugin.chrome.1'		=>	'Klicken Sie in Ihrem Chrome oben rechts auf <span class="glyphicon glyphicon-option-vertical"></span> und im folgenden Menü auf "Einstellungen", um die Einstellungen Ihres Chromes zu öffnen.',
 	'plugin.chrome.2'		=>	'Im Bereich "Suchen" klicken Sie auf Suchmaschinen verwalten...',
