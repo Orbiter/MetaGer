@@ -7,7 +7,7 @@
 @section('content')
 <h1>Mit Ihnen zusammen: Für die unabhängige, nicht-kommerzielle Internet-Suche</a></h1>
 <p>
-Den Quellcode von MetaGer erreichen Sie ab sofort unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
+Den Quellcode von MetaGer erreichen Sie unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
 </p>Mit Ihnen zusammen haben wir in den vergangenen Monaten eine neue
 Erfolgsstory geschrieben: die Zahl der MetaGer-Nutzer steigt weiter und
 stetig.  Es ist kein Strohfeuer kurzfristigen Erfolges, sondern es ist die
