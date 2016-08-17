@@ -4,11 +4,11 @@ return [
     'head'      => 'Privacy',
 
     'general.1' => 'For us, privacy is one of the most important goods on the internet. It needs to be preserved and is not to be used for profit. The following is a small summary of our approach. A more detailed description why we are the most secure search engine can be found',
-    'general.2' => 'here (German)',
+    'general.2' => 'here (in German)',
     'general.3' => 'Only free software with open source code is under control of any user.  In
 all other cases the users have to BELIEVE what the maintainers tell about
 what is going on inside.  If maintainers claim that they have strictly
-implemented privacy and data protecion, you have to believe them.<br />
+implemented privacy and data protecion, you have to believe them.
 MetaGer is free software under GNU-AGPLv3 Licence. It is available to
 anyone at <a href="https://gitlab.metager3.de/open-source/MetaGer">https://gitlab.metager3.de/open-source/MetaGer</a>. You do not
 have to believe us, YOU might control it yourself!',
