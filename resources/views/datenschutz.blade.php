@@ -7,9 +7,10 @@
 @section('content')
 <h1>{{ trans('datenschutz.head') }}</h1>
 <p>{{ trans('datenschutz.general.1') }} <a href="https://suma-ev.de/presse/Sicher-suchen-UND-finden-mit-MetaGer.html">{{ trans('datenschutz.general.2') }}</a></p>
+<p>{!! trans('datenschutz.general.3') !!}</p>
 <h2>{{ trans('datenschutz.policy.1') }}</h2>
 <ul id="privacyList">
-	<li>{{ trans('datenschutz.policy.2') }} 
+	<li>{{ trans('datenschutz.policy.2') }}
 		<a href="http://www.heise.de/security/meldung/Fingerprinting-Viele-Browser-sind-ohne-Cookies-identifizierbar-1982976.html" target="_blank">{{ trans('datenschutz.policy.3') }}</a> {{ trans('datenschutz.policy.4') }}
 	</li>
 	<li >
