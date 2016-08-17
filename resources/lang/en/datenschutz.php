@@ -4,7 +4,7 @@ return [
     'head'      => 'Privacy',
 
     'general.1' => 'For us, privacy is one of the most important goods on the internet. It needs to be preserved and is not to be used for profit. The following is a small summary of our approach. A more detailed description why we are the most secure search engine can be found',
-    'general.2' => 'here (in German)',
+    'general.2' => 'here (in German).',
     'general.3' => 'Only free software with open source code is under control of any user.  In
 all other cases the users have to BELIEVE what the maintainers tell about
 what is going on inside.  If maintainers claim that they have strictly
