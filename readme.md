@@ -1,7 +1,8 @@
 # MetaGer
 
 [MetaGer](https://metager.de) ist seit 16.08.2016 Freie Software unter GNU AGPL v3, damit unser strikter Schutz Ihrer Daten und Ihrer Privatsphäre 
-öffentlich nachprüfbar ist, und damit Sie als Programmierer mithelfen können, alles noch besser zu machen.
+öffentlich nachprüfbar ist, und damit Sie als Programmierer mithelfen können, alles noch besser zu machen. Weitere Hintergrundinfo dazu im 
+<a href="http://heise.de/-3295586" target="_blank">Heise-Newsticker</a>.
 
 ## Abhängigkeiten
 * composer (https://getcomposer.org/)
