@@ -10,7 +10,7 @@
 MetaGer ist seit 16.08.2016 Freie Software unter GNU AGPL v3, damit unser strikter
 Schutz Ihrer Daten und Ihrer Privatsphäre öffentlich nachprüfbar ist. 
 Weitere Hintergrundinfo dazu im <a href="http://heise.de/-3295586" target="_blank">Heise-Newsticker</a>.
-Den Quellcode von MetaGer erreichen Sie unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>
+Den Quellcode von MetaGer erreichen Sie unter <a href="https://gitlab.metager3.de/open-source/MetaGer" target="_blank">https://gitlab.metager3.de/open-source/MetaGer</a>.
 </p>Mit Ihnen zusammen haben wir in den vergangenen Monaten eine neue
 Erfolgsstory geschrieben: die Zahl der MetaGer-Nutzer steigt weiter und
 stetig.  Es ist kein Strohfeuer kurzfristigen Erfolges, sondern es ist die
