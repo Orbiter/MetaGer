@@ -54,7 +54,6 @@ unter VR200033 eingetragen.
 Bitte unterstützen Sie uns, damit die unabhängige, nicht-kommerzielle Suche
 im Internet weiter entwickelt und betrieben werden kann:
 <br />
-<a href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}">{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale(), "/spende") }}</a>
 </p>
 <h3>Helfen Sie mit, dass freie Suchmaschinen im Internet frei bleiben. Das digitale Wissen der Welt muss ohne Bevormundung durch Staaten oder Konzerne frei zugänglich sein und bleiben.</h3>
 <div class="">
